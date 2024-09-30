@@ -1,0 +1,73 @@
+.kegiatan-title-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.kegiatan-title-box a {
+  text-decoration: none;
+  color: #000;
+  margin: 0;
+}
+
+/* hover */
+.kegiatan-title-box a:hover {
+  color: #007bff;
+}
+
+.header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-box h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.kegiatan-icon {
+  font-size: 50px;
+}
+
+.kegiatan-box {
+  position: relative;
+  margin: 0 10px; /* Adds spacing between the images */
+}
+
+.kegiatan-box img {
+  display: block;
+  width: 400px;
+  height: 300px;
+  object-fit: contain; /* Ensures the image scales down to fit the box without cropping */
+  transition: filter 0.3s ease;
+}
+
+.kegiatan-box button {
+  display: none;
+  position: absolute;
+  top: 70%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.kegiatan-box:hover img {
+  filter: brightness(50%);
+}
+
+.kegiatan-box:hover button {
+  display: block;
+}
+
+.button-kegiatan {
+  background-color: #15547e;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  --primary-color: #ffff;
+  --secondary-color: #d72c2c;
+  --color-text: #231942;
+  --navbar-color: #ffffff;
+  --navbar-color-text: #114466;
+}
+
+/* STYLE NAVBAR */
+.navbar {
+  position: fixed;
+  padding: 5px 0;
+  width: 100%;
+  transition: all 0.2s ease;
+  z-index: 9999;
+  background-color: var(--navbar-color);
+}
+
+.navbar.color-active {
+  background-color: var(--navbar-color);
+  padding: 5px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.navbar .nav-link a {
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--navbar-color-text);
+  border-radius: 5px;
+}
+
+.navbar .nav-link a:hover {
+  color: var(--secondary-color);
+}
+
+.navbar .nav-link .active {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.navbar .nav-link .active:hover {
+  color: var(--navbar-color);
+}
+/* STYLE NAVBAR */
+
+/* STYLE HOMEPAGE HEADER*/
+header {
+  /* background image local files */
+  background: url('../assets/img/hero-image.png') no-repeat center center/cover;
+  height: 75vh;
+  /* bottom border radius */
+  border-bottom-left-radius: 15%;
+  border-bottom-right-radius: 15%;
+}
+
+.homepage .header-box h1 {
+  font-size: 3.2rem;
+  /* harusnya 600, tapi terlalu gede kyk 700 */
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.homepage .header-box h1 span {
+  font-weight: 700;
+}
+
+.homepage .header-box p {
+  line-height: 2;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.homepage .header-box img {
+  width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+  .homepage .header-box {
+    padding-top: 8rem;
+  }
+
+  .homepage .header-box img {
+    width: 400px;
+    display: block;
+    margin-inline: auto;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .homepage .header-box h1 {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .homepage .header-box h1 {
+    font-size: 2.4rem;
+  }
+
+  .homepage .header-box p {
+    font-size: 14px;
+  }
+
+  .homepage .header-box img {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .homepage .header-box h1 {
+    font-size: 2rem;
+  }
+
+  .homepage .header-box p {
+    font-size: 12px;
+  }
+}
+/* STYLE HOMEPAGE HEADER*/
+.list-cekkesehatan {
+  display: grid;
+  /* make responsive card */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.konfirmasi {
+  margin-top: 100px;
+}
+
+.cekbmi {
+  width: 100%;
+  box-shadow: #000000;
+  background: linear-gradient(
+    to left,
+    #d8ebfe,
+    #94b5f8,
+    #d3e8f8
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.star-rating {
+  font-size: 50px;
+}
+
+.star-filled {
+  color: gold;
+}
+
+.star-empty {
+  color: lightgray;
+}
+
+.navbar-collapse {
+  /* gap: 1rem; */
+  flex-grow: 0 !important;
+}

@@ -1,0 +1,25 @@
+.login-container {
+  display: grid;
+  place-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  width: 50vh;
+  padding: 80px 120px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-box img {
+  align-self: center;
+  margin: 24px;
+}
+
+.login-button {
+  align-self: flex-start;
+}

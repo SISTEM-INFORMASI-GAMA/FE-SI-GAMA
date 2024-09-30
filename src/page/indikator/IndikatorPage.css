@@ -1,0 +1,27 @@
+.keterangan-container {
+    margin-top: 20px;
+ }
+ 
+ .keterangan-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+ }
+ 
+ .keterangan-container hr {
+    border: 1px solid #000;
+    margin-bottom: 10px;
+ }
+ 
+ .domain {
+    margin-bottom: 20px;
+ }
+ 
+ .domain h3 {
+    font-size: 20px;
+    font-weight: bold;
+ }
+ 
+ .domain p {
+    font-size: 16px;
+    margin-left: 20px;
+ } 

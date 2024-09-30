@@ -1,0 +1,26 @@
+body {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.login {
+  position: relative;
+}
+
+.button_remember {
+  padding-bottom: 30px;
+  padding-top: 0;
+}
+
+#hero {
+  position: relative;
+}
+
+#hero .image {
+  background-size: cover;
+}
+
+#hero .signup {
+  padding-top: 20px;
+}

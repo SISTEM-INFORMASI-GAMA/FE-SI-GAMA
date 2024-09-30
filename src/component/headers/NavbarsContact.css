@@ -1,0 +1,40 @@
+.navbars-contact-background {
+  /* background linear 0% 2698E4 100% 114466 from right to left */
+  background: linear-gradient(90deg, #114466 0%, #2698e4 100%);
+}
+.navbars-contact {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbars-contact-item {
+  color: white;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navbars-contact-text {
+  margin: 0;
+  font-size: 11px;
+}
+
+.navbars-contact-box {
+  display: flex;
+  gap: 26px;
+}
+
+.navbars-contact-text-large {
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .navbars-contact-box {
+    display: none;
+  }
+}
