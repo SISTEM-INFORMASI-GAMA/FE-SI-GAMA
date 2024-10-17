@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import './Login.css'
+import "./Login.css";
 import { Form, Input, message } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,22 +16,22 @@ const Login = () => {
       const res = await axios.post(`${url}/api/v1/users/login`, values);
       Cookies.set("token", res.data.token);
       Cookies.set("user", JSON.stringify(res.data.data.user));
-      navigate('/dashboard/hr');
+      navigate("/dashboard/hr/home");
       message.success("login berhasil");
     } catch (error) {
       const msg = error.response.data.message;
       message.error(msg);
     }
-  }
+  };
 
   return (
     <div className="login-container">
       <div className="container">
         <div className="login-box">
-          <img src='/assets/img/logo.png' alt='spbe Logo' />
+          <img src="/assets/img/logo.png" alt="spbe Logo" />
           <hr />
-          <Form form={form} layout='vertical' className='full-form'>
-            <div className='first-form'>
+          <Form form={form} layout="vertical" className="full-form">
+            <div className="first-form">
               <Form.Item
                 name="email"
                 label="Email"
@@ -48,13 +48,13 @@ const Login = () => {
               </Form.Item>
             </div>
           </Form>
-          <Button type='primary' className='login-button'
-            onClick={handleLogin}
-          >Login</Button>
+          <Button type="primary" className="login-button" onClick={handleLogin}>
+            Login
+          </Button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
