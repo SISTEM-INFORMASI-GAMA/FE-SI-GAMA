@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import { DeleteApi } from "../../../../services/DeleteApi";
 import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
 import { useNavigate } from "react-router-dom";
+import AddPegawai from "../add/AddPegawai";
+import EditPegawai from "../edit/EditPegawai";
 
 export const Pegawai = () => {
   const [dataId, setDataId] = useState("");
@@ -141,7 +143,7 @@ export const Pegawai = () => {
         <h1>Daftar Pegawai</h1>
         <Space>
           <Button type="primary" onClick={() => setShowAddPegawai(true)}>
-            Tambah User
+            Tambah Pegawai
           </Button>
         </Space>
       </div>
@@ -157,14 +159,18 @@ export const Pegawai = () => {
           x: 800,
         }}
       />
-      {/* <AddUser onCreate={onCreate} onCancel={onCancel} show={showAddUser} /> */}
-      {/* <EditUser
-          id={dataId}
-          onUpdate={onUpdate}
-          onCancel={onCancel}
-          show={showEditUser}
-        />
-        <ResetPasswordUser
+      <AddPegawai
+        onCreate={onCreate}
+        onCancel={onCancel}
+        show={showAddPegawai}
+      />
+      <EditPegawai
+        id={dataId}
+        onUpdate={onUpdate}
+        onCancel={onCancel}
+        show={showEditPegawai}
+      />
+      {/* <ResetPasswordUser
           id={dataId}
           onResetPassword={onResetPassword}
           onCancel={onCancel}

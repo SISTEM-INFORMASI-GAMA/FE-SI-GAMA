@@ -147,10 +147,10 @@ const User = () => {
   return (
     <>
       <div className="table-header">
-        <h1>Daftar User</h1>
+        <h1>Daftar Akun Pegawai</h1>
         <Space>
           <Button type="primary" onClick={() => setShowAddUser(true)}>
-            Tambah User
+            Tambah Akun
           </Button>
         </Space>
       </div>

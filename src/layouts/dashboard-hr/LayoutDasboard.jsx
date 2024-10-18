@@ -1,6 +1,7 @@
 import propTypes from "prop-types";
 import {
   DashboardOutlined,
+  FileOutlined,
   LogoutOutlined,
   MenuOutlined,
   TeamOutlined,
@@ -44,7 +45,7 @@ function LayoutDasboard(props) {
     { key: "mnuPegawai", icon: <TeamOutlined />, label: "Pegawai" },
     {
       key: "mnuPresensi",
-      icon: <DashboardOutlined />,
+      icon: <FileOutlined />,
       label: "Presensi Harian",
     },
   ];
