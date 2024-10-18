@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Divider, Skeleton } from "antd";
 import "./DetailPegawai.css";
 import { usePegawaiDetail } from "../../../../hooks/kepegawaian/pegawai/usePegawaiDetail";
+import moment from "moment";
+const format = "YYYY-MM-DD";
 
 function DetailPegawai() {
   const { pegawai_id: id } = useParams();
@@ -39,7 +41,8 @@ function DetailPegawai() {
                 </tr>
                 <tr>
                   <th>Tanggal Lahir</th>
-                  <td>: {data?.tgl_lahir}</td>
+                  <td>: {moment(data?.tgl_lahir).format(format)}
+                  </td>
                 </tr>
                 <tr>
                   <th>Nomor Telepon</th>
@@ -52,7 +55,7 @@ function DetailPegawai() {
               </tbody>
             </table>
             <div className="article-image-container">
-              <img src={data.image} alt={data.title} />
+              <img src={data?.foto} alt={data.title} />
             </div>
           </div>
         </Fragment>
