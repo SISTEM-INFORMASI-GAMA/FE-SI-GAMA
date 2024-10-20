@@ -1,9 +1,11 @@
 import { Button, Space, Table } from "antd";
-import { Popconfirm, Tag } from "antd";
+import { Tag } from "antd";
 import { useCallback, useState } from "react";
-import { DeleteApi } from "../../../../services/DeleteApi";
-
-import { useUserPagination } from "../../../../hooks/kepegawaian/user/useUserPagination";
+import { usePresensiPagination } from "../../../../hooks/kepegawaian/presensi/usePresensiPagination";
+import moment from "moment";
+import AddPresensi from "../add/AddPresensi";
+import EditPresensi from "../edit/EditPresensi";
+const format = "YYYY-MM-DD";
 
 export const Presensi = () => {
   const [dataId, setDataId] = useState("");
@@ -14,30 +16,24 @@ export const Presensi = () => {
     per_page: 15,
     total: 0,
   });
-  const { data, isLoading, isFetching, refetch } = useUserPagination(
+  const { data, isLoading, isFetching, refetch } = usePresensiPagination(
     dataTable,
     ""
   );
 
   const onCreate = useCallback(() => {
-    setShowAddUser(false);
-    refetch();
-  }, [refetch]);
-
-  const onResetPassword = useCallback(() => {
-    setShowResetPassword(false);
+    setShowAddPresensi(false);
     refetch();
   }, [refetch]);
 
   const onUpdate = useCallback(() => {
-    setShowEditUser(false);
+    setShowEditPresensi(false);
     refetch();
   }, [refetch]);
 
   const onCancel = () => {
-    setShowAddUser(false);
-    setShowEditUser(false);
-    setShowResetPassword(false);
+    setShowAddPresensi(false);
+    setShowEditPresensi(false);
     setDataId("");
   };
 
@@ -49,20 +45,26 @@ export const Presensi = () => {
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: "email",
-      dataIndex: "email",
+      title: "Nama",
+      dataIndex: "nama",
       align: "left",
     },
     {
-      title: "Nama",
-      dataIndex: "name",
+      title: "Tanggal",
+      dataIndex: "tgl_absensi",
       align: "left",
       width: window.innerWidth > 800 ? 200 : 150,
     },
     {
-      title: "Role",
-      dataIndex: "role",
+      title: "Status",
+      dataIndex: "status",
       align: "left",
+    },
+    {
+      title: "Lampiran",
+      dataIndex: "lampiran",
+      align: "left",
+      width: window.innerWidth > 800 ? 200 : 150,
     },
     {
       title: "Aksi",
@@ -77,38 +79,11 @@ export const Presensi = () => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 setDataId(id);
-                setShowEditUser(true);
+                setShowEditPresensi(true);
               }}
             >
               Ubah
             </Tag>
-            <Tag
-              color="red"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                setDataId(id);
-                setShowResetPassword(true);
-              }}
-            >
-              Reset Password
-            </Tag>
-            <Popconfirm
-              title="Yakin ingin menghapus ?"
-              okText="Hapus"
-              cancelText="Batal"
-              onConfirm={() => {
-                const dataId = id;
-                DeleteApi({
-                  url: "/api/v1/users/",
-                  dataId,
-                  refetch,
-                });
-              }}
-            >
-              <Tag color="magenta" style={{ cursor: "pointer" }}>
-                Hapus
-              </Tag>
-            </Popconfirm>
           </>
         );
       },
@@ -120,6 +95,7 @@ export const Presensi = () => {
       ...x,
       key: x._id,
       index: i + 1,
+      tgl_absensi: moment(x.tgl_absensi).format(format),
     };
   });
 
@@ -143,10 +119,10 @@ export const Presensi = () => {
   return (
     <>
       <div className="table-header">
-        <h1>Daftar Akun Pegawai</h1>
+        <h1>Presensi Harian Pegawai</h1>
         <Space>
-          <Button type="primary" onClick={() => setShowAddUser(true)}>
-            Tambah Akun
+          <Button type="primary" onClick={() => setShowAddPresensi(true)}>
+            Tambah Presensi Harian
           </Button>
         </Space>
       </div>
@@ -162,19 +138,21 @@ export const Presensi = () => {
           x: 800,
         }}
       />
-      {/* <AddUser onCreate={onCreate} onCancel={onCancel} show={showAddUser} />
-      <EditUser
-        id={dataId}
-        onUpdate={onUpdate}
-        onCancel={onCancel}
-        show={showEditUser}
-      />
-      <ResetPasswordUser
-        id={dataId}
-        onResetPassword={onResetPassword}
-        onCancel={onCancel}
-        show={showResetPassword}
-      /> */}
+      {
+        <>
+          <AddPresensi
+            onCreate={onCreate}
+            onCancel={onCancel}
+            show={showAddPresensi}
+          />
+          <EditPresensi
+            id={dataId}
+            onUpdate={onUpdate}
+            onCancel={onCancel}
+            show={showEditPresensi}
+          />
+        </>
+      }
     </>
   );
 };
