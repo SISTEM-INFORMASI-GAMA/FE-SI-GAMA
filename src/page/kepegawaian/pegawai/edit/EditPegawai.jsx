@@ -1,4 +1,13 @@
-import { DatePicker, Form, Input, message, Modal, Radio, Skeleton, Upload } from "antd";
+import {
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Skeleton,
+  Upload,
+} from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import propTypes from "prop-types";
@@ -8,7 +17,6 @@ import dayjs from "dayjs";
 import moment from "moment";
 const format = "YYYY-MM-DD";
 import { PlusOutlined } from "@ant-design/icons";
-
 
 const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
   const [form] = Form.useForm();
@@ -59,16 +67,19 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
         return;
       }
 
-
       if (newData.image) {
         const formData = new FormData();
         console.log(newData.image);
         formData.append("image", newData.image);
-        const { data } = await axios.post(VITE_BASE_URL + "/api/v1/image", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const { data } = await axios.post(
+          VITE_BASE_URL + "/api/v1/image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         newData.foto = data?.data?.image;
       }
 
@@ -201,7 +212,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
                 label="Tanggal Lahir"
                 rules={[{ required: true, message: "harap diisi" }]}
               >
-                <DatePicker format={format} placeholder="Pilih Tanggal"
+                <DatePicker
+                  format={format}
+                  placeholder="Pilih Tanggal"
                   onChange={(e) => {
                     newData.tgl_lahir = dayjs(e).format(format);
                   }}
@@ -210,6 +223,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="jabatan"
                 label="Jabatan"
+                rules={[{ required: true, message: "Harap diisi" }]}
                 onChange={({ target: { value } }) =>
                   (newData["jabatan"] = value)
                 }
@@ -219,6 +233,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="alamat"
                 label="Alamat"
+                rules={[{ required: true, message: "Harap diisi" }]}
                 onChange={({ target: { value } }) =>
                   (newData["alamat"] = value)
                 }
@@ -237,6 +252,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="jenis_kelamin"
                 label="Jenis Kelamin"
+                rules={[{ required: true, message: "Harap diisi" }]}
                 onChange={({ target: { value } }) =>
                   (newData["jenis_kelamin"] = value)
                 }
