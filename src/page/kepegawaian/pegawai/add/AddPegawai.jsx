@@ -1,9 +1,9 @@
-import { DatePicker, Form, Input, message, Modal, Radio, Upload, } from "antd";
+import { DatePicker, Form, Input, message, Modal, Radio, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useState } from "react";
 import propTypes from "prop-types";
-import { jenisKelamin } from "../../user/constant";
+import { jenisKelamin } from "../constant";
 const format = "YYYY-MM-DD";
 
 const AddPegawai = ({ show, onCreate, onCancel }) => {
@@ -11,7 +11,6 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const { VITE_BASE_URL } = import.meta.env;
-
 
   const handleSubmit = async () => {
     try {
@@ -22,11 +21,15 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
       if (fileList.length > 0) {
         const formData = new FormData();
         formData.append("image", fileList[0].originFileObj);
-        const { data } = await axios.post(VITE_BASE_URL + "/api/v1/image", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const { data } = await axios.post(
+          VITE_BASE_URL + "/api/v1/image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         values.foto = data?.data?.image;
       }
 
@@ -71,7 +74,6 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
     );
   };
 
-
   const beforeUpload = (file) => {
     if (!isImage(file)) {
       message.error("hanya bisa upload file gambar (.jpeg, .jpg, .png)");
@@ -105,7 +107,6 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
     setFileList(newFileList);
   };
 
-
   const propsUpload = {
     onRemove: handleRemove,
     beforeUpload,
@@ -126,7 +127,7 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
       onOk={handleSubmit}
       onCancel={handleCancelModal}
       okButtonProps={{ loading }}
-      title="Tambah User"
+      title="Tambah Pegawai"
     >
       <Form form={form} layout="vertical" className="full-form">
         <div className="first-form">

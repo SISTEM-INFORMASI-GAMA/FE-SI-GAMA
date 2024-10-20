@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import propTypes from "prop-types";
-import { jenisKelamin } from "../../user/constant";
+import { jenisKelamin } from "..//constant";
 import { usePegawaiDetail } from "../../../../hooks/kepegawaian/pegawai/usePegawaiDetail";
 import dayjs from "dayjs";
 import moment from "moment";
@@ -184,7 +184,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
       onOk={handleSubmit}
       onCancel={handleCancelModal}
       okButtonProps={{ loading }}
-      title="Edit Users"
+      title="Edit Pegawai"
     >
       {isLoading && <Skeleton active />}
       {!isLoading && (
