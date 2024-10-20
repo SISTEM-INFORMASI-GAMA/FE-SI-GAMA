@@ -59,7 +59,7 @@ const User = () => {
     },
     {
       title: "Nama",
-      dataIndex: "name",
+      dataIndex: "nama",
       align: "left",
       width: window.innerWidth > 800 ? 200 : 150,
     },
