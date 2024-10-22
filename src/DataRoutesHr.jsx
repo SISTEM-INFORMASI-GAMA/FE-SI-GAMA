@@ -1,9 +1,12 @@
 import RequireLogin from "./component/auth/RequireLogin";
 import LayoutDasboard from "./layouts/dashboard-hr/LayoutDasboard";
 import Dashboard from "./page/kepegawaian/dashboard/master/Dashboard";
+import DetailIzin from "./page/kepegawaian/izin/detail/DetailIzin";
+import { Izin } from "./page/kepegawaian/izin/master/Izin";
 import DetailPegawai from "./page/kepegawaian/pegawai/detail/DetailPegawai";
 import { Pegawai } from "./page/kepegawaian/pegawai/master/Pegawai";
 import { Presensi } from "./page/kepegawaian/presensi/master/Presensi";
+import { RekapPresensi } from "./page/kepegawaian/rekapPresensi/master/RekapPresensi";
 import User from "./page/kepegawaian/user/master/User";
 
 export const DataRoutesHr = [
@@ -44,6 +47,30 @@ export const DataRoutesHr = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<Presensi />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/hr/recap-presensi",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<RekapPresensi />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/hr/izin",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<Izin />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/hr/izin/:izin_id",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<DetailIzin />} />
       </RequireLogin>
     ),
   },

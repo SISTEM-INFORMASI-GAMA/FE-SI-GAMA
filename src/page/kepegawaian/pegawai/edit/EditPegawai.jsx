@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import propTypes from "prop-types";
-import { jenisKelamin } from "..//constant";
+import { jenisKelamin } from "../constant";
 import { usePegawaiDetail } from "../../../../hooks/kepegawaian/pegawai/usePegawaiDetail";
 import dayjs from "dayjs";
 import moment from "moment";

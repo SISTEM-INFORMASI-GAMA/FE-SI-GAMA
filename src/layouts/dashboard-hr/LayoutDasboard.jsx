@@ -1,9 +1,11 @@
 import propTypes from "prop-types";
 import {
+  CarryOutOutlined,
   DashboardOutlined,
   FileOutlined,
   LogoutOutlined,
   MenuOutlined,
+  ProjectOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -47,6 +49,16 @@ function LayoutDasboard(props) {
       key: "mnuPresensi",
       icon: <FileOutlined />,
       label: "Presensi Harian",
+    },
+    {
+      key: "mnuRecap-Presensi",
+      icon: <ProjectOutlined />,
+      label: "Rekap Presensi Harian",
+    },
+    {
+      key: "mnuIzin",
+      icon: <CarryOutOutlined />,
+      label: "Pengajuan Izin Pegawai",
     },
   ];
 
