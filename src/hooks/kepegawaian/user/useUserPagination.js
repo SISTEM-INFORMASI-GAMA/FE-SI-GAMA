@@ -1,17 +1,17 @@
-import { useQuery } from "react-query";
-import { getUser } from "../../../services/kepegawaian/User";
+import { useQuery } from 'react-query';
+import { getUser } from '../../../services/kepegawaian/User';
 
 export const useUserPagination = (dataTable, keyword) => {
   return useQuery(
     [
-      "get-user-pagination",
+      'get-user-pagination',
       dataTable.current_page,
       dataTable.per_page,
       keyword,
     ],
     () =>
       getUser(
-        `/api/v1/users?page=${dataTable.current_page}&limit=${dataTable.per_page}&search=${keyword}`
+        `/api/v1/users?page=${dataTable.current_page}&limit=${dataTable.per_page}&keyword=${keyword}`
       )
   );
 };

@@ -69,7 +69,6 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
 
       if (newData.image) {
         const formData = new FormData();
-        console.log(newData.image);
         formData.append("image", newData.image);
         const { data } = await axios.post(
           VITE_BASE_URL + "/api/v1/image",

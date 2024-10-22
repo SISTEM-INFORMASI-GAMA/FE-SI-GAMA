@@ -23,7 +23,7 @@ const EditUser = ({ id, onUpdate, onCancel, show }) => {
     if (data) {
       form.setFieldsValue({
         email: data.data.email,
-        name: data.data.name,
+        username: data.data.username,
         role: data.data.role,
       });
     }
@@ -82,10 +82,10 @@ const EditUser = ({ id, onUpdate, onCancel, show }) => {
                 <Input />
               </Form.Item>
               <Form.Item
-                name="name"
+                name="username"
                 label="Nama"
                 rules={[{ required: true, message: "Harap diisi" }]}
-                onChange={({ target: { value } }) => (newData["name"] = value)}
+                onChange={({ target: { value } }) => (newData["username"] = value)}
               >
                 <Input />
               </Form.Item>

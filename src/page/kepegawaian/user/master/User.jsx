@@ -1,12 +1,12 @@
-import { Button, Space, Table } from "antd";
+import { Button, Input, Space, Table } from "antd";
 import { Popconfirm, Tag } from "antd";
 import { useCallback, useState } from "react";
 import "./User.css";
 import { DeleteApi } from "../../../../services/DeleteApi";
 import AddUser from "../add/AddUser";
 import EditUser from "../edit/EditUser";
-import ResetPasswordUser from "../reset/ResetPasswordUser";
 import { useUserPagination } from "../../../../hooks/kepegawaian/user/useUserPagination";
+import { SearchOutlined } from "@ant-design/icons";
 
 const User = () => {
   const [dataId, setDataId] = useState("");
@@ -17,10 +17,11 @@ const User = () => {
     per_page: 15,
     total: 0,
   });
-  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [keyword, setKeyword] = useState("");
+
   const { data, isLoading, isFetching, refetch } = useUserPagination(
     dataTable,
-    ""
+    keyword
   );
 
   const onCreate = useCallback(() => {
@@ -28,10 +29,6 @@ const User = () => {
     refetch();
   }, [refetch]);
 
-  const onResetPassword = useCallback(() => {
-    setShowResetPassword(false);
-    refetch();
-  }, [refetch]);
 
   const onUpdate = useCallback(() => {
     setShowEditUser(false);
@@ -41,8 +38,11 @@ const User = () => {
   const onCancel = () => {
     setShowAddUser(false);
     setShowEditUser(false);
-    setShowResetPassword(false);
     setDataId("");
+  };
+
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
   };
 
   const columns = [
@@ -59,7 +59,7 @@ const User = () => {
     },
     {
       title: "Nama",
-      dataIndex: "nama",
+      dataIndex: "username",
       align: "left",
       width: window.innerWidth > 800 ? 200 : 150,
     },
@@ -85,16 +85,6 @@ const User = () => {
               }}
             >
               Ubah
-            </Tag>
-            <Tag
-              color="red"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                setDataId(id);
-                setShowResetPassword(true);
-              }}
-            >
-              Reset Password
             </Tag>
             <Popconfirm
               title="Yakin ingin menghapus ?"
@@ -122,7 +112,7 @@ const User = () => {
   const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
     return {
       ...x,
-      key: x._id,
+      key: x.id,
       index: i + 1,
     };
   });
@@ -154,6 +144,19 @@ const User = () => {
           </Button>
         </Space>
       </div>
+      <Input
+        prefix={<SearchOutlined />}
+        value={keyword}
+        onChange={handleChange}
+        placeholder="Cari akun berdasarkan nama"
+        className="search-input-billings"
+        style={{
+          border: "1px solid #d9d9d9",
+          marginBottom: "10px",
+          marginTop: "10px",
+        }}
+      />
+
       <Table
         size="small"
         tableLayout="auto"
@@ -172,12 +175,6 @@ const User = () => {
         onUpdate={onUpdate}
         onCancel={onCancel}
         show={showEditUser}
-      />
-      <ResetPasswordUser
-        id={dataId}
-        onResetPassword={onResetPassword}
-        onCancel={onCancel}
-        show={showResetPassword}
       />
     </>
   );

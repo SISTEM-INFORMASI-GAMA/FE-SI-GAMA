@@ -34,8 +34,6 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-
       form.setFieldsValue({
         nama: data?.data?.pegawaiId,
         tgl_absensi: dayjs(moment(data?.data?.tgl_absensi).format(format)),

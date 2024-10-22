@@ -64,3 +64,19 @@
   height: 100%;
   object-fit: cover;
 }
+
+.dokumen-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.dokumen-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.dokumen-item p {
+  margin: 0 !important;
+}

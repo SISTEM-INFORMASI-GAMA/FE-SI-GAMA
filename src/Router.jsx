@@ -10,8 +10,6 @@ const Router = () => {
     if (Array.isArray(data)) arr.push(...data);
   });
 
-  console.log(arr);
-
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />

@@ -115,7 +115,7 @@ export const Pegawai = () => {
   const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
     return {
       ...x,
-      key: x._id,
+      key: x.id,
       index: i + 1,
     };
   });
