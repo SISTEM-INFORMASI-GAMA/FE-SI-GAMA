@@ -15,16 +15,24 @@ import { statusPresensi } from "../constant";
 import { usePresensiDetail } from "../../../../hooks/kepegawaian/presensi/usePresensiDetail";
 import dayjs from "dayjs";
 import moment from "moment";
+import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
 
 const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [newData, setNewData] = useState({});
-  const [pegawaiOptions, setPegawaiOptions] = useState([]);
   const { VITE_BASE_URL } = import.meta.env;
   const format = "YYYY-MM-DD";
 
   const { data, isLoading, refetch } = usePresensiDetail(id, false);
+
+  const [dataTable] = useState({
+    current_page: 1,
+    per_page: 1000,
+    total: 0,
+  });
+
+  const { data: dataPegawai, isFetching } = usePegawaiPagination(dataTable, "");
 
   useEffect(() => {
     if (show) {
@@ -35,10 +43,10 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
   useEffect(() => {
     if (data) {
       form.setFieldsValue({
-        nama: data?.data?.pegawaiId,
+        pegawaiId: data?.data?.nama,
         tgl_absensi: dayjs(moment(data?.data?.tgl_absensi).format(format)),
         status: data?.data?.status,
-        lampiran: data.lampiran,
+        lampiran: data?.data?.lampiran,
       });
     }
   }, [data, form]);
@@ -72,23 +80,6 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
     onCancel();
   };
 
-  useEffect(() => {
-    const fetchPegawai = async () => {
-      try {
-        const response = await axios.get(VITE_BASE_URL + "/api/v1/employees");
-        const pegawaiData = response.data.data.map((pegawai) => ({
-          label: pegawai.nama,
-          value: pegawai.id,
-        }));
-        setPegawaiOptions(pegawaiData);
-      } catch (error) {
-        message.error(error.response.data.message || error.message);
-      }
-    };
-    fetchPegawai();
-  }),
-    [VITE_BASE_URL];
-
   return (
     <Modal
       open={show}
@@ -110,10 +101,24 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
                 rules={[{ required: true, message: "Harap diisi" }]}
               >
                 <Select
-                  placeholder="Pilih nama pegawai"
-                  options={pegawaiOptions}
-                  loading={!pegawaiOptions.length}
-                />
+                  placeholder="Pilih Pegawai"
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().includes(input.toLowerCase())
+                  }
+                  disabled={isFetching || isLoading}
+                >
+                  {dataPegawai?.data?.map((x) => (
+                    <Select.Option
+                      key={x.id}
+                      value={x.id}
+                      className="select-option-foundation"
+                    >
+                      {x.nama}
+                    </Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
               <Form.Item
                 name="tgl_absensi"

@@ -1,4 +1,4 @@
-import { Button, Space, Table } from "antd";
+import { Button, Input, Space, Table } from "antd";
 import { Popconfirm, Tag } from "antd";
 import { useCallback, useState } from "react";
 import { DeleteApi } from "../../../../services/DeleteApi";
@@ -6,6 +6,7 @@ import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/useP
 import { useNavigate } from "react-router-dom";
 import AddPegawai from "../add/AddPegawai";
 import EditPegawai from "../edit/EditPegawai";
+import { SearchOutlined } from "@ant-design/icons";
 
 export const Pegawai = () => {
   const [dataId, setDataId] = useState("");
@@ -16,9 +17,11 @@ export const Pegawai = () => {
     per_page: 15,
     total: 0,
   });
+  const [keyword, setKeyword] = useState("");
+
   const { data, isLoading, isFetching, refetch } = usePegawaiPagination(
     dataTable,
-    ""
+    keyword
   );
 
   const navigate = useNavigate();
@@ -37,6 +40,10 @@ export const Pegawai = () => {
     setShowAddPegawai(false);
     setShowEditPegawai(false);
     setDataId("");
+  };
+
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
   };
 
   const columns = [
@@ -147,6 +154,18 @@ export const Pegawai = () => {
           </Button>
         </Space>
       </div>
+      <Input
+        prefix={<SearchOutlined />}
+        value={keyword}
+        onChange={handleChange}
+        placeholder="Cari pegawai"
+        className="search-input-billings"
+        style={{
+          border: "1px solid #d9d9d9",
+          marginBottom: "10px",
+          marginTop: "10px",
+        }}
+      />
       <Table
         size="small"
         tableLayout="auto"
