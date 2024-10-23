@@ -1,17 +1,17 @@
-import { Button, Popconfirm, Space, Table } from "antd";
-import { Tag } from "antd";
-import { useCallback, useState } from "react";
-import moment from "moment";
+import { Button, Popconfirm, Space, Table } from 'antd';
+import { Tag } from 'antd';
+import { useCallback, useState } from 'react';
+import moment from 'moment';
 // import AddPresensi from "../add/AddPresensi";
 // import EditPresensi from "../edit/EditPresensi";
-import { useIzinPagination } from "../../../../hooks/kepegawaian/izin/useIzinPagination";
-import { DeleteApi } from "../../../../services/DeleteApi";
-import { useNavigate } from "react-router-dom";
-import AddIzin from "../add/AddIzin";
-const format = "YYYY-MM-DD";
+import { useIzinPagination } from '../../../../hooks/kepegawaian/izin/useIzinPagination';
+import { DeleteApi } from '../../../../services/DeleteApi';
+import { useNavigate } from 'react-router-dom';
+import AddIzin from '../add/AddIzin';
+const format = 'YYYY-MM-DD';
 
 export const Izin = () => {
-  const [dataId, setDataId] = useState("");
+  const [dataId, setDataId] = useState('');
   const [showAddIzin, setShowAddIzin] = useState(false);
   const [showEditIzin, setShowEditIzin] = useState(false);
   const [dataTable, setDataTable] = useState({
@@ -24,7 +24,7 @@ export const Izin = () => {
 
   const { data, isLoading, isFetching, refetch } = useIzinPagination(
     dataTable,
-    ""
+    ''
   );
 
   const onCreate = useCallback(() => {
@@ -40,58 +40,58 @@ export const Izin = () => {
   const onCancel = () => {
     setShowAddIzin(false);
     setShowEditIzin(false);
-    setDataId("");
+    setDataId('');
   };
 
   const columns = [
     {
-      title: "No",
-      dataIndex: "index",
-      align: "left",
+      title: 'No',
+      dataIndex: 'index',
+      align: 'left',
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: "Nama",
-      dataIndex: "nama",
-      align: "left",
+      title: 'Nama',
+      dataIndex: 'nama',
+      align: 'left',
     },
     {
-      title: "Tanggal Pengajuan",
-      dataIndex: "updatedAt",
-      align: "left",
+      title: 'Tanggal Pengajuan',
+      dataIndex: 'updatedAt',
+      align: 'left',
       width: window.innerWidth > 800 ? 200 : 150,
     },
     {
-      title: "Tanggal Mulai",
-      dataIndex: "tgl_mulai",
-      align: "left",
+      title: 'Tanggal Mulai',
+      dataIndex: 'tgl_mulai',
+      align: 'left',
     },
     {
-      title: "Tanggal Selesai",
-      dataIndex: "tgl_selesai",
-      align: "left",
+      title: 'Tanggal Selesai',
+      dataIndex: 'tgl_selesai',
+      align: 'left',
     },
     {
-      title: "Jenis",
-      dataIndex: "jenis",
-      align: "left",
+      title: 'Jenis',
+      dataIndex: 'jenis',
+      align: 'left',
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      align: "left",
+      title: 'Status',
+      dataIndex: 'status',
+      align: 'left',
     },
     {
-      title: "Aksi",
-      dataIndex: "id",
-      align: "center",
+      title: 'Aksi',
+      dataIndex: 'id',
+      align: 'center',
       width: window.innerWidth > 800 ? 300 : 200,
       render: (id) => {
         return (
           <>
             <Tag
               color="blue"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 navigate(`${id}`);
               }}
@@ -100,7 +100,7 @@ export const Izin = () => {
             </Tag>
             <Tag
               color="orange"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 setDataId(id);
                 setShowEditIzin(true);
@@ -115,13 +115,13 @@ export const Izin = () => {
               onConfirm={() => {
                 const dataId = id;
                 DeleteApi({
-                  url: "/api/v1/users/",
+                  url: '/api/v1/permissions/',
                   dataId,
                   refetch,
                 });
               }}
             >
-              <Tag color="magenta" style={{ cursor: "pointer" }}>
+              <Tag color="magenta" style={{ cursor: 'pointer' }}>
                 Hapus
               </Tag>
             </Popconfirm>
@@ -177,7 +177,7 @@ export const Izin = () => {
         dataSource={dataSource}
         pagination={pagination}
         scroll={{
-          y: "50vh",
+          y: '50vh',
           x: 800,
         }}
       />
