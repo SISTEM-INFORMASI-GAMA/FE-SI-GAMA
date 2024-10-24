@@ -3,6 +3,7 @@ import Register from "./page/register/Register";
 import { DataRoutes } from "./DataRoutes";
 import LoginHR from "./page/kepegawaian/login/Login";
 import LoginAcamemic from "./page/academic/login/Login";
+import LoginMenu from "./page/login-menu/LoginMenu";
 
 const Router = () => {
   let arr = [];
@@ -13,7 +14,8 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login/hr" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<LoginMenu />} />
       <Route path="/academic/register" element={<Register />} />
       <Route path="/login/academic" element={<LoginAcamemic />} />
       <Route path="/login/hr" element={<LoginHR />} />
