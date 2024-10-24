@@ -1,14 +1,14 @@
-import { Button, Space, Table } from "antd";
-import { Tag } from "antd";
-import { useCallback, useState } from "react";
-import { usePresensiPagination } from "../../../../hooks/kepegawaian/presensi/usePresensiPagination";
-import moment from "moment";
-import AddPresensi from "../add/AddPresensi";
-import EditPresensi from "../edit/EditPresensi";
-const format = "YYYY-MM-DD";
+import { Button, Space, Table } from 'antd';
+import { Tag } from 'antd';
+import { useCallback, useState } from 'react';
+import { usePresensiPagination } from '../../../../hooks/kepegawaian/presensi/usePresensiPagination';
+import moment from 'moment';
+import AddPresensi from '../add/AddPresensi';
+import EditPresensi from '../edit/EditPresensi';
+const format = 'YYYY-MM-DD';
 
 export const Presensi = () => {
-  const [dataId, setDataId] = useState("");
+  const [dataId, setDataId] = useState('');
   const [showAddPresensi, setShowAddPresensi] = useState(false);
   const [showEditPresensi, setShowEditPresensi] = useState(false);
   const [dataTable, setDataTable] = useState({
@@ -18,7 +18,7 @@ export const Presensi = () => {
   });
   const { data, isLoading, isFetching, refetch } = usePresensiPagination(
     dataTable,
-    ""
+    ''
   );
 
   const onCreate = useCallback(() => {
@@ -34,49 +34,50 @@ export const Presensi = () => {
   const onCancel = () => {
     setShowAddPresensi(false);
     setShowEditPresensi(false);
-    setDataId("");
+    setDataId('');
   };
 
   const columns = [
     {
-      title: "No",
-      dataIndex: "index",
-      align: "left",
+      title: 'No',
+      dataIndex: 'index',
+      align: 'left',
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: "Nama",
-      dataIndex: "nama",
-      align: "left",
+      title: 'Nama',
+      dataIndex: 'nama',
+      align: 'left',
+      width: window.innerWidth > 800 ? 400 : 150,
     },
     {
-      title: "Tanggal",
-      dataIndex: "tgl_absensi",
-      align: "left",
+      title: 'Tanggal',
+      dataIndex: 'tgl_absensi',
+      align: 'left',
       width: window.innerWidth > 800 ? 200 : 150,
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      align: "left",
+      title: 'Status',
+      dataIndex: 'status',
+      align: 'left',
+      width: window.innerWidth > 800 ? 150 : 150,
     },
     {
-      title: "Lampiran",
-      dataIndex: "lampiran",
-      align: "left",
-      width: window.innerWidth > 800 ? 200 : 150,
+      title: 'Lampiran',
+      dataIndex: 'lampiran',
+      align: 'left',
     },
     {
-      title: "Aksi",
-      dataIndex: "id",
-      align: "center",
+      title: 'Aksi',
+      dataIndex: 'id',
+      align: 'center',
       width: window.innerWidth > 800 ? 300 : 200,
       render: (id) => {
         return (
           <>
             <Tag
               color="orange"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 setDataId(id);
                 setShowEditPresensi(true);
@@ -90,14 +91,17 @@ export const Presensi = () => {
     },
   ];
 
-  const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
-    return {
-      ...x,
-      key: x._id,
-      index: i + 1,
-      tgl_absensi: moment(x.tgl_absensi).format(format),
-    };
-  });
+  const dataSource = data?.data
+    ?.sort((a, b) => new Date(b.tgl_absensi) - new Date(a.tgl_absensi))
+    .slice(0, dataTable.per_page)
+    .map((x, i) => {
+      return {
+        ...x,
+        key: x._id,
+        index: i + 1,
+        tgl_absensi: moment(x.tgl_absensi).format(format),
+      };
+    });
 
   const pagination = {
     current: dataTable.current_page,
@@ -134,7 +138,7 @@ export const Presensi = () => {
         dataSource={dataSource}
         pagination={pagination}
         scroll={{
-          y: "50vh",
+          y: '50vh',
           x: 800,
         }}
       />
