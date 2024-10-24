@@ -7,22 +7,22 @@ import {
   Radio,
   Select,
   Skeleton,
-} from "antd";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import propTypes from "prop-types";
-import { statusPresensi } from "../constant";
-import { usePresensiDetail } from "../../../../hooks/kepegawaian/presensi/usePresensiDetail";
-import dayjs from "dayjs";
-import moment from "moment";
-import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
+} from 'antd';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import propTypes from 'prop-types';
+import { statusPresensi } from '../constant';
+import { usePresensiDetail } from '../../../../hooks/kepegawaian/presensi/usePresensiDetail';
+import dayjs from 'dayjs';
+import moment from 'moment';
+import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
 
 const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [newData, setNewData] = useState({});
   const { VITE_BASE_URL } = import.meta.env;
-  const format = "YYYY-MM-DD";
+  const format = 'YYYY-MM-DD';
 
   const { data, isLoading, refetch } = usePresensiDetail(id, false);
 
@@ -32,7 +32,7 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
     total: 0,
   });
 
-  const { data: dataPegawai, isFetching } = usePegawaiPagination(dataTable, "");
+  const { data: dataPegawai, isFetching } = usePegawaiPagination(dataTable, '');
 
   useEffect(() => {
     if (show) {
@@ -53,22 +53,38 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
 
   const handleSubmit = async () => {
     try {
-      await form.validateFields();
+      const values = await form.validateFields();
       setLoading(true);
-      if (Object.keys(newData).length === 0) {
-        message.error("Nothing has changed");
+
+      const selectedPegawai = dataPegawai?.data?.find(
+        (x) => x.id === values.pegawaiId
+      );
+
+      const updatedData = {
+        pegawaiId: values.pegawaiId || data?.data?.pegawaiId,
+        tgl_absensi: values.tgl_absensi || data?.data?.tgl_absensi,
+        status: values.status || data?.data?.status,
+        lampiran: values.lampiran || data?.data?.lampiran,
+        nama: selectedPegawai?.nama || data?.data?.nama,
+      };
+
+      if (Object.keys(updatedData).length === 0) {
+        message.error('Nothing has changed');
         return;
       }
 
-      await axios.patch(VITE_BASE_URL + `/api/v1/attendence/${id}`, {
-        ...newData,
-      });
+      await axios.patch(
+        VITE_BASE_URL + `/api/v1/attendence/${id}`,
+        updatedData
+      );
 
-      message.success("Absensi berhasi diubah");
+      message.success('Absensi berhasi diubah');
       form.resetFields();
       onUpdate();
     } catch (error) {
-      message.error(error.response?.data?.message || "Fields Error");
+      message.error(error.response?.data?.message || 'Fields Error');
+      console.log(error.response?.data?.message);
+      console.log(newData);
     } finally {
       setLoading(false);
     }
@@ -98,7 +114,7 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="pegawaiId"
                 label="Nama Pegawai"
-                rules={[{ required: true, message: "Harap diisi" }]}
+                rules={[{ required: true, message: 'Harap diisi' }]}
               >
                 <Select
                   placeholder="Pilih Pegawai"
@@ -123,17 +139,21 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="tgl_absensi"
                 label="Tanggal"
-                rules={[{ required: true, message: "Harap diisi" }]}
+                rules={[{ required: true, message: 'Harap diisi' }]}
               >
                 <DatePicker format={format} />
               </Form.Item>
-              <Form.Item name="status" label="Status Absensi">
+              <Form.Item
+                name="status"
+                label="Status Absensi"
+                rules={[{ required: true, message: 'Harap diisi' }]}
+              >
                 <Radio.Group options={statusPresensi} />
               </Form.Item>
               <Form.Item
                 name="password"
                 label="Password"
-                rules={[{ required: false, message: "Harap diisi" }]}
+                rules={[{ required: false, message: 'Harap diisi' }]}
               >
                 <Input.Password />
               </Form.Item>

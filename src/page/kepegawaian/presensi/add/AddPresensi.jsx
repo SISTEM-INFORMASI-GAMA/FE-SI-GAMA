@@ -1,12 +1,12 @@
-import { DatePicker, Form, Upload, message, Modal, Radio, Select } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import axios from "axios";
-import { useState } from "react";
-import propTypes from "prop-types";
-import { statusPresensi } from "../constant";
-import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
+import { DatePicker, Form, Upload, message, Modal, Radio, Select } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import { useState } from 'react';
+import propTypes from 'prop-types';
+import { statusPresensi } from '../constant';
+import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
 const { Dragger } = Upload;
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf } from 'react-icons/fa';
 
 const AddPresensi = ({ show, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -14,37 +14,22 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
   const [fileListPdf, setFileListPdf] = useState([]);
   const [uploading, setUploading] = useState(false);
   const { VITE_BASE_URL } = import.meta.env;
-  const format = "YYYY-MM-DD";
+  const format = 'YYYY-MM-DD';
 
   const isExcel = (file) => {
     const excelTypes = [
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.ms-excel",
-      "application/vnd.ms-excel.sheet.macroEnabled.12",
-      "application/vnd.ms-excel.template.macroEnabled.12",
-      "application/vnd.ms-excel.addin.macroEnabled.12",
-      "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
-      "text/csv",
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+      'application/vnd.ms-excel.sheet.macroEnabled.12',
+      'application/vnd.ms-excel.template.macroEnabled.12',
+      'application/vnd.ms-excel.addin.macroEnabled.12',
+      'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+      'text/csv',
     ];
     return excelTypes.includes(file.type);
   };
 
-  const isPdf = (file) => file.type === "application/pdf";
-
-  const uploadFile = async (upload) => {
-    const formData = new FormData();
-    formData.append("file", upload);
-    const { data } = await axios.post(
-      VITE_BASE_URL + "/api/v1/file",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return data;
-  };
+  const isPdf = (file) => file.type === 'application/pdf';
 
   const [dataTable] = useState({
     current_page: 1,
@@ -56,36 +41,41 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
     data: dataPegawai,
     isLoading,
     isFetching,
-  } = usePegawaiPagination(dataTable, "");
+  } = usePegawaiPagination(dataTable, '');
 
   const handleSubmit = async () => {
     setUploading(true);
     try {
       const values = await form.validateFields();
-
       setLoading(true);
 
       values.nama = dataPegawai.data.find(
         (x) => x.id === values.pegawaiId
       ).nama;
 
-      if (!values.filePdf || values?.filePdf?.fileList.length === 0) {
-        message.error("upload salah satu file pdf");
-        return;
-      }
-
-      const data = await uploadFile(values.filePdf.file);
-      if (data) {
+      if (values?.filePdf?.fileList.length > 0) {
+        const formData = new FormData();
+        formData.append('file', values.filePdf.file);
+        const { data } = await axios.post(
+          VITE_BASE_URL + '/api/v1/file',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
         values.lampiran = data?.data?.file;
       }
 
       await axios.post(VITE_BASE_URL + `/api/v1/attendence`, values);
-      message.success("Berhasil menambahkan absensi");
+      message.success('Berhasil menambahkan absensi');
       setFileListPdf([]);
       form.resetFields();
       onCreate();
     } catch (error) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
+      console.log(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
@@ -99,7 +89,7 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
   const beforeUpload = (file, isFileType, setFileListFunc, fileList) => {
     if (!isFileType(file)) {
       message.error(
-        `You can only upload ${isFileType === isExcel ? "Excel" : "PDF"} files!`
+        `You can only upload ${isFileType === isExcel ? 'Excel' : 'PDF'} files!`
       );
     }
     if (!isFileType(file) && fileList.length > 0) {
@@ -114,11 +104,11 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
     const droppedFiles = e.dataTransfer.files;
     if (!isFileType(droppedFiles[0])) {
       message.error(
-        `You can only upload ${isFileType === isExcel ? "Excel" : "PDF"} files!`
+        `You can only upload ${isFileType === isExcel ? 'Excel' : 'PDF'} files!`
       );
       return;
     }
-    message.success("File dropped");
+    message.success('File dropped');
   };
 
   const propsUploadPdf = {
@@ -131,6 +121,7 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
 
   const handleCancelModal = () => {
     form.resetFields();
+    form.setFieldValue('file', null);
     onCancel();
   };
 
@@ -149,7 +140,7 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
           <Form.Item
             name="pegawaiId"
             label="Nama Pegawai"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Select
               placeholder="Pilih Pegawai"
@@ -174,14 +165,14 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
           <Form.Item
             name="tgl_absensi"
             label="Tanggal"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <DatePicker format={format} />
           </Form.Item>
           <Form.Item
             name="status"
             label="Status Absensi"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Radio.Group options={statusPresensi} />
           </Form.Item>
@@ -192,7 +183,7 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
               listType="picture"
               disabled={uploading}
               iconRender={(file) => {
-                if (file.type === "application/pdf") {
+                if (file.type === 'application/pdf') {
                   return <FaFilePdf size={45} color="red" />;
                 }
                 return <InboxOutlined />;
