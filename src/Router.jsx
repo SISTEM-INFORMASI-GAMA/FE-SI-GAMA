@@ -1,7 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Register from "./page/register/Register";
-import Login from "./page/login/Login";
 import { DataRoutes } from "./DataRoutes";
+import LoginHR from "./page/kepegawaian/login/Login";
+import LoginAcamemic from "./page/academic/login/Login";
 
 const Router = () => {
   let arr = [];
@@ -12,9 +13,10 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/login/hr" />} />
+      <Route path="/academic/register" element={<Register />} />
+      <Route path="/login/academic" element={<LoginAcamemic />} />
+      <Route path="/login/hr" element={<LoginHR />} />
       {arr.map((x) => {
         return <Route key={x.path} path={x.path} element={x.element} />;
       })}

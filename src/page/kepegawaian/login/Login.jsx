@@ -5,10 +5,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const [form] = Form.useForm();
   const url = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
+
 
   const handleLogin = async () => {
     try {
@@ -24,14 +26,18 @@ const Login = () => {
     }
   };
 
+
+
   return (
     <div className="login-container">
       <div className="container">
         <div className="login-box">
-          <img src="/assets/img/logo.png" alt="spbe Logo" />
-          <hr />
+          <img src="/logo.png" alt="spbe Logo" />
           <Form form={form} layout="vertical" className="full-form">
             <div className="first-form">
+              <div className="login-title-box">
+                <h1 className="login-title">Login Kepegawaian</h1>
+              </div>
               <Form.Item
                 name="email"
                 label="Email"
@@ -46,11 +52,11 @@ const Login = () => {
               >
                 <Input.Password />
               </Form.Item>
+              <Button type="primary" className="login-button" onClick={handleLogin}>
+                Login
+              </Button>
             </div>
           </Form>
-          <Button type="primary" className="login-button" onClick={handleLogin}>
-            Login
-          </Button>
         </div>
       </div>
     </div>
