@@ -1,0 +1,24 @@
+.presensi-filter {
+   display: grid;
+   max-width: 600px;
+   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+   gap: 10px;
+ }
+ 
+ @media screen and (max-width: 500px) {
+   .presensi-filter {
+     grid-template-columns: 1fr 1fr 1fr;
+     gap: 10px;
+   }
+ }
+ 
+ @media screen and (max-width: 388px) {
+   .presensi-filter {
+     grid-template-columns: 1fr 1fr;
+     gap: 10px;
+   }
+ 
+   .item-search {
+     grid-column: 1 / 3;
+   }
+ }

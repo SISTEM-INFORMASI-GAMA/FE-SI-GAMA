@@ -59,7 +59,7 @@ const User = () => {
     },
     {
       title: "Nama",
-      dataIndex: "username",
+      dataIndex: "name",
       align: "left",
       width: window.innerWidth > 800 ? 200 : 150,
     },
@@ -109,11 +109,12 @@ const User = () => {
     },
   ];
 
-  const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
+  const dataSource = data?.data?.filter((x) => x.pegawaiId !== null).slice(0, dataTable.per_page).map((x, i) => {
     return {
       ...x,
       key: x.id,
       index: i + 1,
+      name: x?.Pegawai?.nama,
     };
   });
 

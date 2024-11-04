@@ -1,16 +1,26 @@
-import { Button, Space, Table } from 'antd';
+import { Button, DatePicker, Input, Space, Table, Tooltip } from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import { usePresensiPagination } from '../../../../hooks/kepegawaian/presensi/usePresensiPagination';
 import moment from 'moment';
-import AddPresensi from '../add/AddPresensi';
 import EditPresensi from '../edit/EditPresensi';
+import dayjs from "dayjs";
 const format = 'YYYY-MM-DD';
+import { SearchOutlined } from '@ant-design/icons';
+import './Presensi.css';
+import { useNavigate } from "react-router-dom";
+
+const firstDate = new Date();
+const lastDate = new Date();
 
 export const Presensi = () => {
   const [dataId, setDataId] = useState('');
-  const [showAddPresensi, setShowAddPresensi] = useState(false);
   const [showEditPresensi, setShowEditPresensi] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const [date, setDate] = useState({
+    from: moment().format('YYYY-MM-DD'),
+    to: moment().format('YYYY-MM-DD'),
+  });
   const [dataTable, setDataTable] = useState({
     current_page: 1,
     per_page: 15,
@@ -18,13 +28,10 @@ export const Presensi = () => {
   });
   const { data, isLoading, isFetching, refetch } = usePresensiPagination(
     dataTable,
-    ''
+    keyword,
+    date
   );
-
-  const onCreate = useCallback(() => {
-    setShowAddPresensi(false);
-    refetch();
-  }, [refetch]);
+  const navigate = useNavigate();
 
   const onUpdate = useCallback(() => {
     setShowEditPresensi(false);
@@ -32,9 +39,20 @@ export const Presensi = () => {
   }, [refetch]);
 
   const onCancel = () => {
-    setShowAddPresensi(false);
     setShowEditPresensi(false);
     setDataId('');
+  };
+
+  const statusRender = (status) => {
+    const statusColors = {
+      Hadir: 'green',
+      Izin: 'purple',
+      Sakit: 'orange',
+      Alpa: 'red',
+    };
+
+    const color = statusColors[status] || 'orange';
+    return <Tag color={color}>{status}</Tag>;
   };
 
   const columns = [
@@ -46,7 +64,7 @@ export const Presensi = () => {
     },
     {
       title: 'Nama',
-      dataIndex: 'nama',
+      dataIndex: 'namaPegawai',
       align: 'left',
       width: window.innerWidth > 800 ? 400 : 150,
     },
@@ -61,12 +79,13 @@ export const Presensi = () => {
       dataIndex: 'status',
       align: 'left',
       width: window.innerWidth > 800 ? 150 : 150,
+      render: (status) => statusRender(status),
     },
-    {
-      title: 'Lampiran',
-      dataIndex: 'lampiran',
-      align: 'left',
-    },
+    // {
+    //   title: 'Lampiran',
+    //   dataIndex: 'lampiran',
+    //   align: 'left',
+    // },
     {
       title: 'Aksi',
       dataIndex: 'id',
@@ -100,6 +119,7 @@ export const Presensi = () => {
         key: x._id,
         index: i + 1,
         tgl_absensi: moment(x.tgl_absensi).format(format),
+        namaPegawai: x?.Pegawai?.nama,
       };
     });
 
@@ -125,10 +145,54 @@ export const Presensi = () => {
       <div className="table-header">
         <h1>Presensi Harian Pegawai</h1>
         <Space>
-          <Button type="primary" onClick={() => setShowAddPresensi(true)}>
+          <Button type="primary" onClick={() => {
+            navigate('/dashboard/hr/presensi/add');
+          }}>
             Tambah Presensi Harian
           </Button>
         </Space>
+      </div>
+      <div
+        className="presensi-filter"
+      >
+        <Input
+          allowClear
+          value={keyword}
+          placeholder="cari nama..."
+          prefix={<SearchOutlined />}
+          onChange={({ target: { value } }) => setKeyword(value)}
+          className="item-search"
+        />
+        <Tooltip Tooltip title="tanggal awal">
+          <DatePicker
+            value={dayjs(date.from)}
+            onChange={(value) => {
+              setDate((curr) => ({
+                ...curr,
+                from:
+                  value !== null
+                    ? value.format("YYYY-MM-DD")
+                    : moment(firstDate).format("YYYY-MM-DD"),
+              }));
+            }}
+            placeholder="Awal"
+          />
+        </Tooltip>
+        <Tooltip Tooltip title="tanggal akhir">
+          <DatePicker
+            value={dayjs(date.to)}
+            onChange={(value) =>
+              setDate((curr) => ({
+                ...curr,
+                to:
+                  value !== null
+                    ? value.format("YYYY-MM-DD")
+                    : moment(lastDate).format("YYYY-MM-DD"),
+              }))
+            }
+            placeholder="Akhir"
+          />
+        </Tooltip>
       </div>
       <Table
         size="small"
@@ -142,21 +206,12 @@ export const Presensi = () => {
           x: 800,
         }}
       />
-      {
-        <>
-          <AddPresensi
-            onCreate={onCreate}
-            onCancel={onCancel}
-            show={showAddPresensi}
-          />
-          <EditPresensi
-            id={dataId}
-            onUpdate={onUpdate}
-            onCancel={onCancel}
-            show={showEditPresensi}
-          />
-        </>
-      }
+      <EditPresensi
+        id={dataId}
+        onUpdate={onUpdate}
+        onCancel={onCancel}
+        show={showEditPresensi}
+      />
     </>
   );
 };

@@ -5,6 +5,7 @@ import DetailIzin from "./page/kepegawaian/izin/detail/DetailIzin";
 import { Izin } from "./page/kepegawaian/izin/master/Izin";
 import DetailPegawai from "./page/kepegawaian/pegawai/detail/DetailPegawai";
 import { Pegawai } from "./page/kepegawaian/pegawai/master/Pegawai";
+import AddPresensiBatch from "./page/kepegawaian/presensi/add/AddPresensiBatch";
 import { Presensi } from "./page/kepegawaian/presensi/master/Presensi";
 import { RekapPresensi } from "./page/kepegawaian/rekapPresensi/master/RekapPresensi";
 import User from "./page/kepegawaian/user/master/User";
@@ -47,6 +48,14 @@ export const DataRoutesHr = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<Presensi />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/hr/presensi/add",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<AddPresensiBatch />} />
       </RequireLogin>
     ),
   },
