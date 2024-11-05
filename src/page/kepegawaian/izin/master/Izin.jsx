@@ -52,7 +52,7 @@ export const Izin = () => {
     },
     {
       title: 'Nama',
-      dataIndex: 'nama',
+      dataIndex: 'namaPegawai',
       align: 'left',
     },
     {
@@ -139,6 +139,7 @@ export const Izin = () => {
       updatedAt: moment(x.updatedAt).format(format),
       tgl_mulai: moment(x.tgl_mulai).format(format),
       tgl_selesai: moment(x.tgl_selesai).format(format),
+      namaPegawai: x?.Pegawai?.nama,
     };
   });
 

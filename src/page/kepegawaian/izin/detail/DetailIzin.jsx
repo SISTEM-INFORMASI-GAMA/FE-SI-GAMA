@@ -1,10 +1,10 @@
-import { Fragment } from "react";
-import { useParams } from "react-router-dom";
-import { Divider, Skeleton } from "antd";
-import "./DetailIzin.css";
-import moment from "moment";
-import { useIzinDetail } from "../../../../hooks/kepegawaian/izin/useIzinDetail";
-const format = "YYYY-MM-DD";
+import { Fragment } from 'react';
+import { useParams } from 'react-router-dom';
+import { Divider, Skeleton } from 'antd';
+import './DetailIzin.css';
+import moment from 'moment';
+import { useIzinDetail } from '../../../../hooks/kepegawaian/izin/useIzinDetail';
+const format = 'YYYY-MM-DD';
 
 function DetailIzin() {
   const { izin_id: id } = useParams();
@@ -25,19 +25,19 @@ function DetailIzin() {
               <tbody>
                 <tr>
                   <th>Nama</th>
-                  <td>: {data?.nama}</td>
+                  <td>: {data?.Pegawai?.nama}</td>
                 </tr>
                 <tr>
                   <th>NIP</th>
-                  <td>: {data?.nip}</td>
+                  <td>: {data?.Pegawai?.nip}</td>
                 </tr>
                 <tr>
                   <th>Jenis Kelamin</th>
-                  <td>: {data?.jenis_kelamin}</td>
+                  <td>: {data?.Pegawai?.jenis_kelamin}</td>
                 </tr>
                 <tr>
                   <th>Jabatan</th>
-                  <td>: {data?.jabatan}</td>
+                  <td>: {data?.Pegawai?.jabatan}</td>
                 </tr>
                 <tr>
                   <th>Tanggal Pengajuan</th>

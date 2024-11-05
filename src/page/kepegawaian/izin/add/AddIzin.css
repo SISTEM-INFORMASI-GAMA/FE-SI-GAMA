@@ -1,0 +1,14 @@
+.pegawai-info {
+  display: flex;
+  gap: 30px; /* Optional: Adjust gap between columns */
+}
+
+.pegawai-info div {
+  display: flex;
+  flex-direction: column;
+}
+
+.pegawai-info p {
+  margin: 4px 0;
+  font-size: 16px;
+}

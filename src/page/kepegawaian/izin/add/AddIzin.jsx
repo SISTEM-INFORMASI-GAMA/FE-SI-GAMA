@@ -6,6 +6,9 @@ import { jenis } from '../constant';
 const { Dragger } = Upload;
 import { FaFilePdf } from 'react-icons/fa';
 import { InboxOutlined } from '@ant-design/icons';
+import Cookies from 'js-cookie';
+import { usePegawaiDetail } from '../../../../hooks/kepegawaian/pegawai/usePegawaiDetail';
+import './AddIzin.css';
 
 const AddIzin = ({ show, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -14,6 +17,10 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
   const [uploading, setUploading] = useState(false);
   const { VITE_BASE_URL } = import.meta.env;
   const format = 'YYYY-MM-DD';
+
+  const pegawai = Cookies.get('user') && JSON.parse(Cookies.get('user'));
+  const pegawai_id = pegawai?.pegawaiId;
+  const { data: dataPegawai } = usePegawaiDetail(pegawai_id, true);
 
   const isExcel = (file) => {
     const excelTypes = [
@@ -59,6 +66,7 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
       const data = await uploadFile(values.filePdf.file);
       if (data) {
         values.lampiran = data?.data?.file;
+        values.pegawaiId = pegawai_id;
       }
 
       await axios.post(VITE_BASE_URL + `/api/v1/permissions`, values);
@@ -127,6 +135,18 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
     >
       <Form form={form} layout="vertical" className="full-form">
         <div className="first-form">
+          <div className="pegawai-info">
+            <div>
+              <p>Nama </p>
+              <p>NIP </p>
+              <p>Jabatan </p>
+            </div>
+            <div>
+              <p>{dataPegawai?.data?.nama}</p>
+              <p>{dataPegawai?.data?.nip}</p>
+              <p>{dataPegawai?.data?.jabatan}</p>
+            </div>
+          </div>
           <Form.Item
             name="tgl_mulai"
             label="Tanggal Mulai"
