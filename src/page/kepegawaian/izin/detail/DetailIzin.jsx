@@ -65,7 +65,12 @@ function DetailIzin() {
                 </tr>
                 <tr>
                   <th>Lampiran</th>
-                  <td>: {data?.lampiran}</td>
+                  <td>
+                    :{' '}
+                    <a href={data?.lampiran} target="onblank">
+                      Lampiran
+                    </a>{' '}
+                  </td>
                 </tr>
               </tbody>
             </table>

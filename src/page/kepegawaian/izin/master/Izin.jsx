@@ -1,19 +1,19 @@
-import { Button, Popconfirm, Space, Table } from 'antd';
+import { Button, message, Popconfirm, Space, Table } from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import moment from 'moment';
-// import AddPresensi from "../add/AddPresensi";
-// import EditPresensi from "../edit/EditPresensi";
 import { useIzinPagination } from '../../../../hooks/kepegawaian/izin/useIzinPagination';
-import { DeleteApi } from '../../../../services/DeleteApi';
 import { useNavigate } from 'react-router-dom';
 import AddIzin from '../add/AddIzin';
+import EditIzin from '../edit/EditIzin';
+import axios from 'axios';
 const format = 'YYYY-MM-DD';
 
 export const Izin = () => {
   const [dataId, setDataId] = useState('');
   const [showAddIzin, setShowAddIzin] = useState(false);
   const [showEditIzin, setShowEditIzin] = useState(false);
+  const { VITE_BASE_URL } = import.meta.env;
   const [dataTable, setDataTable] = useState({
     current_page: 1,
     per_page: 15,
@@ -41,6 +41,16 @@ export const Izin = () => {
     setShowAddIzin(false);
     setShowEditIzin(false);
     setDataId('');
+  };
+
+  const handleStatusIzin = async (id, status) => {
+    try {
+      await axios.patch(VITE_BASE_URL + `/api/v1/permissions/${id}`, {
+        status: status,
+      });
+    } catch (error) {
+      message.error(error.response?.data?.message || 'Fields Error');
+    }
   };
 
   const columns = [
@@ -109,20 +119,31 @@ export const Izin = () => {
               Ubah
             </Tag>
             <Popconfirm
-              title="Yakin ingin menghapus ?"
-              okText="Hapus"
+              title="Yakin ingin menyetujui ?"
+              okText="Setujui"
               cancelText="Batal"
               onConfirm={() => {
                 const dataId = id;
-                DeleteApi({
-                  url: '/api/v1/permissions/',
-                  dataId,
-                  refetch,
-                });
+                handleStatusIzin(dataId, 'disetujui');
+                refetch();
               }}
             >
-              <Tag color="magenta" style={{ cursor: 'pointer' }}>
-                Hapus
+              <Tag color="green" style={{ cursor: 'pointer' }}>
+                Setujui
+              </Tag>
+            </Popconfirm>
+            <Popconfirm
+              title="Yakin ingin menolak ?"
+              okText="Tolak"
+              cancelText="Batal"
+              onConfirm={() => {
+                const dataId = id;
+                handleStatusIzin(dataId, 'ditolak');
+                refetch();
+              }}
+            >
+              <Tag color="red" style={{ cursor: 'pointer' }}>
+                Tolak
               </Tag>
             </Popconfirm>
           </>
@@ -185,12 +206,12 @@ export const Izin = () => {
       {
         <>
           <AddIzin onCreate={onCreate} onCancel={onCancel} show={showAddIzin} />
-          {/* <EditPresensi
+          <EditIzin
             id={dataId}
             onUpdate={onUpdate}
             onCancel={onCancel}
             show={showEditIzin}
-          /> */}
+          />
         </>
       }
     </>
