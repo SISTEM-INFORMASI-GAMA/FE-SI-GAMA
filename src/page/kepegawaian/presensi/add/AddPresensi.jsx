@@ -75,7 +75,6 @@ const AddPresensi = ({ show, onCreate, onCancel }) => {
       onCreate();
     } catch (error) {
       message.error(error.response?.data?.message || error.message);
-      console.log(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }

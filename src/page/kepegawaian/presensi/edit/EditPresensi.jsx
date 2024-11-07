@@ -83,8 +83,6 @@ const EditPresensi = ({ id, onUpdate, onCancel, show }) => {
       onUpdate();
     } catch (error) {
       message.error(error.response?.data?.message || 'Fields Error');
-      console.log(error.response?.data?.message);
-      console.log(newData);
     } finally {
       setLoading(false);
     }

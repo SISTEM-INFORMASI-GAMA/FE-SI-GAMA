@@ -1,5 +1,6 @@
 export const statusPresensi = [
-  { label: "Hadir", value: "hadir" },
-  { label: "Izin", value: "izin" },
-  { label: "Alpa", value: "alpa" },
+  { label: 'Hadir', value: 'Hadir' },
+  { label: 'Izin', value: 'Izin' },
+  { label: 'Sakit', value: 'Sakit' },
+  { label: 'Alpa', value: 'Alpa' },
 ];
