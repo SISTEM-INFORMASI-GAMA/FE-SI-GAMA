@@ -32,7 +32,7 @@ const EditUser = ({ id, onUpdate, onCancel, show }) => {
     if (data) {
       form.setFieldsValue({
         email: data.data.email,
-        pegawaiId: data.data.username,
+        pegawaiId: data?.data?.Pegawai?.nama,
         role: data.data.role,
       });
     }
