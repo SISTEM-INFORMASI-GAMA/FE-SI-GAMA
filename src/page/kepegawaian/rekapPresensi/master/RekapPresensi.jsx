@@ -1,94 +1,82 @@
-import { Button, Space, Table } from "antd";
-import { Tag } from "antd";
-import { useCallback, useState } from "react";
-import { usePresensiPagination } from "../../../../hooks/kepegawaian/presensi/usePresensiPagination";
-import moment from "moment";
+import { Button, DatePicker, Input, Space, Table, Tooltip } from 'antd';
+import { useState } from 'react';
+import moment from 'moment';
+import dayjs from 'dayjs';
 // import AddPresensi from "../add/AddPresensi";
 // import EditPresensi from "../edit/EditPresensi";
-const format = "YYYY-MM-DD";
+import { SearchOutlined } from '@ant-design/icons';
+import { usePresensiRecap } from '../../../../hooks/kepegawaian/presensi/usePresensiREcap';
 
 export const RekapPresensi = () => {
-  const [dataId, setDataId] = useState("");
-  const [showAddPresensi, setShowAddPresensi] = useState(false);
-  const [showEditPresensi, setShowEditPresensi] = useState(false);
+  const [dataId, setDataId] = useState('');
+  const format = 'YYYY-MM-DD';
+  const firstDate = new Date();
+  const lastDate = new Date();
   const [dataTable, setDataTable] = useState({
     current_page: 1,
     per_page: 15,
     total: 0,
   });
-  const { data, isLoading, isFetching, refetch } = usePresensiPagination(
+  const [keyword, setKeyword] = useState('');
+  const [date, setDate] = useState({
+    from: moment().format('YYYY-MM-DD'),
+    to: moment().format('YYYY-MM-DD'),
+  });
+
+  const { data, isLoading, isFetching, refetch } = usePresensiRecap(
     dataTable,
-    ""
+    keyword,
+    date
   );
-
-  const onCreate = useCallback(() => {
-    setShowAddPresensi(false);
-    refetch();
-  }, [refetch]);
-
-  const onUpdate = useCallback(() => {
-    setShowEditPresensi(false);
-    refetch();
-  }, [refetch]);
-
-  const onCancel = () => {
-    setShowAddPresensi(false);
-    setShowEditPresensi(false);
-    setDataId("");
-  };
 
   const columns = [
     {
-      title: "No",
-      dataIndex: "index",
-      align: "left",
+      title: 'No',
+      dataIndex: 'index',
+      align: 'left',
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: "Nama",
-      dataIndex: "nama",
-      align: "left",
+      title: 'Nama',
+      dataIndex: 'nama',
+      align: 'left',
     },
     {
-      title: "NIP",
-      dataIndex: "nip",
-      align: "left",
+      title: 'NIP',
+      dataIndex: 'nip',
+      align: 'left',
       width: window.innerWidth > 800 ? 200 : 150,
     },
     {
-      title: "Hadir",
-      dataIndex: "status",
-      align: "left",
+      title: 'Hadir',
+      dataIndex: 'hadir',
+      align: 'left',
     },
     {
-      title: "Izin",
-      dataIndex: "status",
-      align: "left",
+      title: 'Izin',
+      dataIndex: 'izin',
+      align: 'left',
     },
     {
-      title: "Alpa",
-      dataIndex: "status",
-      align: "left",
+      title: 'Sakit',
+      dataIndex: 'sakit',
+      align: 'left',
+    },
+    {
+      title: 'Alpa',
+      dataIndex: 'alpa',
+      align: 'left',
     },
 
     {
-      title: "Akumulasi Kehadiran",
-      dataIndex: "id",
-      align: "center",
+      title: 'Akumulasi Kehadiran',
+      dataIndex: 'akumulasi',
+      align: 'center',
       width: window.innerWidth > 800 ? 300 : 200,
-      render: (id) => {
+      render: (akumulasi) => {
         return (
           <>
-            <Tag
-              color="orange"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                setDataId(id);
-                setShowEditPresensi(true);
-              }}
-            >
-              Ubah
-            </Tag>
+            <h6>{akumulasi}%</h6>
           </>
         );
       },
@@ -100,7 +88,6 @@ export const RekapPresensi = () => {
       ...x,
       key: x._id,
       index: i + 1,
-      tgl_absensi: moment(x.tgl_absensi).format(format),
     };
   });
 
@@ -127,9 +114,49 @@ export const RekapPresensi = () => {
         <h1>Rekap Presensi Pegawai</h1>
         <Space>
           <Button type="primary" onClick={() => setShowAddPresensi(true)}>
-            Tambah Presensi Harian
+            Export Pdf
           </Button>
         </Space>
+      </div>
+      <div className="presensi-filter">
+        <Input
+          allowClear
+          value={keyword}
+          placeholder="cari nama..."
+          prefix={<SearchOutlined />}
+          onChange={({ target: { value } }) => setKeyword(value)}
+          className="item-search"
+        />
+        <Tooltip Tooltip title="tanggal awal">
+          <DatePicker
+            value={dayjs(date.from)}
+            onChange={(value) => {
+              setDate((curr) => ({
+                ...curr,
+                from:
+                  value !== null
+                    ? value.format('YYYY-MM-DD')
+                    : moment(firstDate).format('YYYY-MM-DD'),
+              }));
+            }}
+            placeholder="Awal"
+          />
+        </Tooltip>
+        <Tooltip Tooltip title="tanggal akhir">
+          <DatePicker
+            value={dayjs(date.to)}
+            onChange={(value) =>
+              setDate((curr) => ({
+                ...curr,
+                to:
+                  value !== null
+                    ? value.format('YYYY-MM-DD')
+                    : moment(lastDate).format('YYYY-MM-DD'),
+              }))
+            }
+            placeholder="Akhir"
+          />
+        </Tooltip>
       </div>
       <Table
         size="small"
@@ -139,7 +166,7 @@ export const RekapPresensi = () => {
         dataSource={dataSource}
         pagination={pagination}
         scroll={{
-          y: "50vh",
+          y: '50vh',
           x: 800,
         }}
       />
@@ -149,8 +176,8 @@ export const RekapPresensi = () => {
             onCreate={onCreate}
             onCancel={onCancel}
             show={showAddPresensi}
-          />
-          <EditPresensi
+          />  */}
+          {/* <EditPresensi
             id={dataId}
             onUpdate={onUpdate}
             onCancel={onCancel}

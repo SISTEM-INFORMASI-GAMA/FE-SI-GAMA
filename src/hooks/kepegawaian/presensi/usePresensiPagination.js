@@ -1,15 +1,15 @@
-import { useQuery } from "react-query";
-import { getPresensi } from "../../../services/kepegawaian/Presensi";
+import { useQuery } from 'react-query';
+import { getPresensi } from '../../../services/kepegawaian/Presensi';
 
 export const usePresensiPagination = (dataTable, keyword, date) => {
   return useQuery(
     [
-      "get-presensi-pagination",
+      'get-presensi-pagination',
       dataTable.current_page,
       dataTable.per_page,
       keyword,
-      date.from,
-      date.to,
+      date.from || '',
+      date.to || '',
     ],
     () =>
       getPresensi(
