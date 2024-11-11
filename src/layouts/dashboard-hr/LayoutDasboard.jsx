@@ -1,4 +1,4 @@
-import propTypes from "prop-types";
+import propTypes from 'prop-types';
 import {
   CarryOutOutlined,
   DashboardOutlined,
@@ -8,19 +8,19 @@ import {
   ProjectOutlined,
   TeamOutlined,
   UserOutlined,
-} from "@ant-design/icons";
-import { Dropdown, Layout, Drawer } from "antd";
+} from '@ant-design/icons';
+import { Dropdown, Layout, Drawer } from 'antd';
 // import { default as LOGO, default as LogoFG } from "assets/img/logoFG.png";
 
-import React, { useState } from "react";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
-import NavMenus from "./NavMenus";
-import "./LayoutDashboard.css";
-import Logout from "../../component/dashboard/Logout";
-import BreadCrumb from "../../component/dashboard/BreadCrumb";
-import "./LayoutDashboard.css";
-import Cookies from "js-cookie";
+import React, { useState } from 'react';
+import { HiOutlineMenuAlt2 } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import NavMenus from './NavMenus';
+import './LayoutDashboard.css';
+import Logout from '../../component/dashboard/Logout';
+import BreadCrumb from '../../component/dashboard/BreadCrumb';
+import './LayoutDashboard.css';
+import Cookies from 'js-cookie';
 
 const { Sider, Content, Header } = Layout;
 
@@ -31,58 +31,58 @@ function LayoutDasboard(props) {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-  const user = Cookies.get("user") && JSON.parse(Cookies.get("user"));
+  const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
   const email = user?.email;
 
   const handleClickItemUser = (e) => {
-    if (e.key === "profile") navigate("/profile");
+    if (e.key === 'profile') navigate('/profile');
     else handleLogout();
   };
 
-  const itemsUser = [{ key: "logout", label: <span>Logout</span> }];
+  const itemsUser = [{ key: 'logout', label: <span>Logout</span> }];
 
   const items = [
-    { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
-    { key: "mnuAkun", icon: <UserOutlined />, label: "Akun" },
-    { key: "mnuPegawai", icon: <TeamOutlined />, label: "Pegawai" },
+    { key: 'mnuDashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
+    { key: 'mnuAkun', icon: <UserOutlined />, label: 'Akun' },
+    { key: 'mnuPegawai', icon: <TeamOutlined />, label: 'Pegawai' },
     {
-      key: "mnuPresensi",
+      key: 'mnuPresensi',
       icon: <FileOutlined />,
-      label: "Presensi Harian",
+      label: 'Presensi Harian',
     },
     {
-      key: "mnuRecap-Presensi",
+      key: 'mnuRecap-Presensi',
       icon: <ProjectOutlined />,
-      label: "Rekap Presensi Harian",
+      label: 'Rekap Presensi Harian',
     },
     {
-      key: "mnuIzin",
+      key: 'mnuIzin',
       icon: <CarryOutOutlined />,
-      label: "Pengajuan Izin Pegawai",
+      label: 'Pengajuan Izin Pegawai',
     },
   ];
 
   const items2 = [
-    { key: "logout", icon: <LogoutOutlined />, label: <Logout>Logout</Logout> },
+    { key: 'logout', icon: <LogoutOutlined />, label: <Logout>Logout</Logout> },
   ];
 
   const handleLogout = () => {
-    Cookies.remove("user");
-    Cookies.remove("token");
-    navigate("/");
+    Cookies.remove('user');
+    Cookies.remove('token');
+    navigate('/');
   };
 
   const handleClickMenu = (param) => {
-    if (param.key === "") {
+    if (param.key === '') {
       return;
     } else {
-      if (param.key === "logout") {
+      if (param.key === 'logout') {
         // handleLogout();
-        console.log("logout");
+        console.log('logout');
         return;
-      } else if (param.key === "home") navigate("/");
-      else if (param.key === "mnuDashboard") navigate("/dashboard/hr/home");
-      else navigate("/dashboard/hr/" + param.key.toLowerCase().split("mnu")[1]);
+      } else if (param.key === 'home') navigate('/');
+      else if (param.key === 'mnuDashboard') navigate('/dashboard/hr/home');
+      else navigate('/dashboard/hr/' + param.key.toLowerCase().split('mnu')[1]);
     }
   };
   return (
@@ -99,25 +99,25 @@ function LayoutDasboard(props) {
             theme="light"
             items2={items2}
             handleClickMenu={handleClickMenu}
-            defaultMenu={"mnuDashboard"}
-            defaultOpen={["mnuDashboard"]}
+            defaultMenu={'mnuDashboard'}
+            defaultOpen={['mnuDashboard']}
           />
         </div>
       </Drawer>
       <div className="menu-mobile">
-        <div onClick={() => navigate("/home")}>
+        <div onClick={() => navigate('/home')}>
           {/* <img src={LogoFG} alt="logo fg" style={{ width: 22 }} /> */}
-          <h1 style={{ fontSize: "1.4em" }}>SPBE</h1>
+          <h1 style={{ fontSize: '1.4em' }}>SPBE</h1>
         </div>
         <MenuOutlined
-          style={{ fontSize: "1.3em" }}
+          style={{ fontSize: '1.3em' }}
           onClick={() => setOpen(true)}
         />
       </div>
       <Sider width={250} trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           {/* <img src={LOGO} alt="fg" /> */}
-          <span>SPBE</span>
+          <span>SMA Gajah Mada</span>
         </div>
 
         <div className="sider-menu-wrapper">
@@ -126,8 +126,8 @@ function LayoutDasboard(props) {
             theme="dark"
             items2={items2}
             handleClickMenu={handleClickMenu}
-            defaultMenu={"mnuDashboard"}
-            defaultOpen={["mnuDashboard"]}
+            defaultMenu={'mnuDashboard'}
+            defaultOpen={['mnuDashboard']}
           />
         </div>
       </Sider>
@@ -135,19 +135,19 @@ function LayoutDasboard(props) {
       <Layout className="site-layout">
         <Header>
           {React.createElement(HiOutlineMenuAlt2, {
-            className: "trigger",
+            className: 'trigger',
             onClick: () => setCollapsed(!collapsed),
           })}
           <div className="header-container">
             <Dropdown
               menu={{
                 items: itemsUser,
-                style: { width: "50%" },
+                style: { width: '50%' },
                 onClick: handleClickItemUser,
               }}
               placement="bottomLeft"
               arrow
-              trigger={["click"]}
+              trigger={['click']}
             >
               <div className="user-profile">
                 <UserOutlined />

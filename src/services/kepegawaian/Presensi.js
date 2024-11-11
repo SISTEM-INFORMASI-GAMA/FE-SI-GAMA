@@ -40,3 +40,15 @@ export const getRecap = async (url) => {
     return error;
   }
 };
+
+export const getPresensiDB = async (url) => {
+  try {
+    const { data } = await axios.get(VITE_BASE_URL + url, {
+      headers: { Authorization: 'Bearer ' + Cookies.get('token') },
+    });
+    return data;
+  } catch (error) {
+    message.error(`Gagal mengambil data ( ${error.message} )`, 3);
+    return error;
+  }
+};

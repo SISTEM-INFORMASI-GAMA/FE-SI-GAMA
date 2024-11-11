@@ -2,14 +2,10 @@ import { Button, DatePicker, Input, Space, Table, Tooltip } from 'antd';
 import { useState } from 'react';
 import moment from 'moment';
 import dayjs from 'dayjs';
-// import AddPresensi from "../add/AddPresensi";
-// import EditPresensi from "../edit/EditPresensi";
 import { SearchOutlined } from '@ant-design/icons';
 import { usePresensiRecap } from '../../../../hooks/kepegawaian/presensi/usePresensiREcap';
 
 export const RekapPresensi = () => {
-  const [dataId, setDataId] = useState('');
-  const format = 'YYYY-MM-DD';
   const firstDate = new Date();
   const lastDate = new Date();
   const [dataTable, setDataTable] = useState({
@@ -23,7 +19,7 @@ export const RekapPresensi = () => {
     to: moment().format('YYYY-MM-DD'),
   });
 
-  const { data, isLoading, isFetching, refetch } = usePresensiRecap(
+  const { data, isLoading, isFetching } = usePresensiRecap(
     dataTable,
     keyword,
     date
@@ -72,7 +68,7 @@ export const RekapPresensi = () => {
       title: 'Akumulasi Kehadiran',
       dataIndex: 'akumulasi',
       align: 'center',
-      width: window.innerWidth > 800 ? 300 : 200,
+      width: window.innerWidth > 800 ? 200 : 200,
       render: (akumulasi) => {
         return (
           <>
@@ -113,8 +109,8 @@ export const RekapPresensi = () => {
       <div className="table-header">
         <h1>Rekap Presensi Pegawai</h1>
         <Space>
-          <Button type="primary" onClick={() => setShowAddPresensi(true)}>
-            Export Pdf
+          <Button type="primary" onClick={() => {}}>
+            Export Excel
           </Button>
         </Space>
       </div>
@@ -170,21 +166,6 @@ export const RekapPresensi = () => {
           x: 800,
         }}
       />
-      {
-        <>
-          {/* <AddPresensi
-            onCreate={onCreate}
-            onCancel={onCancel}
-            show={showAddPresensi}
-          />  */}
-          {/* <EditPresensi
-            id={dataId}
-            onUpdate={onUpdate}
-            onCancel={onCancel}
-            show={showEditPresensi}
-          /> */}
-        </>
-      }
     </>
   );
 };

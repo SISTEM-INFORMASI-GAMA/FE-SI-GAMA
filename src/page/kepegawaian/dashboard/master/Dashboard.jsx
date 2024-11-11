@@ -1,54 +1,45 @@
 import { Card, Space, Statistic } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
-import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
-import { useState } from 'react';
 import Typography from 'antd/es/typography/Typography';
 import dayjs from 'dayjs';
+import { usePresensiDB } from '../../../../hooks/kepegawaian/presensi/usePresensiDB';
 
 const Dashboard = () => {
-  const currentDate = dayjs();
-  const formatDate = currentDate.format('DD MMMM YYYY');
-  const [dataTable, setDataTable] = useState({
-    current_page: 1,
-    per_page: 1000,
-    total: 0,
-  });
-  const { data, isLoading, isFetching, refetch } = usePegawaiPagination(
-    dataTable,
-    ''
-  );
+  const currentDate = dayjs().format('DD MMMM YYYY');
+  const { data } = usePresensiDB();
+
   return (
     <div>
-      <Typography.Title level={4}>Data Tanggal {formatDate}</Typography.Title>
+      <Typography.Title level={4}>Data Tanggal {currentDate}</Typography.Title>
       <Space direction="horizontal">
         <Card>
           <Space direction="horizontal">
             <TeamOutlined />
-            <Statistic title="Total Pegawai" value={data?.results} />
+            <Statistic title="Total Pegawai" value={data?.data?.pegawai} />
           </Space>
         </Card>
         <Card>
           <Space direction="horizontal">
             <TeamOutlined />
-            <Statistic title="Pegawai Hadir" value={data?.results} />
+            <Statistic title="Pegawai Hadir" value={data?.data?.hadir} />
           </Space>
         </Card>
         <Card>
           <Space direction="horizontal">
             <TeamOutlined />
-            <Statistic title="Pegawai Izin" value={data?.results} />
+            <Statistic title="Pegawai Izin" value={data?.data?.izin} />
           </Space>
         </Card>
         <Card>
           <Space direction="horizontal">
             <TeamOutlined />
-            <Statistic title="Pegawai Sakit" value={data?.results} />
+            <Statistic title="Pegawai Sakit" value={data?.data?.sakit} />
           </Space>
         </Card>
         <Card>
           <Space direction="horizontal">
             <TeamOutlined />
-            <Statistic title="Pegawai Alpa" value={data?.results} />
+            <Statistic title="Pegawai Alpa" value={data?.data?.alpa} />
           </Space>
         </Card>
       </Space>

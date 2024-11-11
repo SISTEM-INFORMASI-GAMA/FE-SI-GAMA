@@ -73,7 +73,7 @@ const AddPresensiBatch = () => {
       setDataSource([]);
       navigate('/dashboard/hr/presensi');
     } catch (error) {
-      alert(error?.response?.data?.error);
+      message.error(`${error?.response?.data?.message}`, 3);
     } finally {
       setPosting(false);
     }
