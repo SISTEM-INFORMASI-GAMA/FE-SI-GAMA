@@ -1,15 +1,15 @@
-import { Button, Input, Space, Table } from "antd";
-import { Popconfirm, Tag } from "antd";
-import { useCallback, useState } from "react";
-import { DeleteApi } from "../../../../services/DeleteApi";
-import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
-import { useNavigate } from "react-router-dom";
-import AddPegawai from "../add/AddPegawai";
-import EditPegawai from "../edit/EditPegawai";
-import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Table } from 'antd';
+import { Popconfirm, Tag } from 'antd';
+import { useCallback, useState } from 'react';
+import { DeleteApi } from '../../../../services/DeleteApi';
+import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
+import { useNavigate } from 'react-router-dom';
+import AddPegawai from '../add/AddPegawai';
+import EditPegawai from '../edit/EditPegawai';
+import { SearchOutlined } from '@ant-design/icons';
 
 export const Pegawai = () => {
-  const [dataId, setDataId] = useState("");
+  const [dataId, setDataId] = useState('');
   const [showAddPegawai, setShowAddPegawai] = useState(false);
   const [showEditPegawai, setShowEditPegawai] = useState(false);
   const [dataTable, setDataTable] = useState({
@@ -17,7 +17,7 @@ export const Pegawai = () => {
     per_page: 15,
     total: 0,
   });
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
 
   const { data, isLoading, isFetching, refetch } = usePegawaiPagination(
     dataTable,
@@ -39,7 +39,7 @@ export const Pegawai = () => {
   const onCancel = () => {
     setShowAddPegawai(false);
     setShowEditPegawai(false);
-    setDataId("");
+    setDataId('');
   };
 
   const handleChange = (e) => {
@@ -48,38 +48,38 @@ export const Pegawai = () => {
 
   const columns = [
     {
-      title: "No",
-      dataIndex: "index",
-      align: "left",
+      title: 'No',
+      dataIndex: 'index',
+      align: 'left',
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: "Nama",
-      dataIndex: "nama",
-      align: "left",
+      title: 'Nama',
+      dataIndex: 'nama',
+      align: 'left',
     },
     {
-      title: "NIP",
-      dataIndex: "nip",
-      align: "left",
+      title: 'NIP',
+      dataIndex: 'nip',
+      align: 'left',
       width: window.innerWidth > 800 ? 200 : 150,
     },
     {
-      title: "Jabatan",
-      dataIndex: "jabatan",
-      align: "left",
+      title: 'Jabatan',
+      dataIndex: 'jabatan',
+      align: 'left',
     },
     {
-      title: "Aksi",
-      dataIndex: "id",
-      align: "center",
+      title: 'Aksi',
+      dataIndex: 'id',
+      align: 'center',
       width: window.innerWidth > 800 ? 300 : 200,
       render: (id) => {
         return (
           <>
             <Tag
               color="blue"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 navigate(`${id}`);
               }}
@@ -88,7 +88,7 @@ export const Pegawai = () => {
             </Tag>
             <Tag
               color="orange"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 setDataId(id);
                 setShowEditPegawai(true);
@@ -103,13 +103,13 @@ export const Pegawai = () => {
               onConfirm={() => {
                 const dataId = id;
                 DeleteApi({
-                  url: "/api/v1/users/",
+                  url: '/api/v1/users/',
                   dataId,
                   refetch,
                 });
               }}
             >
-              <Tag color="magenta" style={{ cursor: "pointer" }}>
+              <Tag color="magenta" style={{ cursor: 'pointer' }}>
                 Hapus
               </Tag>
             </Popconfirm>
@@ -119,13 +119,16 @@ export const Pegawai = () => {
     },
   ];
 
-  const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
-    return {
-      ...x,
-      key: x.id,
-      index: i + 1,
-    };
-  });
+  const dataSource = data?.data
+    ?.sort((a, b) => a.nama.localeCompare(b.nama))
+    .slice(0, dataTable.per_page)
+    .map((x, i) => {
+      return {
+        ...x,
+        key: x.id,
+        index: i + 1,
+      };
+    });
 
   const pagination = {
     current: dataTable.current_page,
@@ -161,9 +164,9 @@ export const Pegawai = () => {
         placeholder="Cari pegawai"
         className="search-input-billings"
         style={{
-          border: "1px solid #d9d9d9",
-          marginBottom: "10px",
-          marginTop: "10px",
+          border: '1px solid #d9d9d9',
+          marginBottom: '10px',
+          marginTop: '10px',
         }}
       />
       <Table
@@ -174,7 +177,7 @@ export const Pegawai = () => {
         dataSource={dataSource}
         pagination={pagination}
         scroll={{
-          y: "50vh",
+          y: '50vh',
           x: 800,
         }}
       />

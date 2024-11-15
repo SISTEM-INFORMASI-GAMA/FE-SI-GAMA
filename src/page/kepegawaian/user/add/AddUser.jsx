@@ -1,9 +1,9 @@
-import { Form, Input, message, Modal, Radio, Select } from "antd";
-import axios from "axios";
-import { useState } from "react";
-import propTypes from "prop-types";
-import { userRoles } from "../constant";
-import { usePegawaiPagination } from "../../../../hooks/kepegawaian/pegawai/usePegawaiPagination";
+import { Form, Input, message, Modal, Radio, Select } from 'antd';
+import axios from 'axios';
+import { useState } from 'react';
+import propTypes from 'prop-types';
+import { userRoles } from '../constant';
+import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
 
 const AddUser = ({ show, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -15,11 +15,11 @@ const AddUser = ({ show, onCreate, onCancel }) => {
     total: 0,
   });
 
-  const { data: dataPegawai, isLoading, isFetching } = usePegawaiPagination(
-    dataTable,
-    ""
-  );
-
+  const {
+    data: dataPegawai,
+    isLoading,
+    isFetching,
+  } = usePegawaiPagination(dataTable, '');
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
@@ -30,7 +30,7 @@ const AddUser = ({ show, onCreate, onCancel }) => {
       ).nama;
 
       await axios.post(VITE_BASE_URL + `/api/v1/users/signup`, values);
-      message.success("User Berhasil Dibuat");
+      message.success('User Berhasil Dibuat');
       form.resetFields();
       onCreate();
     } catch (error) {
@@ -60,7 +60,7 @@ const AddUser = ({ show, onCreate, onCancel }) => {
           <Form.Item
             name="pegawaiId"
             label="Nama Pegawai"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Select
               placeholder="Pilih Pegawai"
@@ -85,26 +85,23 @@ const AddUser = ({ show, onCreate, onCancel }) => {
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
-            <Input
-              placeholder="Masukan Email"
-            />
+            <Input placeholder="Masukan Email" />
           </Form.Item>
           <Form.Item
             name="password"
             label="Password"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
-            <Input.Password
-              placeholder="Masukan Password"
-            />
+            <Input.Password placeholder="Masukan Password" />
           </Form.Item>
-          <Form.Item name="role" label="Role"
-            rules={[{ required: true, message: "Harap diisi" }]}
+          <Form.Item
+            name="role"
+            label="Role"
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
-            <Radio.Group options={userRoles}
-            />
+            <Radio.Group options={userRoles} />
           </Form.Item>
         </div>
       </Form>
