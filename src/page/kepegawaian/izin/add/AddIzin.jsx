@@ -60,6 +60,7 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
 
       if (!values.filePdf || values?.filePdf?.fileList.length === 0) {
         message.error('upload salah satu file pdf');
+        setUploading(false);
         return;
       }
 
@@ -75,7 +76,10 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
       onCreate();
     } catch (error) {
       message.error(error.response.data.message || error.message);
+      setUploading(false);
+      setLoading(false);
     } finally {
+      setUploading(false);
       setLoading(false);
     }
   };
@@ -175,7 +179,11 @@ const AddIzin = ({ show, onCreate, onCancel }) => {
           >
             <Input />
           </Form.Item>
-          <Form.Item name="filePdf" label="Lampiran">
+          <Form.Item
+            name="filePdf"
+            label="Lampiran"
+            rules={[{ required: true, message: 'Harap diisi' }]}
+          >
             <Dragger
               name="filePdf"
               accept=".pdf"

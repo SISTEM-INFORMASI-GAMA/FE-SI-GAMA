@@ -50,6 +50,7 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
     try {
       await form.validateFields();
       setLoading(true);
+      console.log(newData);
 
       if (newData.filePdf) {
         const formData = new FormData();
@@ -83,6 +84,7 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
     } catch (error) {
       message.error(error.response?.data?.message || 'Fields Error');
     } finally {
+      setUploading(false);
       setLoading(false);
     }
   };
@@ -209,9 +211,7 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
                 name="jenis"
                 label="Jenis Izin"
                 rules={[{ required: true, message: 'Harap diisi' }]}
-                onChange={({ target: { value } }) =>
-                  (newData['status'] = value)
-                }
+                onChange={({ target: { value } }) => (newData['jenis'] = value)}
               >
                 <Radio.Group options={jenis} />
               </Form.Item>

@@ -1,4 +1,4 @@
-import { Button, message, Popconfirm, Space, Table } from 'antd';
+import { Button, Input, message, Popconfirm, Space, Table } from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import AddIzin from '../add/AddIzin';
 import EditIzin from '../edit/EditIzin';
 import axios from 'axios';
 const format = 'YYYY-MM-DD';
+import { SearchOutlined } from '@ant-design/icons';
 
 export const Izin = () => {
   const [dataId, setDataId] = useState('');
@@ -20,11 +21,12 @@ export const Izin = () => {
     total: 0,
   });
 
+  const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
 
   const { data, isLoading, isFetching, refetch } = useIzinPagination(
     dataTable,
-    ''
+    keyword
   );
 
   const onCreate = useCallback(() => {
@@ -48,9 +50,24 @@ export const Izin = () => {
       await axios.patch(VITE_BASE_URL + `/api/v1/permissions/${id}`, {
         status: status,
       });
+      refetch();
     } catch (error) {
       message.error(error.response?.data?.message || 'Fields Error');
     }
+  };
+
+  const statusRender = (jenis) => {
+    const statusColors = {
+      izin: '#3498DB',
+      sakit: '#F1C40F',
+    };
+
+    const color = statusColors[jenis] || 'orange';
+    return <Tag color={color}>{jenis}</Tag>;
+  };
+
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
   };
 
   const columns = [
@@ -67,7 +84,7 @@ export const Izin = () => {
     },
     {
       title: 'Tanggal Pengajuan',
-      dataIndex: 'updatedAt',
+      dataIndex: 'createdAt',
       align: 'left',
       width: window.innerWidth > 800 ? 200 : 150,
     },
@@ -85,6 +102,7 @@ export const Izin = () => {
       title: 'Jenis',
       dataIndex: 'jenis',
       align: 'left',
+      render: (jenis) => statusRender(jenis),
     },
     {
       title: 'Status',
@@ -125,7 +143,6 @@ export const Izin = () => {
               onConfirm={() => {
                 const dataId = id;
                 handleStatusIzin(dataId, 'disetujui');
-                refetch();
               }}
             >
               <Tag color="green" style={{ cursor: 'pointer' }}>
@@ -139,7 +156,6 @@ export const Izin = () => {
               onConfirm={() => {
                 const dataId = id;
                 handleStatusIzin(dataId, 'ditolak');
-                refetch();
               }}
             >
               <Tag color="red" style={{ cursor: 'pointer' }}>
@@ -152,17 +168,20 @@ export const Izin = () => {
     },
   ];
 
-  const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
-    return {
-      ...x,
-      key: x._id,
-      index: i + 1,
-      updatedAt: moment(x.updatedAt).format(format),
-      tgl_mulai: moment(x.tgl_mulai).format(format),
-      tgl_selesai: moment(x.tgl_selesai).format(format),
-      namaPegawai: x?.Pegawai?.nama,
-    };
-  });
+  const dataSource = data?.data
+    ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, dataTable.per_page)
+    .map((x, i) => {
+      return {
+        ...x,
+        key: x._id,
+        index: i + 1,
+        createdAt: moment(x.createdAt).format(format),
+        tgl_mulai: moment(x.tgl_mulai).format(format),
+        tgl_selesai: moment(x.tgl_selesai).format(format),
+        namaPegawai: x?.Pegawai?.nama,
+      };
+    });
 
   const pagination = {
     current: dataTable.current_page,
@@ -191,6 +210,18 @@ export const Izin = () => {
           </Button>
         </Space>
       </div>
+      <Input
+        prefix={<SearchOutlined />}
+        value={keyword}
+        onChange={handleChange}
+        placeholder="Cari pegawai"
+        className="search-input-billings"
+        style={{
+          border: '1px solid #d9d9d9',
+          marginBottom: '10px',
+          marginTop: '10px',
+        }}
+      />
       <Table
         size="small"
         tableLayout="auto"
