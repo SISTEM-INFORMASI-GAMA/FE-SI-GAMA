@@ -94,7 +94,7 @@ const AddPresensiBatch = () => {
         <Form.Item name={record.id} initialValue="Hadir">
           <div className="tag-list">
             <Tag
-              color={record.status === 'Hadir' ? 'green' : 'default'}
+              color={record.status === 'Hadir' ? '#2ECC71' : 'default'}
               onClick={() => handleStatusChange(record.id, 'Hadir')}
               style={
                 posting ? { cursor: 'not-allowed' } : { cursor: 'pointer' }
@@ -103,7 +103,7 @@ const AddPresensiBatch = () => {
               Hadir
             </Tag>
             <Tag
-              color={record.status === 'Sakit' ? 'orange' : 'default'}
+              color={record.status === 'Sakit' ? '#F1C40F' : 'default'}
               onClick={() => handleStatusChange(record.id, 'Sakit')}
               style={
                 posting ? { cursor: 'not-allowed' } : { cursor: 'pointer' }
@@ -112,7 +112,7 @@ const AddPresensiBatch = () => {
               Sakit
             </Tag>
             <Tag
-              color={record.status === 'Izin' ? 'purple' : 'default'}
+              color={record.status === 'Izin' ? '#3498DB' : 'default'}
               onClick={() => handleStatusChange(record.id, 'Izin')}
               style={
                 posting ? { cursor: 'not-allowed' } : { cursor: 'pointer' }
@@ -121,7 +121,7 @@ const AddPresensiBatch = () => {
               Izin
             </Tag>
             <Tag
-              color={record.status === 'Alpa' ? 'red' : 'default'}
+              color={record.status === 'Alpa' ? '#E74C3C' : 'default'}
               onClick={() => handleStatusChange(record.id, 'Alpa')}
               style={
                 posting ? { cursor: 'not-allowed' } : { cursor: 'pointer' }

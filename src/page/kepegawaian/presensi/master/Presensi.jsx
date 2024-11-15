@@ -4,11 +4,11 @@ import { useCallback, useState } from 'react';
 import { usePresensiPagination } from '../../../../hooks/kepegawaian/presensi/usePresensiPagination';
 import moment from 'moment';
 import EditPresensi from '../edit/EditPresensi';
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 const format = 'YYYY-MM-DD';
 import { SearchOutlined } from '@ant-design/icons';
 import './Presensi.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const firstDate = new Date();
 const lastDate = new Date();
@@ -45,10 +45,10 @@ export const Presensi = () => {
 
   const statusRender = (status) => {
     const statusColors = {
-      Hadir: 'green',
-      Izin: 'purple',
-      Sakit: 'orange',
-      Alpa: 'red',
+      Hadir: '#2ECC71',
+      Izin: '#3498DB',
+      Sakit: '#F1C40F',
+      Alpa: '#E74C3C',
     };
 
     const color = statusColors[status] || 'orange';
@@ -111,7 +111,7 @@ export const Presensi = () => {
   ];
 
   const dataSource = data?.data
-    ?.sort((a, b) => new Date(b.tgl_absensi) - new Date(a.tgl_absensi))
+    ?.sort((a, b) => a.Pegawai?.nama.localeCompare(b.Pegawai?.nama))
     .slice(0, dataTable.per_page)
     .map((x, i) => {
       return {
@@ -145,16 +145,17 @@ export const Presensi = () => {
       <div className="table-header">
         <h1>Presensi Harian Pegawai</h1>
         <Space>
-          <Button type="primary" onClick={() => {
-            navigate('/dashboard/hr/presensi/add');
-          }}>
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate('/dashboard/hr/presensi/add');
+            }}
+          >
             Tambah Presensi Harian
           </Button>
         </Space>
       </div>
-      <div
-        className="presensi-filter"
-      >
+      <div className="presensi-filter">
         <Input
           allowClear
           value={keyword}
@@ -171,8 +172,8 @@ export const Presensi = () => {
                 ...curr,
                 from:
                   value !== null
-                    ? value.format("YYYY-MM-DD")
-                    : moment(firstDate).format("YYYY-MM-DD"),
+                    ? value.format('YYYY-MM-DD')
+                    : moment(firstDate).format('YYYY-MM-DD'),
               }));
             }}
             placeholder="Awal"
@@ -186,8 +187,8 @@ export const Presensi = () => {
                 ...curr,
                 to:
                   value !== null
-                    ? value.format("YYYY-MM-DD")
-                    : moment(lastDate).format("YYYY-MM-DD"),
+                    ? value.format('YYYY-MM-DD')
+                    : moment(lastDate).format('YYYY-MM-DD'),
               }))
             }
             placeholder="Akhir"

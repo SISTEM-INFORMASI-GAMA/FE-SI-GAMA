@@ -24,6 +24,7 @@ export const RekapPresensi = () => {
     keyword,
     date
   );
+  console.log(data);
 
   const columns = [
     {
@@ -79,13 +80,16 @@ export const RekapPresensi = () => {
     },
   ];
 
-  const dataSource = data?.data?.slice(0, dataTable.per_page).map((x, i) => {
-    return {
-      ...x,
-      key: x._id,
-      index: i + 1,
-    };
-  });
+  const dataSource = data?.data
+    ?.sort((a, b) => a.nama.localeCompare(b.nama))
+    .slice(0, dataTable.per_page)
+    .map((x, i) => {
+      return {
+        ...x,
+        key: x._id,
+        index: i + 1,
+      };
+    });
 
   const pagination = {
     current: dataTable.current_page,
