@@ -1,12 +1,14 @@
-import { Button, DatePicker, Form, message, Table, Tag } from 'antd';
+import { Button, DatePicker, Form, Input, message, Table, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { usePegawaiPagination } from '../../../../hooks/kepegawaian/pegawai/usePegawaiPagination';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
 
 const AddPresensiBatch = () => {
   const [form] = Form.useForm();
+  const [keyword, setKeyword] = useState([]);
   const format = 'YYYY-MM-DD';
   const [dataTable] = useState({
     current_page: 1,
@@ -16,7 +18,10 @@ const AddPresensiBatch = () => {
   const [dataSource, setDataSource] = useState([]);
   const [posting, setPosting] = useState(false);
 
-  const { data, isLoading, isFetching } = usePegawaiPagination(dataTable, '');
+  const { data, isLoading, isFetching } = usePegawaiPagination(
+    dataTable,
+    keyword
+  );
 
   const navigate = useNavigate();
 
@@ -54,12 +59,17 @@ const AddPresensiBatch = () => {
     });
   };
 
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
   const handleSubmit = async () => {
     try {
       setPosting(true);
 
       await form.validateFields();
       const values = await form.getFieldsValue();
+
       const attendanceData = data?.data?.map((employee) => {
         return {
           tgl_absensi: dayjs(values['tgl_absensi']).format('YYYY-MM-DD'),
@@ -67,7 +77,9 @@ const AddPresensiBatch = () => {
           pegawaiId: employee.id,
         };
       });
+
       await axios.post(VITE_BASE_URL + '/api/v1/attendence', attendanceData);
+
       message.success('berhasil tambah presensi harian');
       form.resetFields();
       setDataSource([]);
@@ -86,7 +98,7 @@ const AddPresensiBatch = () => {
       align: 'left',
     },
     {
-      title: 'status',
+      title: 'Status Kehadiran',
       dataIndex: 'status',
       align: 'left',
       key: 'present',
@@ -140,6 +152,18 @@ const AddPresensiBatch = () => {
       <div className="table-header">
         <h1>Form Absensi harian</h1>
       </div>
+      <Input
+        prefix={<SearchOutlined />}
+        value={keyword}
+        onChange={handleChange}
+        placeholder="Cari pegawai"
+        className="item-search"
+        style={{
+          border: '1px solid #d9d9d9',
+          marginBottom: '10px',
+          marginTop: '10px',
+        }}
+      />
       <Form
         form={form}
         layout="vertical"

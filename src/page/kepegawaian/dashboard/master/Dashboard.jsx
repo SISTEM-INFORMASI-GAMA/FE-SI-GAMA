@@ -3,13 +3,19 @@ import { TeamOutlined } from '@ant-design/icons';
 import Typography from 'antd/es/typography/Typography';
 import dayjs from 'dayjs';
 import { usePresensiDB } from '../../../../hooks/kepegawaian/presensi/usePresensiDB';
+import Cookies from 'js-cookie';
 
 const Dashboard = () => {
   const currentDate = dayjs().format('DD MMMM YYYY');
   const { data } = usePresensiDB();
+  const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
 
   return (
     <div>
+      <Typography.Title level={4}>
+        Selamat Datang di Dashboard
+        {user.role === 'admin' ? ' Admin' : ' Pegawai'} SMA Gajah Mada
+      </Typography.Title>
       <Typography.Title level={4}>Data Tanggal {currentDate}</Typography.Title>
       <Space direction="horizontal">
         <Card>
