@@ -2,6 +2,7 @@ import { Button, DatePicker, Input, Space, Table, Tooltip } from 'antd';
 import { useState } from 'react';
 import moment from 'moment';
 import dayjs from 'dayjs';
+import * as XLSX from 'xlsx';
 import { SearchOutlined } from '@ant-design/icons';
 import { usePresensiRecap } from '../../../../hooks/kepegawaian/presensi/usePresensiREcap';
 
@@ -24,7 +25,53 @@ export const RekapPresensi = () => {
     keyword,
     date
   );
-  console.log(data);
+
+  const dataToExport = data?.data?.map((x, i) => {
+    return {
+      No: i + 1,
+      Nama: x.nama,
+      NIP: x.nip,
+      'Pegawai Hadir': x.hadir,
+      'Pegawai Izin': x.izin,
+      'Pegawai Sakit': x.sakit,
+      'Pegawai Alpa': x.alpa,
+      'Akumulasi Kehadiran Pegawai': `${x.akumulasi} %`,
+    };
+  });
+
+  const handleExport = () => {
+    const headerFile = [
+      ['SMA Gajah Mada Bandar Lampung'],
+      [`Data Rekapitulasi Absensi Pegawai Tanggal ${date.from} - ${date.to}`],
+    ];
+
+    const tableHeaders = [
+      [
+        'No',
+        'Nama',
+        'NIP',
+        'Pegawai Hadir',
+        'Pegawai Izin',
+        'Pegawai Sakit',
+        'Pegawai Alpa',
+        'Akumulasi Kehadiran Pegawai',
+      ],
+    ];
+    const tableData = dataToExport.map((item) => Object.values(item));
+
+    const wsData = [...headerFile, [], ...tableHeaders, ...tableData];
+
+    let wb = XLSX.utils.book_new();
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    ws['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }, // Merge for "SMA Gajah Mada Bandar Lampung" (A1 to H1)
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 7 } }, // Merge for "Data Rekapitulasi Absensi Pegawai..." (A3 to H3)
+    ];
+
+    XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
+    XLSX.writeFile(wb, `data_recap_absensi.xlsx`);
+  };
 
   const columns = [
     {
@@ -113,7 +160,12 @@ export const RekapPresensi = () => {
       <div className="table-header">
         <h1>Rekap Presensi Pegawai</h1>
         <Space>
-          <Button type="primary" onClick={() => {}}>
+          <Button
+            type="primary"
+            onClick={() => {
+              handleExport();
+            }}
+          >
             Export Excel
           </Button>
         </Space>
