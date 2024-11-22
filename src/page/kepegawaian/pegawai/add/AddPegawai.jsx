@@ -1,10 +1,10 @@
-import { DatePicker, Form, Input, message, Modal, Radio, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import axios from "axios";
-import { useState } from "react";
-import propTypes from "prop-types";
-import { jenisKelamin } from "../constant";
-const format = "YYYY-MM-DD";
+import { DatePicker, Form, Input, message, Modal, Radio, Upload } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import { useState } from 'react';
+import propTypes from 'prop-types';
+import { jenisKelamin } from '../constant';
+const format = 'YYYY-MM-DD';
 
 const AddPegawai = ({ show, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -20,13 +20,13 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
       // const uploadImage = async uploadImage
       if (fileList.length > 0) {
         const formData = new FormData();
-        formData.append("image", fileList[0].originFileObj);
+        formData.append('image', fileList[0].originFileObj);
         const { data } = await axios.post(
-          VITE_BASE_URL + "/api/v1/image",
+          VITE_BASE_URL + '/api/v1/image',
           formData,
           {
             headers: {
-              "Content-Type": "multipart/form-data",
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
@@ -34,7 +34,7 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
       }
 
       await axios.post(VITE_BASE_URL + `/api/v1/employees`, values);
-      message.success("Pegawai Berhasil Dimasukkan");
+      message.success('Data Pegawai Berhasil Dimasukkan');
       form.resetFields();
       onCreate();
     } catch (error) {
@@ -60,7 +60,7 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
       content: (
         <img
           alt="preview"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           src={file.url || file.preview}
         />
       ),
@@ -68,19 +68,19 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
   };
   const isImage = (file) => {
     return (
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg"
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/jpg'
     );
   };
 
   const beforeUpload = (file) => {
     if (!isImage(file)) {
-      message.error("hanya bisa upload file gambar (.jpeg, .jpg, .png)");
+      message.error('hanya bisa upload file gambar (.jpeg, .jpg, .png)');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("gambar ukurannya harus kurang dari 2MB!");
+      message.error('gambar ukurannya harus kurang dari 2MB!');
       return false;
     }
     if (!isImage(file) && fileList.length > 0) {
@@ -94,7 +94,7 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
   const handleRemove = (file) => {
     const newFileList = fileList.filter((f) => f.uid !== file.uid);
     setFileList(newFileList);
-    form.setFieldValue("file", null);
+    form.setFieldValue('file', null);
   };
 
   const handleChange = ({ fileList: newFileList }) => {
@@ -134,35 +134,31 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
           <Form.Item
             name="nama"
             label="Nama"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name="nip"
-            label="NIP"
-            rules={[{ required: true, message: "Harap diisi" }]}
-          >
+          <Form.Item name="nip" label="NIP">
             <Input />
           </Form.Item>
           <Form.Item
             name="tgl_lahir"
             label="Tanggal Lahir"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <DatePicker format={format} />
           </Form.Item>
           <Form.Item
             name="jabatan"
             label="Jabatan"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="alamat"
             label="Alamat"
-            rules={[{ required: true, message: "Harap diisi" }]}
+            rules={[{ required: true, message: 'Harap diisi' }]}
           >
             <Input />
           </Form.Item>
@@ -192,7 +188,7 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
                   }
                   if (!isImage(file)) {
                     return Promise.reject(
-                      new Error("Please upload an image file")
+                      new Error('Please upload an image file')
                     );
                   }
                   return Promise.resolve();
@@ -217,14 +213,14 @@ const AddPegawai = ({ show, onCreate, onCancel }) => {
                   }}
                 >
                   {fileList.length === 0 ? (
-                    <span style={{ fontSize: "12px" }}>
+                    <span style={{ fontSize: '12px' }}>
                       Upload <br />
                       (max 2 mb)
                     </span>
                   ) : (
-                    "Ganti"
+                    'Ganti'
                   )}
-                  {fileList.length === 0 ? "" : ""}
+                  {fileList.length === 0 ? '' : ''}
                 </div>
               </div>
             </Upload>

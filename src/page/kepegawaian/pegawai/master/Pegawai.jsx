@@ -103,7 +103,7 @@ export const Pegawai = () => {
               onConfirm={() => {
                 const dataId = id;
                 DeleteApi({
-                  url: '/api/v1/users/',
+                  url: '/api/v1/employees/',
                   dataId,
                   refetch,
                 });
