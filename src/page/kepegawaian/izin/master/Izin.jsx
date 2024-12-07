@@ -1,4 +1,12 @@
-import { Button, Input, message, Popconfirm, Space, Table } from 'antd';
+import {
+  Button,
+  Divider,
+  Input,
+  message,
+  Popconfirm,
+  Space,
+  Table,
+} from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import moment from 'moment';
@@ -9,6 +17,7 @@ import EditIzin from '../edit/EditIzin';
 import axios from 'axios';
 const format = 'YYYY-MM-DD';
 import { SearchOutlined } from '@ant-design/icons';
+import Cookies from 'js-cookie';
 
 export const Izin = () => {
   const [dataId, setDataId] = useState('');
@@ -20,6 +29,7 @@ export const Izin = () => {
     per_page: 15,
     total: 0,
   });
+  const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
 
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
@@ -114,7 +124,7 @@ export const Izin = () => {
       dataIndex: 'id',
       align: 'center',
       width: window.innerWidth > 800 ? 300 : 200,
-      render: (id) => {
+      render: (id, data) => {
         return (
           <>
             <Tag
@@ -126,42 +136,49 @@ export const Izin = () => {
             >
               Detail
             </Tag>
-            <Tag
-              color="orange"
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                setDataId(id);
-                setShowEditIzin(true);
-              }}
-            >
-              Ubah
-            </Tag>
-            <Popconfirm
-              title="Yakin ingin menyetujui ?"
-              okText="Setujui"
-              cancelText="Batal"
-              onConfirm={() => {
-                const dataId = id;
-                handleStatusIzin(dataId, 'disetujui');
-              }}
-            >
-              <Tag color="green" style={{ cursor: 'pointer' }}>
-                Setujui
+            {user?.role === 'user' && data.status === 'diajukan' && (
+              <Tag
+                color="orange"
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setDataId(id);
+                  setShowEditIzin(true);
+                }}
+              >
+                Ubah
               </Tag>
-            </Popconfirm>
-            <Popconfirm
-              title="Yakin ingin menolak ?"
-              okText="Tolak"
-              cancelText="Batal"
-              onConfirm={() => {
-                const dataId = id;
-                handleStatusIzin(dataId, 'ditolak');
-              }}
-            >
-              <Tag color="red" style={{ cursor: 'pointer' }}>
-                Tolak
-              </Tag>
-            </Popconfirm>
+            )}
+
+            {data.status === 'diajukan' && user?.role === 'admin' && (
+              <>
+                <Popconfirm
+                  title="Yakin ingin menyetujui ?"
+                  okText="Setujui"
+                  cancelText="Batal"
+                  onConfirm={() => {
+                    const dataId = id;
+                    handleStatusIzin(dataId, 'disetujui');
+                  }}
+                >
+                  <Tag color="green" style={{ cursor: 'pointer' }}>
+                    Setujui
+                  </Tag>
+                </Popconfirm>
+                <Popconfirm
+                  title="Yakin ingin menolak ?"
+                  okText="Tolak"
+                  cancelText="Batal"
+                  onConfirm={() => {
+                    const dataId = id;
+                    handleStatusIzin(dataId, 'ditolak');
+                  }}
+                >
+                  <Tag color="red" style={{ cursor: 'pointer' }}>
+                    Tolak
+                  </Tag>
+                </Popconfirm>
+              </>
+            )}
           </>
         );
       },
@@ -182,6 +199,23 @@ export const Izin = () => {
         namaPegawai: x?.Pegawai?.nama,
       };
     });
+
+  const dataHistoryIzinUser = dataSource
+    .filter((x) => x.pegawaiId === user.pegawaiId)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map((x, i) => {
+      return {
+        ...x,
+        key: x._id,
+        index: i + 1,
+        createdAt: moment(x.createdAt).format(format),
+        tgl_mulai: moment(x.tgl_mulai).format(format),
+        tgl_selesai: moment(x.tgl_selesai).format(format),
+        namaPegawai: x?.Pegawai?.nama,
+      };
+    });
+
+  console.log(dataHistoryIzinUser);
 
   const pagination = {
     current: dataTable.current_page,
@@ -204,47 +238,80 @@ export const Izin = () => {
     <>
       <div className="table-header">
         <h1>Pengajuan Izin Pegawai</h1>
-        <Space>
-          <Button type="primary" onClick={() => setShowAddIzin(true)}>
-            Ajukan Izin Baru
-          </Button>
-        </Space>
+        {user?.role === 'admin' && (
+          <>
+            <Input
+              prefix={<SearchOutlined />}
+              value={keyword}
+              onChange={handleChange}
+              placeholder="Cari pegawai"
+              className="search-input-billings"
+              style={{
+                border: '1px solid #d9d9d9',
+                marginBottom: '10px',
+                marginTop: '10px',
+              }}
+            />
+            <Table
+              size="small"
+              tableLayout="auto"
+              columns={columns}
+              loading={isLoading || isFetching}
+              dataSource={dataSource}
+              pagination={pagination}
+              scroll={{
+                y: '50vh',
+                x: 800,
+              }}
+            />
+          </>
+        )}
+        {user?.role === 'user' && (
+          <>
+            <Space>
+              <Button type="primary" onClick={() => setShowAddIzin(true)}>
+                Ajukan Izin Baru
+              </Button>
+            </Space>
+            <Divider
+              style={{
+                marginTop: '20px',
+                marginBottom: '20px',
+                backgroundColor: '#ccc',
+                color: '#ccc',
+              }}
+            />
+            <h5>Riwayat Pengajuan Izin Pegawai</h5>
+            <Table
+              size="small"
+              tableLayout="auto"
+              columns={columns}
+              loading={isLoading || isFetching}
+              dataSource={dataHistoryIzinUser}
+              pagination={pagination}
+              scroll={{
+                y: '50vh',
+                x: 800,
+              }}
+            />
+          </>
+        )}
+        {
+          <>
+            <AddIzin
+              onCreate={onCreate}
+              onCancel={onCancel}
+              show={showAddIzin}
+            />
+            <EditIzin
+              id={dataId}
+              onUpdate={onUpdate}
+              onCancel={onCancel}
+              show={showEditIzin}
+            />
+          </>
+        }
       </div>
-      <Input
-        prefix={<SearchOutlined />}
-        value={keyword}
-        onChange={handleChange}
-        placeholder="Cari pegawai"
-        className="search-input-billings"
-        style={{
-          border: '1px solid #d9d9d9',
-          marginBottom: '10px',
-          marginTop: '10px',
-        }}
-      />
-      <Table
-        size="small"
-        tableLayout="auto"
-        columns={columns}
-        loading={isLoading || isFetching}
-        dataSource={dataSource}
-        pagination={pagination}
-        scroll={{
-          y: '50vh',
-          x: 800,
-        }}
-      />
-      {
-        <>
-          <AddIzin onCreate={onCreate} onCancel={onCancel} show={showAddIzin} />
-          <EditIzin
-            id={dataId}
-            onUpdate={onUpdate}
-            onCancel={onCancel}
-            show={showEditIzin}
-          />
-        </>
-      }
     </>
   );
 };

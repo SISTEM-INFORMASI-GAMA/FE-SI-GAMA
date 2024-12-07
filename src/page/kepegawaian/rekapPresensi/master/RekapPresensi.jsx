@@ -66,10 +66,21 @@ export const RekapPresensi = () => {
 
     ws['!merges'] = [
       { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }, // Merge for "SMA Gajah Mada Bandar Lampung" (A1 to H1)
-      { s: { r: 2, c: 0 }, e: { r: 2, c: 7 } }, // Merge for "Data Rekapitulasi Absensi Pegawai..." (A3 to H3)
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 7 } }, // Merge for "Data Rekapitulasi Absensi Pegawai..." (A3 to H3)
     ];
 
-    XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
+    ws['!cols'] = [
+      { wpx: 40 }, // No
+      { wpx: 180 }, // Nama
+      { wpx: 150 }, // NIP
+      { wpx: 120 }, // Pegawai Hadir
+      { wpx: 120 }, // Pegawai Izin
+      { wpx: 120 }, // Pegawai Sakit
+      { wpx: 120 }, // Pegawai Alpa
+      { wpx: 180 }, // Akumulasi Kehadiran Pegawai
+    ];
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Rekapitulasi Absensi');
     XLSX.writeFile(wb, `data_recap_absensi.xlsx`);
   };
 

@@ -7,16 +7,16 @@ import {
   Radio,
   Skeleton,
   Upload,
-} from "antd";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import propTypes from "prop-types";
-import { jenisKelamin } from "../constant";
-import { usePegawaiDetail } from "../../../../hooks/kepegawaian/pegawai/usePegawaiDetail";
-import dayjs from "dayjs";
-import moment from "moment";
-const format = "YYYY-MM-DD";
-import { PlusOutlined } from "@ant-design/icons";
+} from 'antd';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import propTypes from 'prop-types';
+import { jenisKelamin } from '../constant';
+import { usePegawaiDetail } from '../../../../hooks/kepegawaian/pegawai/usePegawaiDetail';
+import dayjs from 'dayjs';
+import moment from 'moment';
+const format = 'YYYY-MM-DD';
+import { PlusOutlined } from '@ant-design/icons';
 
 const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
   const [form] = Form.useForm();
@@ -49,9 +49,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
     if (data?.data?.foto) {
       setFileList([
         {
-          uid: "-1",
+          uid: '-1',
           name: data?.data?.foto,
-          status: "done",
+          status: 'done',
           url: data?.data?.foto,
         },
       ]);
@@ -63,19 +63,19 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
       await form.validateFields();
       setLoading(true);
       if (Object.keys(newData).length === 0) {
-        message.error("Nothing has changed");
+        message.error('Nothing has changed');
         return;
       }
 
       if (newData.image) {
         const formData = new FormData();
-        formData.append("image", newData.image);
+        formData.append('image', newData.image);
         const { data } = await axios.post(
-          VITE_BASE_URL + "/api/v1/image",
+          VITE_BASE_URL + '/api/v1/image',
           formData,
           {
             headers: {
-              "Content-Type": "multipart/form-data",
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
@@ -86,11 +86,11 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
         ...newData,
       });
 
-      message.success("Pegawai berhasil diubah");
+      message.success('Pegawai berhasil diubah');
       form.resetFields();
       onUpdate();
     } catch (error) {
-      message.error(error.response?.data?.message || "Fields Error");
+      message.error(error.response?.data?.message || 'Fields Error');
     } finally {
       setLoading(false);
     }
@@ -118,7 +118,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
       content: (
         <img
           alt="preview"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           src={file.url || file.preview}
         />
       ),
@@ -126,9 +126,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
   };
   const isImage = (file) => {
     return (
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg"
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/jpg'
     );
   };
 
@@ -146,12 +146,12 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
   const beforeUpload = (file) => {
     if (!isImage(file)) {
       message.error(
-        "hanya bisa upload file gambar (.jpeg, .jpg, .png) atau pdf"
+        'hanya bisa upload file gambar (.jpeg, .jpg, .png) atau pdf'
       );
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("gambar ukurannya harus kurang dari 2MB!");
+      message.error('gambar ukurannya harus kurang dari 2MB!');
       return false;
     }
     if (!isImage(file) && fileList.length > 0) {
@@ -165,7 +165,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
     const newFileList = fileList.filter((f) => f.uid !== file.uid);
     setFileList(newFileList);
     setNewData({ ...newData, image: null });
-    form.setFieldValue("file", null);
+    form.setFieldValue('file', null);
   };
 
   const propsUpload = {
@@ -193,23 +193,22 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="nama"
                 label="Nama"
-                rules={[{ required: true, message: "Harap diisi" }]}
-                onChange={({ target: { value } }) => (newData["nama"] = value)}
+                rules={[{ required: true, message: 'Harap diisi' }]}
+                onChange={({ target: { value } }) => (newData['nama'] = value)}
               >
                 <Input />
               </Form.Item>
               <Form.Item
                 name="nip"
                 label="NIP"
-                rules={[{ required: true, message: "Harap diisi" }]}
-                onChange={({ target: { value } }) => (newData["nip"] = value)}
+                onChange={({ target: { value } }) => (newData['nip'] = value)}
               >
                 <Input />
               </Form.Item>
               <Form.Item
                 name="tgl_lahir"
                 label="Tanggal Lahir"
-                rules={[{ required: true, message: "harap diisi" }]}
+                rules={[{ required: true, message: 'harap diisi' }]}
               >
                 <DatePicker
                   format={format}
@@ -222,9 +221,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="jabatan"
                 label="Jabatan"
-                rules={[{ required: true, message: "Harap diisi" }]}
+                rules={[{ required: true, message: 'Harap diisi' }]}
                 onChange={({ target: { value } }) =>
-                  (newData["jabatan"] = value)
+                  (newData['jabatan'] = value)
                 }
               >
                 <Input />
@@ -232,9 +231,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="alamat"
                 label="Alamat"
-                rules={[{ required: true, message: "Harap diisi" }]}
+                rules={[{ required: true, message: 'Harap diisi' }]}
                 onChange={({ target: { value } }) =>
-                  (newData["alamat"] = value)
+                  (newData['alamat'] = value)
                 }
               >
                 <Input />
@@ -243,7 +242,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
                 name="nomor_telepon"
                 label="Nomor Telepon"
                 onChange={({ target: { value } }) =>
-                  (newData["nomor_telepon"] = value)
+                  (newData['nomor_telepon'] = value)
                 }
               >
                 <Input />
@@ -251,9 +250,9 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
               <Form.Item
                 name="jenis_kelamin"
                 label="Jenis Kelamin"
-                rules={[{ required: true, message: "Harap diisi" }]}
+                rules={[{ required: true, message: 'Harap diisi' }]}
                 onChange={({ target: { value } }) =>
-                  (newData["jenis_kelamin"] = value)
+                  (newData['jenis_kelamin'] = value)
                 }
               >
                 <Radio.Group options={jenisKelamin} />
@@ -270,7 +269,7 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
                       }
                       if (!isImage(file)) {
                         return Promise.reject(
-                          new Error("Please upload an image file")
+                          new Error('Please upload an image file')
                         );
                       }
                       return Promise.resolve();
@@ -295,12 +294,12 @@ const EditPegawai = ({ id, onUpdate, onCancel, show }) => {
                       }}
                     >
                       {fileList.length === 0 ? (
-                        <span style={{ fontSize: "12px" }}>
+                        <span style={{ fontSize: '12px' }}>
                           Upload <br />
                           (max 2 mb)
                         </span>
                       ) : (
-                        "Ganti"
+                        'Ganti'
                       )}
                     </div>
                   </div>

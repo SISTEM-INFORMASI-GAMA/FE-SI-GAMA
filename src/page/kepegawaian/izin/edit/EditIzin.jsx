@@ -50,7 +50,6 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
     try {
       await form.validateFields();
       setLoading(true);
-      console.log(newData);
 
       if (newData.filePdf) {
         const formData = new FormData();
@@ -191,21 +190,25 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
                 name="tgl_mulai"
                 label="Tanggal Mulai"
                 rules={[{ required: true, message: 'Harap diisi' }]}
-                onChange={({ target: { value } }) =>
-                  (newData['tgl_mulai'] = value)
-                }
               >
-                <DatePicker format={format} />
+                <DatePicker
+                  format={format}
+                  onChange={(date, dateString) =>
+                    (newData['tgl_mulai'] = dateString)
+                  }
+                />
               </Form.Item>
               <Form.Item
                 name="tgl_selesai"
                 label="Tanggal Selesai"
                 rules={[{ required: true, message: 'Harap diisi' }]}
-                onChange={({ target: { value } }) =>
-                  (newData['tgl_selesai'] = value)
-                }
               >
-                <DatePicker format={format} />
+                <DatePicker
+                  format={format}
+                  onChange={(date, dateString) =>
+                    (newData['tgl_selesai'] = dateString)
+                  }
+                />
               </Form.Item>
               <Form.Item
                 name="jenis"

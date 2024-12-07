@@ -32,6 +32,7 @@ function LayoutDasboard(props) {
 
   const navigate = useNavigate();
   const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
+
   const email = user?.email;
 
   const handleClickItemUser = (e) => {
@@ -39,9 +40,25 @@ function LayoutDasboard(props) {
     else handleLogout();
   };
 
-  const itemsUser = [{ key: 'logout', label: <span>Logout</span> }];
+  const itemsUser = [
+    {
+      key: 'mnuDashboard',
+      icon: <DashboardOutlined />,
+      label: <span>Dashboard</span>,
+    },
+    {
+      key: `mnuProfile`,
+      icon: <UserOutlined />,
+      label: <span>Profil</span>,
+    },
+    {
+      key: 'mnuIzin',
+      icon: <CarryOutOutlined />,
+      label: <span>Pengajuan Izin</span>,
+    },
+  ];
 
-  const items = [
+  const itemsAdmin = [
     { key: 'mnuDashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
     { key: 'mnuAkun', icon: <UserOutlined />, label: 'Akun' },
     { key: 'mnuPegawai', icon: <TeamOutlined />, label: 'Pegawai' },
@@ -78,7 +95,6 @@ function LayoutDasboard(props) {
     } else {
       if (param.key === 'logout') {
         // handleLogout();
-        console.log('logout');
         return;
       } else if (param.key === 'home') navigate('/');
       else if (param.key === 'mnuDashboard') navigate('/dashboard/hr/home');
@@ -93,21 +109,23 @@ function LayoutDasboard(props) {
         open={open}
         width={250}
       >
-        <div className="mobile-menu-wrapper">
-          <NavMenus
-            items={items}
-            theme="light"
-            items2={items2}
-            handleClickMenu={handleClickMenu}
-            defaultMenu={'mnuDashboard'}
-            defaultOpen={['mnuDashboard']}
-          />
-        </div>
+        {user?.role === 'admin' && (
+          <div className="mobile-menu-wrapper">
+            <NavMenus
+              items={itemsAdmin}
+              theme="light"
+              items2={items2}
+              handleClickMenu={handleClickMenu}
+              defaultMenu={'mnuDashboard'}
+              defaultOpen={['mnuDashboard']}
+            />
+          </div>
+        )}
       </Drawer>
       <div className="menu-mobile">
-        <div onClick={() => navigate('/home')}>
+        <div onClick={() => navigate('/dashboard/hr/home')}>
           {/* <img src={LogoFG} alt="logo fg" style={{ width: 22 }} /> */}
-          <h1 style={{ fontSize: '1.4em' }}>SPBE</h1>
+          <h1 style={{ fontSize: '1.4em' }}>SMA Gajah Mada</h1>
         </div>
         <MenuOutlined
           style={{ fontSize: '1.3em' }}
@@ -119,17 +137,30 @@ function LayoutDasboard(props) {
           {/* <img src={LOGO} alt="fg" /> */}
           <span>SMA Gajah Mada</span>
         </div>
-
-        <div className="sider-menu-wrapper">
-          <NavMenus
-            items={items}
-            theme="dark"
-            items2={items2}
-            handleClickMenu={handleClickMenu}
-            defaultMenu={'mnuDashboard'}
-            defaultOpen={['mnuDashboard']}
-          />
-        </div>
+        {user?.role === 'admin' && (
+          <div className="sider-menu-wrapper">
+            <NavMenus
+              items={itemsAdmin}
+              theme="dark"
+              items2={items2}
+              handleClickMenu={handleClickMenu}
+              defaultMenu={'mnuDashboard'}
+              defaultOpen={['mnuDashboard']}
+            />
+          </div>
+        )}
+        {user?.role === 'user' && (
+          <div className="sider-menu-wrapper">
+            <NavMenus
+              items={itemsUser}
+              theme="dark"
+              items2={items2}
+              handleClickMenu={handleClickMenu}
+              defaultMenu={'mnuDashboard'}
+              defaultOpen={['mnuDashboard']}
+            />
+          </div>
+        )}
       </Sider>
 
       <Layout className="site-layout">
