@@ -68,6 +68,7 @@
 .dokumen-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 5vh 5vh;
 }
 
 .dokumen-item {

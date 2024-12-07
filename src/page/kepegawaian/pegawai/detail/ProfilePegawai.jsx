@@ -1,17 +1,16 @@
 import { Fragment, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Button, Divider, Image, Popconfirm, Skeleton, Space } from 'antd';
+import { Button, Divider, Image, Skeleton } from 'antd';
 import './DetailPegawai.css';
 import { usePegawaiDetail } from '../../../../hooks/kepegawaian/pegawai/usePegawaiDetail';
 import moment from 'moment';
 import { useDokumenPagination } from '../../../../hooks/kepegawaian/dokumen/useDokumenPagination';
 import { FilePdfOutlined } from '@ant-design/icons';
-import { DeleteApi } from '../../../../services/DeleteApi';
 import AddDocument from './addDocument/AddDocument';
 const format = 'YYYY-MM-DD';
+import Cookies from 'js-cookie';
 
-function DetailPegawai() {
-  const { pegawai_id: id } = useParams();
+function ProfilePegawai() {
+  const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
   const [showAddDocument, setShowAddDocument] = useState(false);
   const [dataTable] = useState({
     current_page: 1,
@@ -23,7 +22,7 @@ function DetailPegawai() {
     isLoading,
     isFetching,
     refetch,
-  } = useDokumenPagination(dataTable, id);
+  } = useDokumenPagination(dataTable, user?.pegawaiId);
 
   const onCancel = () => {
     setShowAddDocument(false);
@@ -35,7 +34,10 @@ function DetailPegawai() {
   };
 
   // get pegawai detail
-  const { data: dataDetail, isLoading: skeleton } = usePegawaiDetail(id, true);
+  const { data: dataDetail, isLoading: skeleton } = usePegawaiDetail(
+    user?.pegawaiId,
+    true
+  );
   const data = dataDetail?.data;
 
   return (
@@ -96,11 +98,6 @@ function DetailPegawai() {
           />
           <div className="table-header">
             <h1>Dokumen pegawai</h1>
-            <Space>
-              <Button type="primary" onClick={() => setShowAddDocument(true)}>
-                Tambah Dokumen
-              </Button>
-            </Space>
           </div>
           {/* 
            <Popconfirm
@@ -137,23 +134,6 @@ function DetailPegawai() {
                   >
                     Download
                   </Button>
-                  <Popconfirm
-                    title="Yakin ingin menghapus ?"
-                    okText="Hapus"
-                    cancelText="Batal"
-                    onConfirm={() => {
-                      const dataId = item.id;
-                      DeleteApi({
-                        url: '/api/v1/document/',
-                        dataId,
-                        refetch,
-                      });
-                    }}
-                  >
-                    <Button size="small" type="primary" danger>
-                      Hapus
-                    </Button>
-                  </Popconfirm>
                 </div>
               ))
             )}
@@ -162,7 +142,7 @@ function DetailPegawai() {
             show={showAddDocument}
             onCancel={onCancel}
             onCreate={onCreate}
-            id={id}
+            id={user?.pegawaiId}
           />
         </Fragment>
       )}
@@ -170,4 +150,4 @@ function DetailPegawai() {
   );
 }
 
-export default DetailPegawai;
+export default ProfilePegawai;
