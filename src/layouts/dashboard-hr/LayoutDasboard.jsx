@@ -121,6 +121,18 @@ function LayoutDasboard(props) {
             />
           </div>
         )}
+        {user?.role === 'user' && (
+          <div className="mobile-menu-wrapper">
+            <NavMenus
+              items={itemsUser}
+              theme="light"
+              items2={items2}
+              handleClickMenu={handleClickMenu}
+              defaultMenu={'mnuDashboard'}
+              defaultOpen={['mnuDashboard']}
+            />
+          </div>
+        )}
       </Drawer>
       <div className="menu-mobile">
         <div onClick={() => navigate('/dashboard/hr/home')}>

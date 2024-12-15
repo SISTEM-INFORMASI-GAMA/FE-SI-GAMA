@@ -4,12 +4,14 @@ import dayjs from 'dayjs';
 import { usePresensiDB } from '../../../../hooks/kepegawaian/presensi/usePresensiDB';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [size, setSize] = useState('large');
   const currentDate = dayjs().format('DD MMMM YYYY');
   const { data } = usePresensiDB();
   const user = Cookies.get('user') && JSON.parse(Cookies.get('user'));
+  const navigate = useNavigate();
 
   const statsData = [
     { title: 'Total Pegawai', value: data?.data?.pegawai },
@@ -47,10 +49,22 @@ const Dashboard = () => {
           <div
             style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
           >
-            <Button type="primary" size={size}>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/dashboard/hr/profile');
+              }}
+              size={size}
+            >
               Profil
             </Button>
-            <Button type="primary" size={size}>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/dashboard/hr/izin');
+              }}
+              size={size}
+            >
               Pengajuan Izin
             </Button>
           </div>

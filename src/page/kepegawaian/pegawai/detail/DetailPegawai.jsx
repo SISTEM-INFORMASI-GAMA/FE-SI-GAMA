@@ -44,8 +44,8 @@ function DetailPegawai() {
       {!skeleton && data && (
         <Fragment key={data.id}>
           <Divider orientation="left">Detail {data?.nama}</Divider>
-          <div className="article-details-container">
-            <table className="detail-article__table">
+          <div className="pegawai-profile-container">
+            <table className="profile-pegawai__table">
               <tbody>
                 <tr>
                   <th>Nama</th>
@@ -77,7 +77,7 @@ function DetailPegawai() {
                 </tr>
               </tbody>
             </table>
-            <div className="article-image-container">
+            <div className="profile-image-container">
               <Image
                 width={200}
                 height={300}

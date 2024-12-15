@@ -1,27 +1,27 @@
-.detail-article__table {
+.profile-pegawai__table {
   flex: 2;
   width: 100%;
   margin-bottom: 30px;
 }
 
-.detail-article__table tr {
+.profile-pegawai__table tr {
   display: flex;
   flex-wrap: wrap;
   border-bottom: 1px dotted #ddd;
 }
 
-.detail-article__table th,
-.detail-article__table td {
+.profile-pegawai__table th,
+.profile-pegawai__table td {
   padding: 8px;
   text-align: left;
 }
 
-.detail-article__table th {
+.profile-pegawai__table th {
   flex: 1;
   font-size: 1.1em;
   font-weight: 400;
 }
-.detail-article__table td {
+.profile-pegawai__table td {
   flex: 5;
   color: #777;
   display: flex;
@@ -31,27 +31,27 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .detail-article__table th {
+  .profile-pegawai__table th {
     flex: 1;
   }
-  .detail-article__table td {
+  .profile-pegawai__table td {
     flex: 2;
   }
 }
 
-.article-details-container {
+.pegawai-profile-container {
   display: flex;
   align-items: flex-start;
 }
 
 @media screen and (max-width: 600px) {
-  .article-details-container {
+  .pegawai-profile-container {
     flex-direction: column;
     align-items: center;
   }
 }
 
-.article-image-container {
+.profile-image-container {
   width: 200px;
   height: 300px;
   margin-bottom: 30px;
@@ -59,7 +59,7 @@
   border: 1px solid #ddd;
 }
 
-.article-image-container img {
+.profile-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -76,6 +76,7 @@
   flex-direction: column;
   gap: 5px;
   align-items: center;
+  padding: 2vh;
 }
 
 .dokumen-item p {

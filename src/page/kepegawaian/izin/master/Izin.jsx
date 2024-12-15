@@ -6,8 +6,8 @@ import {
   Popconfirm,
   Space,
   Table,
+  Tag,
 } from 'antd';
-import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import moment from 'moment';
 import { useIzinPagination } from '../../../../hooks/kepegawaian/izin/useIzinPagination';
@@ -71,7 +71,6 @@ export const Izin = () => {
       izin: '#3498DB',
       sakit: '#F1C40F',
     };
-
     const color = statusColors[jenis] || 'orange';
     return <Tag color={color}>{jenis}</Tag>;
   };
@@ -91,33 +90,38 @@ export const Izin = () => {
       title: 'Nama',
       dataIndex: 'namaPegawai',
       align: 'left',
+      width: window.innerWidth > 800 ? 250 : 150,
     },
     {
       title: 'Tanggal Pengajuan',
       dataIndex: 'createdAt',
       align: 'left',
-      width: window.innerWidth > 800 ? 200 : 150,
+      width: window.innerWidth > 800 ? 110 : 150,
     },
     {
       title: 'Tanggal Mulai',
       dataIndex: 'tgl_mulai',
       align: 'left',
+      width: window.innerWidth > 800 ? 110 : 150,
     },
     {
       title: 'Tanggal Selesai',
       dataIndex: 'tgl_selesai',
       align: 'left',
+      width: window.innerWidth > 800 ? 110 : 150,
     },
     {
       title: 'Jenis',
       dataIndex: 'jenis',
       align: 'left',
+      width: window.innerWidth > 800 ? 90 : 150,
       render: (jenis) => statusRender(jenis),
     },
     {
       title: 'Status',
       dataIndex: 'status',
       align: 'left',
+      width: window.innerWidth > 800 ? 110 : 150,
     },
     {
       title: 'Aksi',
@@ -201,8 +205,7 @@ export const Izin = () => {
     });
 
   const dataHistoryIzinUser = dataSource
-    .filter((x) => x.pegawaiId === user.pegawaiId)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    ?.filter((x) => x.pegawaiId === user.pegawaiId)
     .map((x, i) => {
       return {
         ...x,
@@ -214,8 +217,6 @@ export const Izin = () => {
         namaPegawai: x?.Pegawai?.nama,
       };
     });
-
-  console.log(dataHistoryIzinUser);
 
   const pagination = {
     current: dataTable.current_page,
@@ -235,83 +236,77 @@ export const Izin = () => {
   };
 
   return (
-    <>
-      <div className="table-header">
-        <h1>Pengajuan Izin Pegawai</h1>
-        {user?.role === 'admin' && (
-          <>
-            <Input
-              prefix={<SearchOutlined />}
-              value={keyword}
-              onChange={handleChange}
-              placeholder="Cari pegawai"
-              className="search-input-billings"
-              style={{
-                border: '1px solid #d9d9d9',
-                marginBottom: '10px',
-                marginTop: '10px',
-              }}
-            />
-            <Table
-              size="small"
-              tableLayout="auto"
-              columns={columns}
-              loading={isLoading || isFetching}
-              dataSource={dataSource}
-              pagination={pagination}
-              scroll={{
-                y: '50vh',
-                x: 800,
-              }}
-            />
-          </>
-        )}
-        {user?.role === 'user' && (
-          <>
-            <Space>
-              <Button type="primary" onClick={() => setShowAddIzin(true)}>
-                Ajukan Izin Baru
-              </Button>
-            </Space>
-            <Divider
-              style={{
-                marginTop: '20px',
-                marginBottom: '20px',
-                backgroundColor: '#ccc',
-                color: '#ccc',
-              }}
-            />
-            <h5>Riwayat Pengajuan Izin Pegawai</h5>
-            <Table
-              size="small"
-              tableLayout="auto"
-              columns={columns}
-              loading={isLoading || isFetching}
-              dataSource={dataHistoryIzinUser}
-              pagination={pagination}
-              scroll={{
-                y: '50vh',
-                x: 800,
-              }}
-            />
-          </>
-        )}
-        {
-          <>
-            <AddIzin
-              onCreate={onCreate}
-              onCancel={onCancel}
-              show={showAddIzin}
-            />
-            <EditIzin
-              id={dataId}
-              onUpdate={onUpdate}
-              onCancel={onCancel}
-              show={showEditIzin}
-            />
-          </>
-        }
-      </div>
-    </>
+    <div className="table-header">
+      <h1>Pengajuan Izin Pegawai</h1>
+      {user?.role === 'admin' && (
+        <>
+          <Input
+            prefix={<SearchOutlined />}
+            value={keyword}
+            onChange={handleChange}
+            placeholder="Cari pegawai"
+            className="search-input-billings"
+            style={{
+              border: '1px solid #d9d9d9',
+              marginBottom: '10px',
+              marginTop: '10px',
+            }}
+          />
+          <Table
+            size="small"
+            tableLayout="fixed"
+            columns={columns}
+            loading={isLoading || isFetching}
+            dataSource={dataSource}
+            pagination={pagination}
+            scroll={{
+              y: '50vh',
+              x: 800,
+            }}
+          />
+        </>
+      )}
+      {user?.role === 'user' && (
+        <>
+          <Space>
+            <Button type="primary" onClick={() => setShowAddIzin(true)}>
+              Ajukan Izin Baru
+            </Button>
+          </Space>
+          <Divider
+            style={{
+              marginTop: '20px',
+              marginBottom: '20px',
+              backgroundColor: '#ccc',
+              color: '#ccc',
+            }}
+          />
+          <h5>Riwayat Pengajuan Izin Pegawai</h5>
+          <Table
+            size="small"
+            tableLayout="fixed"
+            columns={columns}
+            loading={isLoading || isFetching}
+            dataSource={dataHistoryIzinUser}
+            pagination={pagination}
+            scroll={{
+              y: '50vh',
+              x: '800',
+            }}
+          />
+        </>
+      )}
+      {
+        <>
+          <AddIzin onCreate={onCreate} onCancel={onCancel} show={showAddIzin} />
+          <EditIzin
+            id={dataId}
+            onUpdate={onUpdate}
+            onCancel={onCancel}
+            show={showEditIzin}
+          />
+        </>
+      }
+    </div>
   );
 };
