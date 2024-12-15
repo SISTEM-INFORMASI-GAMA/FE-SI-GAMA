@@ -33,12 +33,12 @@ const AddPresensiBatch = () => {
         a.nama.localeCompare(b.nama)
       );
       setDataSource(
-        sortedEmployee.map((student, index) => {
+        sortedEmployee.map((employee, index) => {
           return {
-            ...student,
+            ...employee,
             index: index + 1,
             status: 'Hadir',
-            key: student.id,
+            key: employee.id,
           };
         })
       );
