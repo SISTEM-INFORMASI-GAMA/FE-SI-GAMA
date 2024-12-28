@@ -81,11 +81,20 @@ export const Presensi = () => {
       width: window.innerWidth > 800 ? 150 : 150,
       render: (status) => statusRender(status),
     },
-    // {
-    //   title: 'Lampiran',
-    //   dataIndex: 'lampiran',
-    //   align: 'left',
-    // },
+    {
+      title: 'Lampiran',
+      dataIndex: 'lampiran',
+      align: 'left',
+      width: window.innerWidth > 800 ? 150 : 150,
+      render: (lampiran) =>
+        lampiran ? (
+          <a href={lampiran} target="_blank" rel="noopener noreferrer">
+            Lampiran
+          </a>
+        ) : (
+          '-'
+        ),
+    },
     {
       title: 'Aksi',
       dataIndex: 'id',
