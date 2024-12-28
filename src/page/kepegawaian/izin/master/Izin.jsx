@@ -57,12 +57,17 @@ export const Izin = () => {
 
   const handleStatusIzin = async (id, status) => {
     try {
-      await axios.patch(VITE_BASE_URL + `/api/v1/permissions/${id}`, {
+      await axios.patch(VITE_BASE_URL + `/api/v1/permissions/${id}/status`, {
         status: status,
       });
+      message.success(
+        `Pengajuan izin berhasil ${
+          status === 'disetujui' ? 'disetujui' : 'ditolak'
+        }`
+      );
       refetch();
     } catch (error) {
-      message.error(error.response?.data?.message || 'Fields Error');
+      message.error(error.response?.data?.message || 'Terjadi kesalahan');
     }
   };
 
