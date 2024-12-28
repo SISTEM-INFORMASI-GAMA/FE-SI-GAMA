@@ -67,6 +67,15 @@ const Dashboard = () => {
             >
               Pengajuan Izin
             </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/dashboard/hr/presensi/add');
+              }}
+              size={size}
+            >
+              Presensi Harian
+            </Button>
           </div>
         </div>
       )}
