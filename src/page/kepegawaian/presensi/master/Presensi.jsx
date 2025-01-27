@@ -1,4 +1,4 @@
-import { Button, DatePicker, Input, Space, Table, Tooltip } from 'antd';
+import { DatePicker, Input, Space, Table, Tooltip } from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import { usePresensiPagination } from '../../../../hooks/kepegawaian/presensi/usePresensiPagination';
@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 const format = 'YYYY-MM-DD';
 import { SearchOutlined } from '@ant-design/icons';
 import './Presensi.css';
-import { useNavigate } from 'react-router-dom';
 
 const firstDate = new Date();
 const lastDate = new Date();
@@ -31,7 +30,6 @@ export const Presensi = () => {
     keyword,
     date
   );
-  const navigate = useNavigate();
 
   const onUpdate = useCallback(() => {
     setShowEditPresensi(false);
@@ -152,16 +150,16 @@ export const Presensi = () => {
   return (
     <>
       <div className="table-header">
-        <h1>Presensi Harian Pegawai</h1>
+        <h1>Data Presensi Harian Pegawai</h1>
         <Space>
-          <Button
+          {/* <Button
             type="primary"
             onClick={() => {
               navigate('/dashboard/hr/presensi/add');
             }}
           >
             Tambah Presensi Harian
-          </Button>
+          </Button> */}
         </Space>
       </div>
       <div className="presensi-filter">

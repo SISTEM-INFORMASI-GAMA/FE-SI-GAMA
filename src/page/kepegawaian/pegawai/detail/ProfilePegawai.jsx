@@ -40,6 +40,16 @@ function ProfilePegawai() {
   );
   const data = dataDetail?.data;
 
+  const profileData = [
+    { label: 'Nama', value: data?.nama },
+    { label: 'NIP', value: data?.nip },
+    { label: 'Jenis Kelamin', value: data?.jenis_kelamin },
+    { label: 'Jabatan', value: data?.jabatan },
+    { label: 'Tanggal Lahir', value: moment(data?.tgl_lahir).format(format) },
+    { label: 'Nomor Telepon', value: data?.nomor_telepon },
+    { label: 'Alamat', value: data?.alamat },
+  ];
+
   return (
     <>
       {skeleton && <Skeleton active />}
@@ -49,34 +59,12 @@ function ProfilePegawai() {
           <div className="pegawai-profile-container">
             <table className="profile-pegawai__table">
               <tbody>
-                <tr>
-                  <th>Nama</th>
-                  <td>: {data?.nama}</td>
-                </tr>
-                <tr>
-                  <th>NIP</th>
-                  <td>: {data?.nip}</td>
-                </tr>
-                <tr>
-                  <th>Jenis Kelamin</th>
-                  <td>: {data?.jenis_kelamin}</td>
-                </tr>
-                <tr>
-                  <th>Jabatan</th>
-                  <td>: {data?.jabatan}</td>
-                </tr>
-                <tr>
-                  <th>Tanggal Lahir</th>
-                  <td>: {moment(data?.tgl_lahir).format(format)}</td>
-                </tr>
-                <tr>
-                  <th>Nomor Telepon</th>
-                  <td>: {data?.nomor_telepon}</td>
-                </tr>
-                <tr>
-                  <th>Alamat</th>
-                  <td>: {data?.alamat}</td>
-                </tr>
+                {profileData.map((item, index) => (
+                  <tr key={index}>
+                    <th>{item.label}</th>
+                    <td>: {item.value}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
             <div className="profile-image-container">
@@ -91,7 +79,6 @@ function ProfilePegawai() {
           <Divider
             style={{
               margin: '20px 0',
-              // marginBottom: '20px',
               backgroundColor: '#ccc',
               color: '#ccc',
             }}
@@ -99,26 +86,6 @@ function ProfilePegawai() {
           <div className="table-header">
             <h1>Dokumen pegawai</h1>
           </div>
-          {/* 
-           <Popconfirm
-              title="Yakin ingin menghapus ?"
-              okText="Hapus"
-              cancelText="Batal"
-              onConfirm={() => {
-                const dataId = id;
-                DeleteApi({
-                  url: "/api/v1/users/",
-                  dataId,
-                  refetch,
-                });
-              }}
-            >
-              <Tag color="magenta" style={{ cursor: "pointer" }}>
-                Hapus
-              </Tag>
-            </Popconfirm>
-          
-          */}
           <div className="dokumen-container">
             {isLoading || isFetching ? (
               <Skeleton active />

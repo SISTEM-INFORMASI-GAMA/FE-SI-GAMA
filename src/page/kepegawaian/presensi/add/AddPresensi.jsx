@@ -76,15 +76,12 @@ const AddPresensi = () => {
 
       const attendanceData = {
         pegawaiId: pegawai_id,
-        tgl_absensi: dayjs(values['attendanceData']).format(format),
+        tgl_absensi: dayjs(values['attendanceDate']).format(format),
         status: 'Hadir',
         lampiran: signatureUrl,
       };
 
-      await axios.post(
-        VITE_BASE_URL + '/api/v1/attendence/signaturepad',
-        attendanceData
-      );
+      await axios.post(VITE_BASE_URL + '/api/v1/attendence', attendanceData);
 
       message.success('Absensi berhasil disimpan!');
       form.resetFields();
