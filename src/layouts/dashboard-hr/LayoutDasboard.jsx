@@ -65,12 +65,12 @@ function LayoutDasboard(props) {
     {
       key: 'mnuPresensi',
       icon: <FileOutlined />,
-      label: 'Presensi Harian',
+      label: 'Data Presensi Harian Pegawai',
     },
     {
       key: 'mnuRecap-Presensi',
       icon: <ProjectOutlined />,
-      label: 'Rekap Presensi Harian',
+      label: 'Rekap Presensi Pegawai',
     },
     {
       key: 'mnuIzin',
@@ -144,7 +144,7 @@ function LayoutDasboard(props) {
           onClick={() => setOpen(true)}
         />
       </div>
-      <Sider width={250} trigger={null} collapsible collapsed={collapsed}>
+      <Sider width={300} trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           {/* <img src={LOGO} alt="fg" /> */}
           <span>SMA Gajah Mada</span>

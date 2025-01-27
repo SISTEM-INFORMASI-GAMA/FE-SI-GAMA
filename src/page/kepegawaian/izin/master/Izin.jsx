@@ -73,8 +73,8 @@ export const Izin = () => {
 
   const statusRender = (jenis) => {
     const statusColors = {
-      izin: '#3498DB',
-      sakit: '#F1C40F',
+      Izin: '#3498DB',
+      Sakit: '#F1C40F',
     };
     const color = statusColors[jenis] || 'orange';
     return <Tag color={color}>{jenis}</Tag>;

@@ -1,6 +1,6 @@
 export const jenis = [
-  { label: 'Sakit', value: 'sakit' },
-  { label: 'Izin', value: 'izin' },
+  { label: 'Sakit', value: 'Sakit' },
+  { label: 'Izin', value: 'Izin' },
 ];
 
 export const status = [
