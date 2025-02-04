@@ -93,28 +93,28 @@ export const Presensi = () => {
           '-'
         ),
     },
-    {
-      title: 'Aksi',
-      dataIndex: 'id',
-      align: 'center',
-      width: window.innerWidth > 800 ? 300 : 200,
-      render: (id) => {
-        return (
-          <>
-            <Tag
-              color="orange"
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                setDataId(id);
-                setShowEditPresensi(true);
-              }}
-            >
-              Ubah
-            </Tag>
-          </>
-        );
-      },
-    },
+    // {
+    //   title: 'Aksi',
+    //   dataIndex: 'id',
+    //   align: 'center',
+    //   width: window.innerWidth > 800 ? 300 : 200,
+    //   render: (id) => {
+    //     return (
+    //       <>
+    //         <Tag
+    //           color="orange"
+    //           style={{ cursor: 'pointer' }}
+    //           onClick={() => {
+    //             setDataId(id);
+    //             setShowEditPresensi(true);
+    //           }}
+    //         >
+    //           Ubah
+    //         </Tag>
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   const dataSource = data?.data
