@@ -168,6 +168,16 @@ const EditIzin = ({ id, onUpdate, onCancel, show }) => {
       onCancel={handleCancelModal}
       okButtonProps={{ loading }}
       title="Edit Izin"
+      width="95%"
+      style={{
+        maxWidth: '600px',
+        margin: '0 auto',
+        top: 20,
+      }}
+      bodyStyle={{
+        maxHeight: 'calc(100vh - 200px)',
+        overflowY: 'auto',
+      }}
     >
       {isLoading && <Skeleton active />}
       {!isLoading && (

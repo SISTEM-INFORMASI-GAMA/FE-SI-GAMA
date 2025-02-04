@@ -296,7 +296,11 @@ export const Izin = () => {
             pagination={pagination}
             scroll={{
               y: '50vh',
-              x: '800',
+              x: { xs: 800, sm: 'max-content' },
+            }}
+            style={{
+              overflowX: 'auto',
+              width: '100%',
             }}
           />
         </>

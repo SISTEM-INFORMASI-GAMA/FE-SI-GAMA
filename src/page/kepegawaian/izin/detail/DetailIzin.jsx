@@ -19,8 +19,8 @@ function DetailIzin() {
       {skeleton && <Skeleton active />}
       {!skeleton && data && (
         <Fragment key={data.id}>
-          <Divider orientation="left">
-            Detail Pengajuan Izin {data?.Pegawai?.nama}
+          <Divider orientation="left" className="responsive-divider">
+            Detail Pengajuan Izin
           </Divider>
           <div className="article-details-container">
             <table className="detail-article__table">
