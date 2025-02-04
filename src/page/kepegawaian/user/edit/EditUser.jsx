@@ -43,19 +43,38 @@ const EditUser = ({ id, onUpdate, onCancel, show }) => {
       await form.validateFields();
       setLoading(true);
 
-      newData.username = dataPegawai.data.find(
-        (x) => x.id === newData.pegawaiId
-      ).nama;
+      const { password, ...generalData } = newData;
+      const hasPassword = password && password.trim() != '';
+      const hasGeneralData = Object.keys(generalData).length > 0;
 
-      if (Object.keys(newData).length === 0) {
-        message.error('Nothing has changed');
-        return;
+      if (hasGeneralData) {
+        await axios.patch(VITE_BASE_URL + `/api/v1/users/${id}`, {
+          ...generalData,
+        });
+
+        message.success('Berhasil mengubah data');
       }
-      await axios.patch(VITE_BASE_URL + `/api/v1/users/${id}`, {
-        ...newData,
-      });
 
-      message.success('user berhasil diubah');
+      if (hasPassword) {
+        await axios.patch(VITE_BASE_URL + `/api/v1/users/${id}/password`, {
+          password,
+        });
+        message.success('Berhasil mengubah password');
+      }
+
+      if (!hasGeneralData && !hasPassword) {
+        message.error('Tidak ada perubahan yang dilakukan');
+      }
+
+      // if (Object.keys(newData).length === 0) {
+      //   message.error('Nothing has changed');
+      //   return;
+      // }
+      // await axios.patch(VITE_BASE_URL + `/api/v1/users/${id}`, {
+      //   ...newData,
+      // });
+
+      // message.success('user berhasil diubah');
       form.resetFields();
       onUpdate();
     } catch (error) {
@@ -126,14 +145,23 @@ const EditUser = ({ id, onUpdate, onCancel, show }) => {
                 name="role"
                 label="Role"
                 rules={[{ required: true, message: 'Harap diisi' }]}
-                onChange={({ target: { value } }) => (newData['role'] = value)}
+                // onChange={({ target: { value } }) => (newData['role'] = value)}
               >
                 <Radio.Group
                   options={userRoles}
-                  // onChange={(e) =>
-                  //   setNewData({ ...newData, role: e.target.value })
-                  // }
+                  onChange={(e) =>
+                    setNewData({ ...newData, role: e.target.value })
+                  }
                 />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                label="Password (Isi jika ingin mengganti password)"
+                onChange={({ target: { value } }) =>
+                  (newData['password'] = value)
+                }
+              >
+                <Input.Password placeholder="Masukan password baru" />
               </Form.Item>
             </div>
           </Form>
