@@ -28,7 +28,7 @@ const Login = () => {
     <div className="login-container">
       <div className="container">
         <div className="login-box">
-          <img src="/src/assets/image/logo.png" alt="Login logo" />
+          <img src="/logo.png" alt="Login logo" />
           <Form form={form} layout="vertical" className="full-form">
             <div className="first-form">
               <div className="login-title-box">
