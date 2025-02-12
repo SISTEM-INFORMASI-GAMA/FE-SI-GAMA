@@ -15,6 +15,13 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 768px) {
+  .login-box {
+    grid-template-columns: 1fr;
+    padding: 40px;
+  }
+}
+
 .login-box img {
   align-self: center;
   margin: 24px;

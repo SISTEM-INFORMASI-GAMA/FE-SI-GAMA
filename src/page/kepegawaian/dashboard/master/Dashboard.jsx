@@ -1,10 +1,11 @@
-import { Button, Card, Divider, Space, Statistic } from 'antd';
+import { Button, Card, Space, Statistic } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { usePresensiDB } from '../../../../hooks/kepegawaian/presensi/usePresensiDB';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
 
 const Dashboard = () => {
   const [size, setSize] = useState('large');
@@ -25,12 +26,20 @@ const Dashboard = () => {
     <div>
       {user.role === 'admin' && (
         <div>
-          <Divider orientation="left" plain="true">
+          <div className="header-container">
+            <div className="header-wrapper">
+              <h1 className="header-title">
+                Selamat Datang di Dashboard Admin SMA Gajah Mada
+              </h1>
+              <h1 className="header-title">Data Tanggal {currentDate}</h1>
+            </div>
+          </div>
+          {/* <Divider orientation="left" plain="true">
             Selamat Datang di Dashboard Admin SMA Gajah Mada
           </Divider>
           <Divider orientation="left" plain="true">
             Data Tanggal {currentDate}
-          </Divider>
+          </Divider> */}
           <Space direction="horizontal" wrap>
             {statsData.map((stat, index) => (
               <Card key={index}>
@@ -45,7 +54,13 @@ const Dashboard = () => {
       )}
       {user.role === 'user' && (
         <div>
-          <Divider>Selamat Datang di Dashboard Pegawai SMA Gajah Mada</Divider>
+          <div className="header-container">
+            <div className="header-wrapper">
+              <h1 className="header-title">
+                Selamat Datang di Dashboard Pegawai SMA Gajah Mada
+              </h1>
+            </div>
+          </div>
           <div
             style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
           >
