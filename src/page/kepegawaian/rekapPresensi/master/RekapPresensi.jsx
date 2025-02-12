@@ -4,7 +4,7 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
 import { SearchOutlined } from '@ant-design/icons';
-import { usePresensiRecap } from '../../../../hooks/kepegawaian/presensi/usePresensiREcap';
+import { usePresensiRecap } from '../../../../hooks/kepegawaian/presensi/usePresensiRecap';
 
 export const RekapPresensi = () => {
   const firstDate = new Date();
