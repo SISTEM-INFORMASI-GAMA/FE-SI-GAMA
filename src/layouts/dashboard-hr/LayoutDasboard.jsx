@@ -184,7 +184,7 @@ function LayoutDasboard(props) {
           <div className="header-container">
             <Dropdown
               menu={{
-                items: itemsUser,
+                items: items2,
                 style: { width: '50%' },
                 onClick: handleClickItemUser,
               }}
