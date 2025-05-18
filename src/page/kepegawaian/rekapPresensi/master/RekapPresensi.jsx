@@ -95,6 +95,7 @@ export const RekapPresensi = () => {
       title: 'Nama',
       dataIndex: 'nama',
       align: 'left',
+      width: window.innerWidth > 800 ? 200 : 130,
     },
     {
       title: 'NIP',
