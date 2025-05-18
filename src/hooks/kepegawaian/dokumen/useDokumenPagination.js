@@ -11,7 +11,7 @@ export const useDokumenPagination = (dataTable, pegawaiId) => {
     ],
     () =>
       getDokumen(
-        `/api/v1/document?page=${dataTable.current_page}&limit=${dataTable.per_page}&pegawaiId=${pegawaiId}`
+        `/api/v1/document/${pegawaiId}?page=${dataTable.current_page}&limit=${dataTable.per_page}`
       )
   );
 };

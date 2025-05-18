@@ -11,8 +11,15 @@ export const getDokumen = async (url) => {
     });
     return data;
   } catch (error) {
-    message.error(`Gagal mengambil data ( ${error.message} )`, 3);
-    // harus return error juga
+    const isNotFound =
+      error.response?.status === 404 &&
+      error.response?.data?.message ===
+        'No documents found related to the given ID';
+
+    if (!isNotFound) {
+      message.error(`Gagal mengambil data ( ${error.message} )`, 3);
+    }
+
     return error;
   }
 };
