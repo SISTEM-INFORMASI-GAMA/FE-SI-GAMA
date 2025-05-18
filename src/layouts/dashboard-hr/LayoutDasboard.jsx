@@ -10,7 +10,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Dropdown, Layout, Drawer } from 'antd';
-// import { default as LOGO, default as LogoFG } from "assets/img/logoFG.png";
+import { default as LOGO } from '../../assets/image/logo.png';
 
 import React, { useState } from 'react';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
@@ -136,7 +136,7 @@ function LayoutDasboard(props) {
       </Drawer>
       <div className="menu-mobile">
         <div onClick={() => navigate('/dashboard/hr/home')}>
-          {/* <img src={LogoFG} alt="logo fg" style={{ width: 22 }} /> */}
+          <img src={LOGO} alt="logo fg" style={{ width: 22 }} />
           <h1 style={{ fontSize: '1.4em' }}>SMA Gajah Mada</h1>
         </div>
         <MenuOutlined
@@ -146,7 +146,7 @@ function LayoutDasboard(props) {
       </div>
       <Sider width={300} trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
-          {/* <img src={LOGO} alt="fg" /> */}
+          <img src={LOGO} alt="sma-gama-logo" />
           <span>SMA Gajah Mada</span>
         </div>
         {user?.role === 'admin' && (

@@ -23,7 +23,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
+    <div className="dashboard-container">
       {user.role === 'admin' && (
         <div>
           <div className="header-container">
@@ -34,15 +34,9 @@ const Dashboard = () => {
               <h1 className="header-title">Data Tanggal {currentDate}</h1>
             </div>
           </div>
-          {/* <Divider orientation="left" plain="true">
-            Selamat Datang di Dashboard Admin SMA Gajah Mada
-          </Divider>
-          <Divider orientation="left" plain="true">
-            Data Tanggal {currentDate}
-          </Divider> */}
-          <Space direction="horizontal" wrap>
+          <Space direction="horizontal" wrap className="cards-wrapper">
             {statsData.map((stat, index) => (
-              <Card key={index}>
+              <Card key={index} className="stat-card">
                 <Space direction="horizontal">
                   <TeamOutlined />
                   <Statistic title={stat.title} value={stat.value} />
