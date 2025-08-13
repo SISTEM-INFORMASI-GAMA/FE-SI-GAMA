@@ -3,7 +3,7 @@ import {
   DashboardOutlined,
   LogoutOutlined,
   MenuOutlined,
-
+  ReadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Layout, Drawer } from "antd";
@@ -40,6 +40,7 @@ function LayoutDasboard(props) {
 
   const items = [
     { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
+    { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" }
   ];
 
   const items2 = [
@@ -61,8 +62,8 @@ function LayoutDasboard(props) {
         console.log("logout");
         return;
       } else if (param.key === "home") navigate("/");
-      else if (param.key === "mnuDashboard") navigate("/dashboard/hr/home");
-      else navigate("/dashboard/hr/" + param.key.toLowerCase().split("mnu")[1]);
+      else if (param.key === "mnuDashboard") navigate("/dashboard/academic/home");
+      else navigate("/dashboard/academic/" + param.key.toLowerCase().split("mnu")[1]);
     }
   };
   return (
@@ -87,7 +88,7 @@ function LayoutDasboard(props) {
       <div className="menu-mobile">
         <div onClick={() => navigate("/home")}>
           {/* <img src={LogoFG} alt="logo fg" style={{ width: 22 }} /> */}
-          <h1 style={{ fontSize: "1.4em" }}>SPBE</h1>
+          <h1 style={{ fontSize: "1.4em" }}>SMA GAJAH MADA</h1>
         </div>
         <MenuOutlined
           style={{ fontSize: "1.3em" }}
@@ -97,7 +98,7 @@ function LayoutDasboard(props) {
       <Sider width={250} trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           {/* <img src={LOGO} alt="fg" /> */}
-          <span>SPBE</span>
+          <span>SMA GAJAH MADA</span>
         </div>
 
         <div className="sider-menu-wrapper">
