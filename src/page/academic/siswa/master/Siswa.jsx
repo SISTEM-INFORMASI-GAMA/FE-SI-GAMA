@@ -119,7 +119,7 @@ export const Siswa = () => {
               onConfirm={() => {
                 const dataId = id;
                 DeleteApi({
-                  url: '/api/v1/employees/',
+                  url: '/api/v1/students/',
                   dataId,
                   refetch,
                 });
