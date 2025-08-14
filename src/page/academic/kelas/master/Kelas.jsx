@@ -4,14 +4,14 @@ import { useCallback, useState } from 'react';
 import { DeleteApi } from '../../../../services/DeleteApi';
 import { useNavigate } from 'react-router-dom';
 import AddKelas from '../add/AddKelas';
-import EditSiswa from '../edit/EditSiswa';
 import { SearchOutlined } from '@ant-design/icons';
 import { useKelasPagination } from "../../../../hooks/akademik/kelas/useKelasPagination";
+import EditKelas from "../edit/EditKelas";
 
 export const Kelas = () => {
   const [dataId, setDataId] = useState('');
-  const [showAddSiswa, setShowAddSiswa] = useState(false);
-  const [showEditSiswa, setShowEditSiswa] = useState(false);
+  const [showAddKelas, setShowAddKelas] = useState(false);
+  const [showEditKelas, setShowEditKelas] = useState(false);
   const [dataTable, setDataTable] = useState({
     current_page: 1,
     per_page: 15,
@@ -27,18 +27,18 @@ export const Kelas = () => {
   const navigate = useNavigate();
 
   const onCreate = useCallback(() => {
-    setShowAddSiswa(false);
+    setShowAddKelas(false);
     refetch();
   }, [refetch]);
 
   const onUpdate = useCallback(() => {
-    setShowEditSiswa(false);
+    setShowEditKelas(false);
     refetch();
   }, [refetch]);
 
   const onCancel = () => {
-    setShowAddSiswa(false);
-    setShowEditSiswa(false);
+    setShowAddKelas(false);
+    setShowEditKelas(false);
     setDataId('');
   };
 
@@ -90,7 +90,7 @@ export const Kelas = () => {
               style={{ cursor: 'pointer' }}
               onClick={() => {
                 setDataId(id);
-                setShowEditSiswa(true);
+                setShowEditKelas(true);
               }}
             >
               Ubah
@@ -102,7 +102,7 @@ export const Kelas = () => {
               onConfirm={() => {
                 const dataId = id;
                 DeleteApi({
-                  url: '/api/v1/students/',
+                  url: '/api/v1/classes/',
                   dataId,
                   refetch,
                 });
@@ -151,7 +151,7 @@ export const Kelas = () => {
       <div className="table-header">
         <h1>Daftar Kelas</h1>
         <Space>
-          <Button type="primary" onClick={() => setShowAddSiswa(true)}>
+          <Button type="primary" onClick={() => setShowAddKelas(true)}>
             Tambah Kelas
           </Button>
         </Space>
@@ -183,13 +183,13 @@ export const Kelas = () => {
       <AddKelas
         onCreate={onCreate}
         onCancel={onCancel}
-        show={showAddSiswa}
+        show={showAddKelas}
       />
-      <EditSiswa
+      <EditKelas
         id={dataId}
         onUpdate={onUpdate}
         onCancel={onCancel}
-        show={showEditSiswa}
+        show={showEditKelas}
       />
     </>
   );
