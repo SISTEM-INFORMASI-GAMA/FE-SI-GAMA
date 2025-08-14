@@ -70,7 +70,7 @@ const AddSiswa = ({ show, onCreate, onCancel }) => {
             <Radio.Group options={jenisKelamin} />
           </Form.Item>
           <Form.Item
-            name="agama"
+            name="religion"
             label="Agama"
           >
             <Input />

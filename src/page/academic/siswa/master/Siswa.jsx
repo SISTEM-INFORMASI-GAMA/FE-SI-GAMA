@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { DeleteApi } from '../../../../services/DeleteApi';
 import { useNavigate } from 'react-router-dom';
 import AddSiswa from '../add/AddSiswa';
-import EditPegawai from '../edit/EditPegawai';
+import EditSiswa from '../edit/EditSiswa';
 import { SearchOutlined } from '@ant-design/icons';
 import { useSiswaPagination } from "../../../../hooks/siswa/useSiswaPagination";
 
@@ -202,7 +202,7 @@ export const Siswa = () => {
         onCancel={onCancel}
         show={showAddSiswa}
       />
-      <EditPegawai
+      <EditSiswa
         id={dataId}
         onUpdate={onUpdate}
         onCancel={onCancel}
