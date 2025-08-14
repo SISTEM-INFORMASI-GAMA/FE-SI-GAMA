@@ -3,12 +3,12 @@ import { Popconfirm, Tag } from 'antd';
 import { useCallback, useState } from 'react';
 import { DeleteApi } from '../../../../services/DeleteApi';
 import { useNavigate } from 'react-router-dom';
-import AddSiswa from '../add/AddSiswa';
+import AddKelas from '../add/AddKelas';
 import EditSiswa from '../edit/EditSiswa';
 import { SearchOutlined } from '@ant-design/icons';
-import { useSiswaPagination } from "../../../../hooks/akademik/siswa/useSiswaPagination";
+import { useKelasPagination } from "../../../../hooks/akademik/kelas/useKelasPagination";
 
-export const Siswa = () => {
+export const Kelas = () => {
   const [dataId, setDataId] = useState('');
   const [showAddSiswa, setShowAddSiswa] = useState(false);
   const [showEditSiswa, setShowEditSiswa] = useState(false);
@@ -19,7 +19,7 @@ export const Siswa = () => {
   });
   const [keyword, setKeyword] = useState('');
 
-  const { data, isLoading, isFetching, refetch } = useSiswaPagination(
+  const { data, isLoading, isFetching, refetch } = useKelasPagination(
     dataTable,
     keyword
   );
@@ -54,35 +54,18 @@ export const Siswa = () => {
       width: window.innerWidth > 800 ? 70 : 50,
     },
     {
-      title: 'Nama',
+      title: 'Kelas',
       dataIndex: 'name',
       align: 'left',
     },
     {
-      title: 'Jenis Kelamin',
-      dataIndex: 'gender',
+      title: "Tingkat",
+      dataIndex: 'grade',
       align: 'left',
     },
     {
-      title: 'NISN',
-      dataIndex: 'nisn',
-      align: 'left',
-      width: window.innerWidth > 800 ? 200 : 150,
-    },
-    {
-      title: 'Kelas',
-      dataIndex: 'className',
-      align: 'left',
-      width: window.innerWidth > 800 ? 200 : 150,
-    },
-    {
-      title: 'Agama',
-      dataIndex: 'religion',
-      align: 'left',
-    },
-    {
-      title: 'Kota Lahir',
-      dataIndex: 'city_of_birth',
+      title: 'Wali Kelas',
+      dataIndex: 'teacherName',
       align: 'left',
     },
     {
@@ -142,7 +125,7 @@ export const Siswa = () => {
         ...x,
         key: x.id,
         index: i + 1,
-        className: x.class?.name || '-',
+        teacherName: x.pegawai ? x.pegawai.nama : ' - ',
       };
     });
 
@@ -166,10 +149,10 @@ export const Siswa = () => {
   return (
     <>
       <div className="table-header">
-        <h1>Daftar Siswa</h1>
+        <h1>Daftar Kelas</h1>
         <Space>
           <Button type="primary" onClick={() => setShowAddSiswa(true)}>
-            Tambah Siswa
+            Tambah Kelas
           </Button>
         </Space>
       </div>
@@ -177,7 +160,7 @@ export const Siswa = () => {
         prefix={<SearchOutlined />}
         value={keyword}
         onChange={handleChange}
-        placeholder="Cari Siswa"
+        placeholder="Cari Kelas"
         className="search-input-billings"
         style={{
           border: '1px solid #d9d9d9',
@@ -197,7 +180,7 @@ export const Siswa = () => {
           x: 800,
         }}
       />
-      <AddSiswa
+      <AddKelas
         onCreate={onCreate}
         onCancel={onCancel}
         show={showAddSiswa}

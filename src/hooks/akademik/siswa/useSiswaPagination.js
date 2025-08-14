@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getSiswa } from "../../services/akademik/Siswa";
+import { getSiswa } from "../../../services/akademik/Siswa";
 
 export const useSiswaPagination = (dataTable, keyword) => {
   return useQuery(

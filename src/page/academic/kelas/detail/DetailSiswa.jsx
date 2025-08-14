@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Divider, Skeleton } from "antd";
 import "./DetailSiswa.css";
-import { useSiswaDetail } from "../../../../hooks/akademik/siswa/useSiswaDetail";
+import { useSiswaDetail } from "../../../../hooks/siswa/useSiswaDetail";
 
 function DetailSiswa() {
   const { id } = useParams();

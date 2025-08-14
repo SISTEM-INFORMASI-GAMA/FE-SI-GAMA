@@ -4,6 +4,7 @@ import {
   LogoutOutlined,
   MenuOutlined,
   ReadOutlined,
+  TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Layout, Drawer } from "antd";
@@ -40,7 +41,8 @@ function LayoutDasboard(props) {
 
   const items = [
     { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
-    { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" }
+    { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" },
+    { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" }
   ];
 
   const items2 = [

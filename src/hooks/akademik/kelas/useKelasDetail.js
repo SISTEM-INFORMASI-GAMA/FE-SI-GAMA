@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getDetailSiswa } from "../../services/akademik/Siswa";
+import { getDetailSiswa } from "../../../services/akademik/Siswa";
 
 export const useSiswaDetail = (id, enabled) => {
   return useQuery(
