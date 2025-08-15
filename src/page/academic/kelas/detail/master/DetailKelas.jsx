@@ -1,8 +1,6 @@
 import { Button, Input, Space, Table } from "antd";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-// import AddStudentToClassBatch from "../create/AddStudentToClassBatch";
-// import EditStudentToClass from "../edit/EditStudentToClass";
 import { SearchOutlined } from "@ant-design/icons";
 import { useKelasDetail } from "../../../../../hooks/akademik/kelas/useKelasDetail";
 import AddStudentToClassBatch from "../create/AddStudentToClassBatch";
