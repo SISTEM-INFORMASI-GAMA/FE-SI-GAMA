@@ -1,16 +1,16 @@
 import { Button, DatePicker, Form, Input, Select, Space, Table } from 'antd';
 import { Tag } from 'antd';
 import { useCallback, useState } from 'react';
-import EditKelas from "../edit/EditKelas";
 import { useKelasList } from "../../../../hooks/akademik/kelas/useKelasList";
 import dayjs from "dayjs";
 import moment from "moment";
 import { useKehadiranPagination } from "../../../../hooks/akademik/kehadiran/useKehadiranPagination";
 import { useNavigate } from "react-router-dom";
+import EditKehadiran from "../edit/EditKehadiran";
 
 export const Kehadiran = () => {
-  const [dataId, setDataId] = useState('');
-  const [showEditKelas, setShowEditKelas] = useState(false);
+  const [dataDetail, setDataDetail] = useState('');
+  const [showEditAbsensi, setShowEditAbsensi] = useState(false);
   const [dataTable, setDataTable] = useState({
     current_page: 1,
     per_page: 15,
@@ -32,19 +32,19 @@ export const Kehadiran = () => {
     classId
   );
 
-  const { data: dataKelas , isLoading : isLoadingKelas} = useKelasList(
+  const { data: dataKelas, isLoading: isLoadingKelas } = useKelasList(
     dataTable,
     keyword
   );
 
   const onUpdate = useCallback(() => {
-    setShowEditKelas(false);
+    setShowEditAbsensi(false);
     refetch();
   }, [refetch]);
 
   const onCancel = () => {
-    setShowEditKelas(false);
-    setDataId('');
+    setShowEditAbsensi(false);
+    setDataDetail('');
   };
 
   const statusMap = {
@@ -96,21 +96,22 @@ export const Kehadiran = () => {
       dataIndex: "note",
       key: "note",
       align: "left",
+      width: 150,
     },
     {
       title: 'Aksi',
       dataIndex: 'id',
       align: 'center',
-      width: window.innerWidth > 800 ? 300 : 200,
-      render: (id) => {
+      width: 100,
+      render: (id, record) => {
         return (
           <>
             <Tag
               color="orange"
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                setDataId(id);
-                setShowEditKelas(true);
+                setDataDetail(record);
+                setShowEditAbsensi(true);
               }}
             >
               Ubah
@@ -239,11 +240,11 @@ export const Kehadiran = () => {
           x: 800,
         }}
       />
-      <EditKelas
-        id={dataId}
+      <EditKehadiran
+        data={dataDetail}
         onUpdate={onUpdate}
         onCancel={onCancel}
-        show={showEditKelas}
+        show={showEditAbsensi}
       />
     </>
   );

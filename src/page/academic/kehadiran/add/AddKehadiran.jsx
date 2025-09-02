@@ -27,14 +27,14 @@ const AddKehadiran = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [posting, setPosting] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const { VITE_HOST_API } = import.meta.env;
+  const { VITE_BASE_URL } = import.meta.env;
   const { data: dataClass, refetch } = useKelasList(false);
   const [filteredDataSource, setFilteredDataSource] = useState(dataSource);
   const navigate = useNavigate();
 
 
   const navigateToRecap = () => {
-    navigate("/academic/PresenceDaily");
+    navigate("/dashboard/academic/kehadiran");
   };
 
   const {
@@ -114,8 +114,8 @@ const AddKehadiran = () => {
               Sakit
             </Tag>
             <Tag
-              color={record.status === "permission" ? "purple" : "default"}
-              onClick={() => handleStatusChange(record.id, "permission")}
+              color={record.status === "excused" ? "purple" : "default"}
+              onClick={() => handleStatusChange(record.id, "excused")}
               style={
                 posting ? { cursor: "not-allowed" } : { cursor: "pointer" }
               }
@@ -137,11 +137,11 @@ const AddKehadiran = () => {
     },
     {
       title: "Deskripsi",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "note",
+      key: "note",
       render: (text, record) => (
-        <Form.Item name={`description_${record.id}`}>
-          <Input placeholder="Description" disabled={posting} />
+        <Form.Item name={`note${record.id}`}>
+          <Input placeholder="note" disabled={posting} />
         </Form.Item>
       ),
     },
@@ -182,7 +182,7 @@ const AddKehadiran = () => {
 
       checkToday();
     }
-  }, [classId, fetchClassDetail, dateIn, VITE_HOST_API]);
+  }, [classId, fetchClassDetail, dateIn, VITE_BASE_URL]);
 
   useEffect(() => {
     if (data) {
@@ -204,27 +204,32 @@ const AddKehadiran = () => {
 
   const handleSubmit = async () => {
     try {
-      if (data?.data.students.length === 0)
+      if (data?.data.students.rows?.length === 0)
         return message.error("Tidak ada data siswa");
       setSearchQuery("");
       await form.validateFields();
       const values = await form.getFieldsValue();
-      const attendanceData = data?.data.students.map((student) => {
+      const attendanceData = data?.data.students.rows.map((student) => {
         return {
-          classId,
-          date_in: dayjs(values["date_in"]).format("YYYY-MM-DD HH:mm:ss"),
+          status: values[student.id] || "present",
+          note: values[`note${student.id}`] || "",
+          siswaId: student.id,
+        };
+      });
+      /*
           date_out: values["date_out"]
             ? dayjs(values["date_out"]).format("YYYY-MM-DD HH:mm:ss")
             : null,
-          status: values[student.id] || "present",
-          description: values[`description_${student.id}`] || "",
-          studentId: student.id,
-        };
-      });
+      */
+      const payload = {
+        classId,
+        date: dayjs(values["date_in"]).format("YYYY-MM-DD HH:mm:ss"),
+        items: attendanceData
+      }
       setPosting(true);
       const { data: dataSubmit } = await axios.post(
-        VITE_HOST_API + `/academics/daily-attendances`,
-        { dailyAttendance: attendanceData },
+        VITE_BASE_URL + `/api/v1/kehadiran/harian`,
+        payload,
         { headers: { Authorization: 'Bearer ' + Cookies.get('token') } }
       );
       message.success(dataSubmit.message);
@@ -281,7 +286,7 @@ const AddKehadiran = () => {
           </Form.Item>
           <Form.Item
             name="date_in"
-            label="Waktu masuk"
+            label="Tanggal"
             initialValue={dayjs(
               moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
             )}
@@ -291,22 +296,8 @@ const AddKehadiran = () => {
           >
             <DatePicker
               disabled={posting}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
+              format="YYYY-MM-DD"
               onChange={(value) => setDateIn(value)}
-              style={{ padding: 4 }}
-            />
-          </Form.Item>
-          <Form.Item
-            name="date_out"
-            label="Waktu keluar"
-            className="form-item-kehadiran"
-            style={{ width: "100%", marginBottom: 0 }}
-          >
-            <DatePicker
-              disabled={posting}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
               style={{ padding: 4 }}
             />
           </Form.Item>
