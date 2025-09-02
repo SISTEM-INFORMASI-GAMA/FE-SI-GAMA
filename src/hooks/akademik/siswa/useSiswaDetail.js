@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
-import { getDetailSiswa } from "../../../services/akademik/Siswa";
+import { getDetail } from "../../../services/akademik/utils";
 
 export const useSiswaDetail = (id, enabled) => {
   return useQuery(
     ['get-siswa-detail', id],
-    () => getDetailSiswa(`/api/v1/students/${id}`),
+    () => getDetail(`/api/v1/students/${id}`),
     {
       enabled: !!id && enabled,
     }

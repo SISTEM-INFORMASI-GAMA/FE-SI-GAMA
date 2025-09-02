@@ -42,7 +42,8 @@ function LayoutDasboard(props) {
   const items = [
     { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
     { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" },
-    { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" }
+    { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" },
+    { key: "mnuKehadiran", icon: <UserOutlined />, label: "Absensi" },
   ];
 
   const items2 = [

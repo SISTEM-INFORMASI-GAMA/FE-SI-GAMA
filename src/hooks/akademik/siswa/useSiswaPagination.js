@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getSiswa } from "../../../services/akademik/Siswa";
+import { getPagination } from "../../../services/akademik/utils";
 
 export const useSiswaPagination = (dataTable, keyword) => {
   return useQuery(
@@ -10,7 +10,7 @@ export const useSiswaPagination = (dataTable, keyword) => {
       keyword,
     ],
     () =>
-      getSiswa(
+      getPagination(
         `/api/v1/students?page=${dataTable.current_page}&limit=${dataTable.per_page}&keyword=${keyword}`
       )
   );

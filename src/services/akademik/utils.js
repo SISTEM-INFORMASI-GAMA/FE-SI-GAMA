@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 const { VITE_BASE_URL } = import.meta.env;
 
-export const getSiswa = async (url) => {
+export const getPagination = async (url) => {
   try {
     const { data } = await axios.get(VITE_BASE_URL + url, {
       headers: { Authorization: 'Bearer ' + Cookies.get('token') },
@@ -17,7 +17,7 @@ export const getSiswa = async (url) => {
   }
 };
 
-export const getDetailSiswa = async (url) => {
+export const getDetail = async (url) => {
   try {
     const { data } = await axios.get(VITE_BASE_URL + url, {
       headers: { Authorization: 'Bearer ' + Cookies.get('token') },

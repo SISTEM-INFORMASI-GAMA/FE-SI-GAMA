@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getDetailSiswa } from '../../../services/akademik/Siswa';
+import { getDetail } from '../../../services/akademik/utils';
 
 export const useStudentNotInClass = (
   id,
@@ -16,7 +16,7 @@ export const useStudentNotInClass = (
       keyword,
     ],
     () =>
-      getDetailSiswa(
+      getDetail(
         `/api/v1/classes/${id}/students/not-in?page=${datatable.current_page}&limit=${datatable.per_page}&keyword=${keyword}`
       ),
     {
