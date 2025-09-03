@@ -62,6 +62,7 @@ export const Siswa = () => {
       title: 'Jenis Kelamin',
       dataIndex: 'gender',
       align: 'left',
+      width: 200,
     },
     {
       title: 'NISN',
@@ -79,6 +80,7 @@ export const Siswa = () => {
       title: 'Agama',
       dataIndex: 'religion',
       align: 'left',
+      width: 85,
     },
     {
       title: 'Kota Lahir',

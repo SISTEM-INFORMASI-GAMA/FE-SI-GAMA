@@ -68,6 +68,7 @@ export const Kelas = () => {
       title: 'Wali Kelas',
       dataIndex: 'teacherName',
       align: 'left',
+      width : 110,
     },
     {
       title: "Jumlah Siswa",
