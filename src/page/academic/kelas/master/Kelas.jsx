@@ -62,11 +62,18 @@ export const Kelas = () => {
       title: "Tingkat",
       dataIndex: 'grade',
       align: 'left',
+      width: 80,
     },
     {
       title: 'Wali Kelas',
       dataIndex: 'teacherName',
       align: 'left',
+    },
+    {
+      title: "Jumlah Siswa",
+      dataIndex: "students_count",
+      align: "center",
+      width: 120,
     },
     {
       title: 'Aksi',
@@ -126,6 +133,11 @@ export const Kelas = () => {
         key: x.id,
         index: i + 1,
         teacherName: x.pegawai ? x.pegawai.nama : ' - ',
+        students_count: (
+          <Tag color="blue" className="tag-round">
+            {x.students.length}
+          </Tag>
+        ),
       };
     });
 
