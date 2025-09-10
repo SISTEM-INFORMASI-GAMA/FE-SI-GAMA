@@ -44,6 +44,7 @@ function LayoutDasboard(props) {
     { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" },
     { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" },
     { key: "mnuKehadiran", icon: <UserOutlined />, label: "Absensi" },
+    { key: "mnuSubject", icon: <UserOutlined />, label: "Mata Pelajaran" },
   ];
 
   const items2 = [

@@ -29,6 +29,7 @@
     "react-router-dom": "^6.18.0",
     "react-signature-canvas": "^1.0.6",
     "recharts": "^2.10.2",
+    "use-debounce": "^10.0.6",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

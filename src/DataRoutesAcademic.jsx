@@ -7,6 +7,7 @@ import DetailKelas from "./page/academic/kelas/detail/master/DetailKelas";
 import { Kelas } from "./page/academic/kelas/master/Kelas";
 import DetailSiswa from "./page/academic/siswa/detail/DetailSiswa";
 import { Siswa } from "./page/academic/siswa/master/Siswa";
+import Subject from "./page/academic/subject/master/Subject";
 
 export const DataRoutesAcademic = [
   {
@@ -62,6 +63,14 @@ export const DataRoutesAcademic = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<AddKehadiran />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/subject",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<Subject />} />
       </RequireLogin>
     ),
   },
