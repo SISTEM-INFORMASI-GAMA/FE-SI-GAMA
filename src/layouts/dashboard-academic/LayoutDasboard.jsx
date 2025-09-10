@@ -1,6 +1,9 @@
 import propTypes from "prop-types";
 import {
+  BookOutlined,
+  CalendarOutlined,
   DashboardOutlined,
+  FlagOutlined,
   LogoutOutlined,
   MenuOutlined,
   ReadOutlined,
@@ -39,13 +42,15 @@ function LayoutDasboard(props) {
 
   const itemsUser = [{ key: "logout", label: <span>Logout</span> }];
 
+
   const items = [
     { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
     { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" },
     { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" },
-    { key: "mnuKehadiran", icon: <UserOutlined />, label: "Absensi" },
-    { key: "mnuSubject", icon: <UserOutlined />, label: "Mata Pelajaran" },
-  ];
+    { key: "mnuKehadiran", icon: <CalendarOutlined />, label: "Absensi" },
+    { key: "mnuSubject", icon: <BookOutlined />, label: "Mata Pelajaran" },
+    { key: "mnuTerm", icon: <FlagOutlined />, label: "Semester" },
+  ]
 
   const items2 = [
     { key: "logout", icon: <LogoutOutlined />, label: <Logout>Logout</Logout> },
