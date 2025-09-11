@@ -94,6 +94,15 @@ export const Kelas = () => {
               Detail
             </Tag>
             <Tag
+              color="purple"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                navigate(`${id}/subjects`);
+              }}
+            >
+              Mapel
+            </Tag>
+            <Tag
               color="orange"
               style={{ cursor: 'pointer' }}
               onClick={() => {
