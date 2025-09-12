@@ -1,7 +1,7 @@
 import { Button, Empty, Input, Popconfirm, Select, Space, Table, Tag, message } from 'antd';
 import { PlusOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
-import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 
 import { useClassSubjectsPagination } from '../../../../hooks/akademik/class-subject/useClassSubjectsPagination';
@@ -10,13 +10,32 @@ import { useSubjectOptions } from '../../../../hooks/akademik/subject/useSubject
 
 import PolicyDrawer from '../components/PolicyDrawer';
 import propTypes from 'prop-types';
+import { useTermOptions } from "../../../../hooks/akademik/term/useTermOptions";
 
 const ClassSubjects = ({ headerExtras }) => {
    const { id: classId } = useParams();
    // search & pagination
    const [keyword, setKeyword] = useState('');
    const [search] = useDebounce(keyword, 400);
+   const [termId, setTermId] = useState();
    const [pageState, setPageState] = useState({ current_page: 1, per_page: 10 });
+   const { data: termResp, isLoading: loadingTerms } = useTermOptions();
+
+   const termOptions = (termResp?.data || termResp?.rows || []).map((t) => ({
+      label: t.name || t.yearLabel || t.year || t.id,
+      value: t.id,
+      isActive: t.active,
+   }));
+
+   const navigate = useNavigate();
+
+   // default termId is active term
+   useEffect(() => {
+      if (termOptions.length > 0 && !termId) {
+         const activeTerm = termOptions.find((t) => t.isActive);
+         setTermId(activeTerm?.value || termOptions[0].value);
+      }
+   }, [termOptions, termId]);
 
    const { data, isLoading, isFetching, refetch } = useClassSubjectsPagination(
       classId,
@@ -65,9 +84,9 @@ const ClassSubjects = ({ headerExtras }) => {
       {
          title: 'Aksi',
          dataIndex: 'id',
-         width: 260,
+         width: 400,
          align: 'center',
-         render: (id) => (
+         render: (id, row) => (
             <>
                <Tag
                   color="geekblue"
@@ -88,6 +107,21 @@ const ClassSubjects = ({ headerExtras }) => {
                      })
                   }
                >
+                  <Tag
+                     color="processing"
+                     style={{ cursor: 'pointer' }}
+                     onClick={() => navigate(`${row.id}/assessments?termId=${termId}`)}
+                  >
+                     Assessments
+                  </Tag>
+
+                  <Tag
+                     color="success"
+                     style={{ cursor: 'pointer' }}
+                     onClick={() => navigate(`/dashboard/academic/class-subjects/${row.id}/final?termId=${termId}`)}
+                  >
+                     Final
+                  </Tag>
                   <Tag color="magenta" style={{ cursor: 'pointer' }}>
                      Hapus
                   </Tag>
@@ -145,15 +179,28 @@ const ClassSubjects = ({ headerExtras }) => {
                </Button>
             </Space>
          </div>
+         <Space>
+            <Input
+               prefix={<SearchOutlined />}
+               value={keyword}
+               onChange={(e) => setKeyword(e.target.value)}
+               placeholder="Cari (nama/kode mapel)"
+               allowClear
+               style={{ border: '1px solid #d9d9d9', margin: '10px 0' }}
+            />
+            <Select
+               placeholder="Pilih Term"
+               options={termOptions}
+               value={termId}
+               onChange={setTermId}
+               style={{ minWidth: 220 }}
+               disabled={loadingTerms}
+               showSearch
+               filterOption={(i, o) => (o?.label ?? '').toString().toLowerCase().includes(i.toLowerCase())}
+            />
 
-         <Input
-            prefix={<SearchOutlined />}
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="Cari (nama/kode mapel)"
-            allowClear
-            style={{ border: '1px solid #d9d9d9', margin: '10px 0' }}
-         />
+         </Space>
+
 
          <Table
             size="small"

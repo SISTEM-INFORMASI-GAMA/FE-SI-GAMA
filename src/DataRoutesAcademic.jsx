@@ -1,5 +1,6 @@
 import RequireLogin from "./component/auth/RequireLogin";
 import LayoutDasboard from "./layouts/dashboard-academic/LayoutDasboard";
+import Assessments from "./page/academic/assessment/master/Assessments";
 import ClassSubjects from "./page/academic/class-subject/master/ClassSubjects";
 import Dashboard from "./page/academic/dashboard/master/Dashboard";
 import AddKehadiran from "./page/academic/kehadiran/add/AddKehadiran";
@@ -57,6 +58,14 @@ export const DataRoutesAcademic = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<ClassSubjects />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/kelas/:id/subjects/:subjectId/assessments",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<Assessments />} />
       </RequireLogin>
     ),
   },
