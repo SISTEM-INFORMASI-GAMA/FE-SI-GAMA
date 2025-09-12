@@ -7,6 +7,7 @@ import AddKehadiran from "./page/academic/kehadiran/add/AddKehadiran";
 import { Kehadiran } from "./page/academic/kehadiran/master/Kehadiran";
 import DetailKelas from "./page/academic/kelas/detail/master/DetailKelas";
 import { Kelas } from "./page/academic/kelas/master/Kelas";
+import Scores from "./page/academic/score/Scores";
 import DetailSiswa from "./page/academic/siswa/detail/DetailSiswa";
 import { Siswa } from "./page/academic/siswa/master/Siswa";
 import Subject from "./page/academic/subject/master/Subject";
@@ -98,6 +99,14 @@ export const DataRoutesAcademic = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<Term />} />
+      </RequireLogin>
+    ),
+  },
+   {
+    path: "dashboard/academic/kelas/:id/subjects/:subjectId/assessments/:assessmentId/scores",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<Scores />} />
       </RequireLogin>
     ),
   },

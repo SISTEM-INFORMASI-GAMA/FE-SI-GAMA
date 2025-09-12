@@ -100,7 +100,7 @@ const Assessments = () => {
         return (
           <>
             <Tag color="blue">
-              <Link to={`/akademik/assessments/${id}/scores`}>Nilai</Link>
+              <Link to={`${id}/scores`}>Nilai</Link>
             </Tag>
 
             <Tag
