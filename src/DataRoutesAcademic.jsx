@@ -3,6 +3,9 @@ import LayoutDasboard from "./layouts/dashboard-academic/LayoutDasboard";
 import Assessments from "./page/academic/assessment/master/Assessments";
 import ClassSubjects from "./page/academic/class-subject/master/ClassSubjects";
 import Dashboard from "./page/academic/dashboard/master/Dashboard";
+import AssessmentsGuru from "./page/academic/guru/AssessmentsGuru";
+import DashboardGuru from "./page/academic/guru/DashboardGuru";
+import ScoresGuru from "./page/academic/guru/ScoresGuru";
 import AddKehadiran from "./page/academic/kehadiran/add/AddKehadiran";
 import { Kehadiran } from "./page/academic/kehadiran/master/Kehadiran";
 import DetailKelas from "./page/academic/kelas/detail/master/DetailKelas";
@@ -102,11 +105,35 @@ export const DataRoutesAcademic = [
       </RequireLogin>
     ),
   },
-   {
+  {
     path: "dashboard/academic/kelas/:id/subjects/:subjectId/assessments/:assessmentId/scores",
     element: (
       <RequireLogin>
         <LayoutDasboard content={<Scores />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/guru",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<DashboardGuru />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/guru/class-subjects/:id/assessments",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<AssessmentsGuru />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/guru/assessments/:id/scores",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<ScoresGuru />} />
       </RequireLogin>
     ),
   },

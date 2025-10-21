@@ -44,13 +44,14 @@ function LayoutDasboard(props) {
 
 
   const items = [
-    { key: "mnuDashboard", icon: <DashboardOutlined />, label: "Dashboard" },
-    { key: "mnuSiswa", icon: <ReadOutlined />, label: "Siswa" },
-    { key: "mnuKelas", icon: <TeamOutlined />, label: "Kelas" },
-    { key: "mnuKehadiran", icon: <CalendarOutlined />, label: "Absensi" },
-    { key: "mnuSubject", icon: <BookOutlined />, label: "Mata Pelajaran" },
-    { key: "mnuTerm", icon: <FlagOutlined />, label: "Semester" },
-  ]
+    { key: 'mnuDashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
+    { key: 'mnuSiswa', icon: <ReadOutlined />, label: 'Siswa' },
+    { key: 'mnuKelas', icon: <TeamOutlined />, label: 'Kelas' },
+    { key: 'mnuKehadiran', icon: <CalendarOutlined />, label: 'Absensi' },
+    { key: 'mnuSubject', icon: <BookOutlined />, label: 'Mata Pelajaran' },
+    { key: 'mnuTerm', icon: <FlagOutlined />, label: 'Semester' },
+    { key: 'mnuGuru', icon: <BookOutlined />, label: 'Guru' },
+  ];
 
   const items2 = [
     { key: "logout", icon: <LogoutOutlined />, label: <Logout>Logout</Logout> },
