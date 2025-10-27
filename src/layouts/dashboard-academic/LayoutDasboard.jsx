@@ -31,9 +31,11 @@ function LayoutDasboard(props) {
   );
   const [open, setOpen] = useState(false);
 
+
   const navigate = useNavigate();
   const user = Cookies.get("user") && JSON.parse(Cookies.get("user"));
   const email = user?.email;
+  const role = (user?.role || "").toLowerCase(); // <-- tambahkan: role dari cookie
 
   const handleClickItemUser = (e) => {
     if (e.key === "profile") navigate("/profile");
@@ -42,8 +44,8 @@ function LayoutDasboard(props) {
 
   const itemsUser = [{ key: "logout", label: <span>Logout</span> }];
 
-
-  const items = [
+  // ====== MENU DEFINITIONS (tidak di-render langsung) ======
+  const adminItems = [
     { key: 'mnuDashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
     { key: 'mnuSiswa', icon: <ReadOutlined />, label: 'Siswa' },
     { key: 'mnuKelas', icon: <TeamOutlined />, label: 'Kelas' },
@@ -52,6 +54,26 @@ function LayoutDasboard(props) {
     { key: 'mnuTerm', icon: <FlagOutlined />, label: 'Semester' },
     { key: 'mnuGuru', icon: <BookOutlined />, label: 'Guru' },
   ];
+
+  const teacherItems = [
+    // Kalau guru perlu akses admin, boleh tambahkan item lain di sini.
+    { key: 'mnuGuru', icon: <BookOutlined />, label: 'Mapel' },
+  ];
+
+  const studentItems = [
+    // Menu portal siswa — akan menuju /dashboard/academic/student
+    { key: "mnuStudentDashboard", icon: <DashboardOutlined />, label: "Beranda Siswa" },
+    { key: "mnuStudentGrades", icon: <ReadOutlined />, label: "Nilai Saya" },
+    { key: "mnuStudentReport", icon: <FlagOutlined />, label: "Cetak Rapor" },
+
+  ];
+  // ====== ROLE-BASED MENU PICKER ======
+  const items =
+    role === "siswa"
+      ? studentItems
+      : role === "teacher"
+        ? teacherItems
+        : adminItems; // default admin/superadmin
 
   const items2 = [
     { key: "logout", icon: <LogoutOutlined />, label: <Logout>Logout</Logout> },
@@ -64,18 +86,33 @@ function LayoutDasboard(props) {
   };
 
   const handleClickMenu = (param) => {
-    if (param.key === "") {
+    if (!param?.key) return;
+
+    if (param.key === "logout") {
+      console.log("logout");
       return;
-    } else {
-      if (param.key === "logout") {
-        // handleLogout();
-        console.log("logout");
-        return;
-      } else if (param.key === "home") navigate("/");
-      else if (param.key === "mnuDashboard") navigate("/dashboard/academic/home");
-      else navigate("/dashboard/academic/" + param.key.toLowerCase().split("mnu")[1]);
     }
+
+    // ====== tambahkan routing khusus student ======
+    if (param.key === "mnuStudent") {
+      navigate("/dashboard/academic/student");
+      return;
+    }
+
+    if (param.key === "home") {
+      navigate("/");
+      return;
+    }
+
+    if (param.key === "mnuDashboard") {
+      navigate("/dashboard/academic/home");
+      return;
+    }
+
+    // fallback lama: /dashboard/academic/<key tanpa "mnu">
+    navigate("/dashboard/academic/" + param.key.toLowerCase().split("mnu")[1]);
   };
+
   return (
     <Layout>
       <Drawer

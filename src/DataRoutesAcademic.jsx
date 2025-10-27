@@ -11,8 +11,12 @@ import { Kehadiran } from "./page/academic/kehadiran/master/Kehadiran";
 import DetailKelas from "./page/academic/kelas/detail/master/DetailKelas";
 import { Kelas } from "./page/academic/kelas/master/Kelas";
 import Scores from "./page/academic/score/Scores";
+import AssessmentsSiswa from "./page/academic/siswa/AssessmentsSiswa";
+import DashboardSiswa from "./page/academic/siswa/DashboardSiswa";
 import DetailSiswa from "./page/academic/siswa/detail/DetailSiswa";
+import GradesSiswa from "./page/academic/siswa/GradesSiswa";
 import { Siswa } from "./page/academic/siswa/master/Siswa";
+import ReportSiswa from "./page/academic/siswa/ReportSiswa";
 import Subject from "./page/academic/subject/master/Subject";
 import Term from "./page/academic/term/master/Term";
 
@@ -134,6 +138,39 @@ export const DataRoutesAcademic = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<ScoresGuru />} />
+      </RequireLogin>
+    ),
+  },
+   // ======== PORTAL SISWA ========
+  {
+    path: "dashboard/academic/studentdashboard",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<DashboardSiswa />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/studentgrades",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<GradesSiswa />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/student/assessments",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<AssessmentsSiswa />} />
+      </RequireLogin>
+    ),
+  },
+  {
+    path: "dashboard/academic/studentreport",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<ReportSiswa />} />
       </RequireLogin>
     ),
   },
