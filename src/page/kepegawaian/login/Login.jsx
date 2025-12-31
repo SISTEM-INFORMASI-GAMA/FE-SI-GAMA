@@ -35,7 +35,7 @@ const Login = () => {
                 <h1 className="login-title">Login Kepegawaian</h1>
               </div>
               <Form.Item
-                name="email"
+                name="identifier"
                 label="Email"
                 rules={[{ required: true, message: 'Harap diisi' }]}
               >

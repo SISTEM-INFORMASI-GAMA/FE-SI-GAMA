@@ -36,8 +36,8 @@ const Login = () => {
                 <h1 className="login-title">Login Academic</h1>
               </div>
               <Form.Item
-                name="email"
-                label="Email"
+                name="identifier"
+                label="Email/NISN"
                 rules={[{ required: true, message: "Harap diisi" }]}
               >
                 <Input />
@@ -52,9 +52,6 @@ const Login = () => {
               <Button type="primary" className="login-button" onClick={handleLogin}>
                 Login
               </Button>
-              <p className="register-text">
-                Belum punya akun? <span onClick={() => navigate("/academic/register")}>Silahkan registrasi</span>
-              </p>
             </div>
           </Form>
         </div>

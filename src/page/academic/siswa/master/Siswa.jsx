@@ -5,8 +5,9 @@ import { DeleteApi } from '../../../../services/DeleteApi';
 import { useNavigate } from 'react-router-dom';
 import AddSiswa from '../add/AddSiswa';
 import EditSiswa from '../edit/EditSiswa';
-import { SearchOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, SearchOutlined } from '@ant-design/icons';
 import { useSiswaPagination } from "../../../../hooks/akademik/siswa/useSiswaPagination";
+import ImportSiswa from "../import/ImportSiswa";
 
 export const Siswa = () => {
   const [dataId, setDataId] = useState('');
@@ -18,6 +19,7 @@ export const Siswa = () => {
     total: 0,
   });
   const [keyword, setKeyword] = useState('');
+  const [showImportSiswa, setShowImportSiswa] = useState(false);
 
   const { data, isLoading, isFetching, refetch } = useSiswaPagination(
     dataTable,
@@ -169,7 +171,15 @@ export const Siswa = () => {
     <>
       <div className="table-header">
         <h1>Daftar Siswa</h1>
-        <Space>
+       <Space>
+          {/* Tombol Import Baru */}
+          <Button 
+            icon={<FileExcelOutlined />} 
+            onClick={() => setShowImportSiswa(true)}
+          >
+            Import Excel
+          </Button>
+          
           <Button type="primary" onClick={() => setShowAddSiswa(true)}>
             Tambah Siswa
           </Button>
@@ -203,6 +213,13 @@ export const Siswa = () => {
         onCreate={onCreate}
         onCancel={onCancel}
         show={showAddSiswa}
+      />
+      <ImportSiswa
+        show={showImportSiswa}
+        onImportSuccess={() => {
+          refetch(); // Refresh tabel setelah import sukses
+        }}
+        onCancel={() => setShowImportSiswa(false)}
       />
       <EditSiswa
         id={dataId}
