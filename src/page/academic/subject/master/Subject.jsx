@@ -135,7 +135,7 @@ const Subject = () => {
         <h1>Daftar Mata Pelajaran</h1>
         <Space>
           <Button type="primary" onClick={() => setShowAdd(true)}>
-            Tambah Subject
+            Tambah Mata Pelajaran
           </Button>
         </Space>
       </div>
@@ -144,7 +144,7 @@ const Subject = () => {
         prefix={<SearchOutlined />}
         value={keyword}
         onChange={handleChange}
-        placeholder="Cari subject (kode/nama)"
+        placeholder="Cari Mata Pelajaran (kode/nama)"
         className="search-input-billings"
         style={{
           border: "1px solid #d9d9d9",

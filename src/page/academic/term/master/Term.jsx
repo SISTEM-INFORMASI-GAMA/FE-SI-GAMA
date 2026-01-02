@@ -162,10 +162,10 @@ const Term = () => {
    return (
       <>
          <div className="table-header">
-            <h1>Daftar Term</h1>
+            <h1>Daftar Semester</h1>
             <Space>
                <Button type="primary" onClick={() => setShowAdd(true)}>
-                  Tambah Term
+                  Tambah Semester
                </Button>
             </Space>
          </div>
@@ -174,7 +174,7 @@ const Term = () => {
             prefix={<SearchOutlined />}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
-            placeholder="Cari term (nama/tahun ajar)"
+            placeholder="Cari Semester (nama/tahun ajar)"
             className="search-input-billings"
             style={{ border: '1px solid #d9d9d9', marginBottom: 10, marginTop: 10 }}
             allowClear

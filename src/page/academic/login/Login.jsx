@@ -15,9 +15,12 @@ const Login = () => {
     try {
       const values = await form.validateFields();
       const res = await axios.post(`${url}/api/v1/users/login`, values);
+      const role = res.data.data.user.role;
       Cookies.set("token", res.data.token);
       Cookies.set("user", JSON.stringify(res.data.data.user));
-      navigate("/dashboard/academic/home");
+      if(role.toLowerCase() === "admin") navigate("/dashboard/academic/home");
+      if(role.toLowerCase() === "teacher") navigate("/dashboard/academic/guru");
+      if(role.toLowerCase() === "siswa") navigate("/dashboard/academic/home");
       message.success("login berhasil");
     } catch (error) {
       const msg = error.response.data.message;

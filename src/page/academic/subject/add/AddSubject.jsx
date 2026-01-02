@@ -33,7 +33,7 @@ const AddSubject = ({ show, onCreate, onCancel }) => {
   return (
     <Modal
       open={show}
-      title="Tambah Subject"
+      title="Tambah Mata Pelajaran"
       okText="Simpan"
       cancelText="Batal"
       onOk={handleSubmit}

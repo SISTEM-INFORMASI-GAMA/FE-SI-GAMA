@@ -4,10 +4,14 @@ import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useTermOptions } from '../../../hooks/akademik/term/useTermOptions';
-import { useCreateTeacherAssessment, useDeleteTeacherAssessment, useTeacherAssessments, useUpdateTeacherAssessment } from "../../../hooks/akademik/guru/useTeacherAssessments";
+import {
+  useCreateTeacherAssessment,
+  useDeleteTeacherAssessment,
+  useTeacherAssessments,
+  useUpdateTeacherAssessment
+} from "../../../hooks/akademik/guru/useTeacherAssessments";
 import AddAssessment from "../assessment/components/AddAssessment";
 import EditAssessment from "../assessment/components/EditAssessment";
-
 
 const AssessmentsGuru = () => {
   const { id: classSubjectId } = useParams();
@@ -30,8 +34,8 @@ const AssessmentsGuru = () => {
   const [editRow, setEditRow] = useState(null);
 
   const createMut = useCreateTeacherAssessment(classSubjectId, termId);
-  const updateMut = useUpdateTeacherAssessment(editRow?.id, ['teacher-assessments', classSubjectId, termId]);
-  const delMut = useDeleteTeacherAssessment(null, ['teacher-assessments', classSubjectId, termId]);
+  const updateMut = useUpdateTeacherAssessment(['teacher-assessments', classSubjectId, termId]);
+  const delMut = useDeleteTeacherAssessment(['teacher-assessments', classSubjectId, termId]);
 
   const handleCreate = async (payload) => {
     try {
@@ -46,30 +50,58 @@ const AssessmentsGuru = () => {
 
   const handleUpdate = async (payload) => {
     try {
-      await updateMut.mutateAsync(payload);
+      // Mengirim ID dari state editRow
+      await updateMut.mutateAsync({ id: editRow?.id, payload });
       message.success('Assessment diubah.');
-      setShowEdit(false); setEditRow(null);
+      setShowEdit(false);
+      setEditRow(null);
+      refetch();
     } catch (e) {
       message.error(e?.response?.data?.message || e.message);
     }
   };
 
+  const handleCancelEdit = () => {
+    setShowEdit(false);
+    setEditRow(null);
+  }
+
   const columns = [
     { title: 'No', dataIndex: 'index', width: 60 },
     { title: 'Judul', dataIndex: 'title' },
-    { title: 'Tipe', dataIndex: 'type', width: 120, render:(v)=> v?.toUpperCase?.() || v },
-    { title: 'Bobot', dataIndex: 'weight', width: 100, align:'center', render:(v)=> (v ?? 0) + '%' },
-    { title: 'Jatuh Tempo', dataIndex: 'dueDateFmt', width: 140, align:'center' },
+    { title: 'Tipe', dataIndex: 'type', width: 120, render: (v) => v?.toUpperCase?.() || v },
+    { title: 'Bobot', dataIndex: 'weight', width: 100, align: 'center', render: (v) => (v ?? 0) + '%' },
+    { title: 'Jatuh Tempo', dataIndex: 'dueDateFmt', width: 140, align: 'center' },
     {
-      title: 'Aksi', dataIndex: 'id', width: 300, align:'center',
+      title: 'Aksi',
+      dataIndex: 'id',
+      width: 300,
+      align: 'center',
       render: (_, row) => (
         <>
           <Tag color="blue">
             <Link to={`/dashboard/academic/guru/assessments/${row.id}/scores`}>Input Nilai</Link>
           </Tag>
-          <Tag color="geekblue" style={{ cursor:'pointer' }} onClick={()=> { setEditRow(row); setShowEdit(true); }}>Ubah</Tag>
-          <Popconfirm title="Hapus assessment?" onConfirm={() => delMut.mutateAsync(row.id).catch(e => message.error(e?.response?.data?.message || e.message))}>
-            <Tag color="magenta" style={{ cursor:'pointer' }}>Hapus</Tag>
+          <Tag
+            color="geekblue"
+            style={{ cursor: 'pointer' }}
+            onClick={() => { setEditRow(row); setShowEdit(true); }}
+          >
+            Ubah
+          </Tag>
+          <Popconfirm
+            title="Hapus assessment?"
+            onConfirm={() => {
+              // Mengirim ID baris secara spesifik ke mutateAsync
+              delMut.mutateAsync(row.id)
+                .then(() => {
+                  message.success('Berhasil dihapus');
+                  refetch();
+                })
+                .catch(e => message.error(e?.response?.data?.message || e.message));
+            }}
+          >
+            <Tag color="magenta" style={{ cursor: 'pointer' }}>Hapus</Tag>
           </Popconfirm>
         </>
       )
@@ -86,12 +118,12 @@ const AssessmentsGuru = () => {
             options={termOptions}
             loading={termLoading}
             value={termId}
-            onChange={(v)=> setSp({ termId: v }, { replace: true })}
+            onChange={(v) => setSp({ termId: v }, { replace: true })}
             style={{ minWidth: 240 }}
             showSearch
-            filterOption={(i,o)=> (o?.label ?? '').toString().toLowerCase().includes(i.toLowerCase())}
+            filterOption={(i, o) => (o?.label ?? '').toString().toLowerCase().includes(i.toLowerCase())}
           />
-          <Button type="primary" icon={<PlusOutlined />} onClick={()=> setShowAdd(true)} disabled={!termId}>
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => setShowAdd(true)} disabled={!termId}>
             Tambah
           </Button>
         </Space>
@@ -109,12 +141,14 @@ const AssessmentsGuru = () => {
 
       <AddAssessment
         open={showAdd}
-        onClose={()=> setShowAdd(false)}
-        onSubmit={(payload)=> handleCreate({ ...payload, termId })}
+        onClose={() => setShowAdd(false)}
+        onSubmit={(payload) => handleCreate({ ...payload, termId })}
       />
+
       <EditAssessment
+        key={editRow?.id || 'new'}
         open={showEdit}
-        onClose={(ok)=> { setShowEdit(false); if (ok) refetch(); }}
+        onClose={handleCancelEdit}
         data={editRow}
         onSubmit={handleUpdate}
       />

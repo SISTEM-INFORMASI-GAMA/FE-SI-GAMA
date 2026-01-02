@@ -52,12 +52,12 @@ function LayoutDasboard(props) {
     { key: 'mnuKehadiran', icon: <CalendarOutlined />, label: 'Absensi' },
     { key: 'mnuSubject', icon: <BookOutlined />, label: 'Mata Pelajaran' },
     { key: 'mnuTerm', icon: <FlagOutlined />, label: 'Semester' },
-    { key: 'mnuGuru', icon: <BookOutlined />, label: 'Guru' },
+    // { key: 'mnuGuru', icon: <BookOutlined />, label: 'Guru' },
   ];
 
   const teacherItems = [
     // Kalau guru perlu akses admin, boleh tambahkan item lain di sini.
-    { key: 'mnuGuru', icon: <BookOutlined />, label: 'Mapel' },
+    { key: 'mnuGuru', icon: <BookOutlined />, label: 'Mata Pelajaran' },
   ];
 
   const studentItems = [

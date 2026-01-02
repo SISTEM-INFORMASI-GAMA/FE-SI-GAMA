@@ -1,6 +1,7 @@
 import { DatePicker, Form, Input, InputNumber, Modal, Select, message } from 'antd';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react'; // 1. Import useEffect
 
 const TYPES = [
   { label: 'Tugas', value: 'task' },
@@ -14,6 +15,23 @@ const TYPES = [
 const EditAssessment = ({ open, onClose, onSubmit, data }) => {
   const [form] = Form.useForm();
 
+  // 2. Gunakan useEffect untuk memantau perubahan data
+  useEffect(() => {
+    if (open && data) {
+      form.setFieldsValue({
+        title: data.title,
+        type: data.type,
+        weight: data.weight,
+        dueDate: data.dueDate ? dayjs(data.dueDate) : null,
+      });
+    }
+    
+    // Reset fields saat modal ditutup agar tidak meninggalkan data lama
+    if (!open) {
+      form.resetFields();
+    }
+  }, [data, open, form]);
+
   const handleOk = async () => {
     try {
       const v = await form.validateFields();
@@ -23,7 +41,7 @@ const EditAssessment = ({ open, onClose, onSubmit, data }) => {
         weight: v.weight ?? 0,
         dueDate: v.dueDate ? v.dueDate.format('YYYY-MM-DD') : null,
       });
-      form.resetFields();
+      // form.resetFields() sudah dihandle oleh useEffect saat onClose
       onClose(true);
     } catch (e) {
       if (e?.errorFields) return;
@@ -38,18 +56,13 @@ const EditAssessment = ({ open, onClose, onSubmit, data }) => {
       okText="Simpan"
       cancelText="Batal"
       onOk={handleOk}
-      onCancel={() => onClose(false)}
+      onCancel={() => onClose(false)} // Pastikan mengirim boolean false
       destroyOnClose
     >
       <Form
         form={form}
         layout="vertical"
-        initialValues={{
-          title: data?.title,
-          type: data?.type,
-          weight: data?.weight,
-          dueDate: data?.dueDate ? dayjs(data.dueDate) : null,
-        }}
+        // initialValues di sini boleh dihapus karena sudah dihandle setFieldsValue
       >
         <Form.Item name="title" label="Judul" rules={[{ required: true, message: 'Harap diisi' }]}>
           <Input />

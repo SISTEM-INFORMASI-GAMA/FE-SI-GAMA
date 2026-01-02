@@ -16,18 +16,20 @@ export const useCreateTeacherAssessment = (classSubjectId, termId) => {
   );
 };
 
-export const useUpdateTeacherAssessment = (assessmentId, invalidateKey) => {
+// Menerima object { id, payload } saat mutateAsync
+export const useUpdateTeacherAssessment = (invalidateKey) => {
   const qc = useQueryClient();
   return useMutation(
-    (payload) => patchJson(`/api/v1/teacher/assessments/${assessmentId}`, payload),
+    ({ id, payload }) => patchJson(`/api/v1/teacher/assessments/${id}`, payload),
     { onSuccess: () => invalidateKey && qc.invalidateQueries(invalidateKey) }
   );
 };
 
-export const useDeleteTeacherAssessment = (assessmentId, invalidateKey) => {
+// Menerima id langsung saat mutateAsync
+export const useDeleteTeacherAssessment = (invalidateKey) => {
   const qc = useQueryClient();
   return useMutation(
-    () => delJson(`/api/v1/teacher/assessments/${assessmentId}`),
+    (id) => delJson(`/api/v1/teacher/assessments/${id}`),
     { onSuccess: () => invalidateKey && qc.invalidateQueries(invalidateKey) }
   );
 };
