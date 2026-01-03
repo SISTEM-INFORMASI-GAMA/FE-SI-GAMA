@@ -29,7 +29,7 @@ export default function AssessmentsSiswa() {
         <Descriptions size="small" column={3}>
           <Descriptions.Item label="Mapel">{ctx?.subject || '-'}</Descriptions.Item>
           <Descriptions.Item label="Kelas">{ctx?.class || '-'}</Descriptions.Item>
-          <Descriptions.Item label="Term">{ctx?.termId || '-'}</Descriptions.Item>
+          <Descriptions.Item label="Semester">{ctx?.term?.name || '-'}</Descriptions.Item>
         </Descriptions>
       </Card>
 

@@ -1,17 +1,27 @@
 import { Button, Select, Space, Table, Tag } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SettingOutlined } from '@ant-design/icons'; // Tambahkan icon
 import { useTermOptions } from "../../../hooks/akademik/term/useTermOptions";
 import { useTeacherClassSubjects } from "../../../hooks/akademik/guru/useTeacherClassSubjects";
+import PolicyDrawer from "../class-subject/components/PolicyDrawer";
 
 const DashboardGuru = () => {
    const navigate = useNavigate();
    const [termId, setTermId] = useState();
 
+   // State untuk Grading Policy
+   const [policyOpen, setPolicyOpen] = useState(false);
+   const [activeClassSubjectId, setActiveClassSubjectId] = useState(null);
+
    const { data: termResp, isFetching: termLoading } = useTermOptions();
    const termOptions = useMemo(() => {
       const arr = termResp?.data || termResp?.rows || [];
-      return arr.map(t => ({ label: t.name || t.yearLabel || t.year || t.id, value: t.id }));
+      return arr.map(t => ({ 
+         label: t.name || t.yearLabel || t.year || t.id, 
+         value: t.id,
+         isActive: t.active 
+      }));
    }, [termResp]);
 
 
@@ -25,6 +35,7 @@ const DashboardGuru = () => {
 
    const { data, isFetching } = useTeacherClassSubjects(termId);
    const rows = (data?.data || []).map((x, i) => ({
+      ...x,
       key: x.id,
       index: i + 1,
       className: x.class?.name ?? '-',
@@ -40,10 +51,23 @@ const DashboardGuru = () => {
       {
          title: 'Aksi',
          dataIndex: 'id',
-         width: 260,
+         width: 300,
          align: 'center',
          render: (_, row) => (
-            <>
+            <Space>
+               {/* 2. Tombol Grading Policy */}
+               <Tag
+                  color="geekblue"
+                  icon={<SettingOutlined />}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => { 
+                     setActiveClassSubjectId(row.id); 
+                     setPolicyOpen(true); 
+                  }}
+               >
+                  Grading Policy
+               </Tag>
+
                <Tag
                   color="processing"
                   style={{ cursor: 'pointer' }}
@@ -51,7 +75,7 @@ const DashboardGuru = () => {
                >
                   Assessments
                </Tag>
-            </>
+            </Space>
          ),
       },
    ];
@@ -83,6 +107,15 @@ const DashboardGuru = () => {
             pagination={false}
             rowKey="id"
             scroll={{ y: '60vh', x: 900 }}
+         />
+
+         <PolicyDrawer
+            open={policyOpen}
+            onClose={() => { 
+               setPolicyOpen(false); 
+               setActiveClassSubjectId(null); 
+            }}
+            classSubjectId={activeClassSubjectId}
          />
       </>
    );

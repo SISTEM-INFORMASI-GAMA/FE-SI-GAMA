@@ -1,5 +1,5 @@
 import { Button, Popconfirm, Select, Space, Table, Tag, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, LockOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
@@ -8,10 +8,11 @@ import {
   useCreateTeacherAssessment,
   useDeleteTeacherAssessment,
   useTeacherAssessments,
-  useUpdateTeacherAssessment
+  useUpdateTeacherAssessment,
 } from "../../../hooks/akademik/guru/useTeacherAssessments";
 import AddAssessment from "../assessment/components/AddAssessment";
 import EditAssessment from "../assessment/components/EditAssessment";
+import { useLockAssessment, usePublishAssessment } from "../../../hooks/akademik/assessment/useAssessments";
 
 const AssessmentsGuru = () => {
   const { id: classSubjectId } = useParams();
@@ -36,6 +37,10 @@ const AssessmentsGuru = () => {
   const createMut = useCreateTeacherAssessment(classSubjectId, termId);
   const updateMut = useUpdateTeacherAssessment(['teacher-assessments', classSubjectId, termId]);
   const delMut = useDeleteTeacherAssessment(['teacher-assessments', classSubjectId, termId]);
+  
+  // Fitur Lock & Publish untuk Guru
+  const lockMut = useLockAssessment(['teacher-assessments', classSubjectId, termId]);
+  const pubMut = usePublishAssessment(['teacher-assessments', classSubjectId, termId]);
 
   const handleCreate = async (payload) => {
     try {
@@ -50,7 +55,6 @@ const AssessmentsGuru = () => {
 
   const handleUpdate = async (payload) => {
     try {
-      // Mengirim ID dari state editRow
       await updateMut.mutateAsync({ id: editRow?.id, payload });
       message.success('Assessment diubah.');
       setShowEdit(false);
@@ -70,18 +74,32 @@ const AssessmentsGuru = () => {
     { title: 'No', dataIndex: 'index', width: 60 },
     { title: 'Judul', dataIndex: 'title' },
     { title: 'Tipe', dataIndex: 'type', width: 120, render: (v) => v?.toUpperCase?.() || v },
-    { title: 'Bobot', dataIndex: 'weight', width: 100, align: 'center', render: (v) => (v ?? 0) + '%' },
-    { title: 'Jatuh Tempo', dataIndex: 'dueDateFmt', width: 140, align: 'center' },
+    { title: 'Bobot', dataIndex: 'weight', width: 80, align: 'center', render: (v) => (v ?? 0) + '%' },
+    { title: 'Jatuh Tempo', dataIndex: 'dueDateFmt', width: 120, align: 'center' },
+    {
+      title: 'Status',
+      dataIndex: 'state',
+      width: 110,
+      align: 'center',
+      render: (v) => (
+        <Tag color={v === 'published' ? 'green' : v === 'locked' ? 'orange' : 'default'}>
+          {(v || 'draft').toUpperCase()}
+        </Tag>
+      ),
+    },
     {
       title: 'Aksi',
       dataIndex: 'id',
-      width: 300,
+      width: 450, // Diperlebar untuk menampung tombol baru
       align: 'center',
       render: (_, row) => (
-        <>
-          <Tag color="blue">
-            <Link to={`/dashboard/academic/guru/assessments/${row.id}/scores`}>Input Nilai</Link>
+        <Space size={2} wrap>
+          {/* Input Nilai */}
+          <Tag color="blue" style={{ cursor: 'pointer' }}>
+            <Link to={`/dashboard/academic/guru/assessments/${row.id}/scores`}>Nilai</Link>
           </Tag>
+
+          {/* Ubah */}
           <Tag
             color="geekblue"
             style={{ cursor: 'pointer' }}
@@ -89,10 +107,39 @@ const AssessmentsGuru = () => {
           >
             Ubah
           </Tag>
+
+          {/* Lock Action */}
+          <Tag
+            color="orange"
+            style={{ cursor: 'pointer', opacity: row.state === 'locked' ? 0.5 : 1 }}
+            onClick={() => {
+              if (row.state === 'locked') return;
+              lockMut.mutateAsync(row.id)
+                .then(() => { message.success('Assessment dikunci'); refetch(); })
+                .catch(e => message.error(e?.response?.data?.message || e.message));
+            }}
+          >
+            <LockOutlined /> Lock
+          </Tag>
+
+          {/* Publish Action */}
+          <Tag
+            color="green"
+            style={{ cursor: 'pointer', opacity: row.state === 'published' ? 0.5 : 1 }}
+            onClick={() => {
+              if (row.state === 'published') return;
+              pubMut.mutateAsync(row.id)
+                .then(() => { message.success('Assessment dipublikasi'); refetch(); })
+                .catch(e => message.error(e?.response?.data?.message || e.message));
+            }}
+          >
+            <CloudUploadOutlined /> Publish
+          </Tag>
+
+          {/* Hapus */}
           <Popconfirm
             title="Hapus assessment?"
             onConfirm={() => {
-              // Mengirim ID baris secara spesifik ke mutateAsync
               delMut.mutateAsync(row.id)
                 .then(() => {
                   message.success('Berhasil dihapus');
@@ -103,7 +150,7 @@ const AssessmentsGuru = () => {
           >
             <Tag color="magenta" style={{ cursor: 'pointer' }}>Hapus</Tag>
           </Popconfirm>
-        </>
+        </Space>
       )
     }
   ];
@@ -136,7 +183,7 @@ const AssessmentsGuru = () => {
         loading={isLoading}
         pagination={false}
         rowKey="id"
-        scroll={{ y: '60vh', x: 1000 }}
+        scroll={{ y: '60vh', x: 1100 }}
       />
 
       <AddAssessment

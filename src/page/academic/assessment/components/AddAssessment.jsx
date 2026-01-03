@@ -7,8 +7,6 @@ const TYPES = [
    { label: 'Kuis', value: 'quiz' },
    { label: 'UTS', value: 'uts' },
    { label: 'UAS', value: 'uas' },
-   { label: 'Project', value: 'project' },
-   { label: 'Praktik', value: 'practical' },
 ];
 
 const AddAssessment = ({ open, onClose, onSubmit }) => {

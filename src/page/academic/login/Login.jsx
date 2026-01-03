@@ -20,7 +20,7 @@ const Login = () => {
       Cookies.set("user", JSON.stringify(res.data.data.user));
       if(role.toLowerCase() === "admin") navigate("/dashboard/academic/home");
       if(role.toLowerCase() === "teacher") navigate("/dashboard/academic/guru");
-      if(role.toLowerCase() === "siswa") navigate("/dashboard/academic/home");
+      if(role.toLowerCase() === "siswa") navigate("/dashboard/academic/studentdashboard");
       message.success("login berhasil");
     } catch (error) {
       const msg = error.response.data.message;

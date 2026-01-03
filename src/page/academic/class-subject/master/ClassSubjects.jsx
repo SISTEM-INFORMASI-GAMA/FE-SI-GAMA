@@ -115,13 +115,13 @@ const ClassSubjects = ({ headerExtras }) => {
                      Assessments
                   </Tag>
 
-                  <Tag
+                  {/* <Tag
                      color="success"
                      style={{ cursor: 'pointer' }}
                      onClick={() => navigate(`/dashboard/academic/class-subjects/${row.id}/final?termId=${termId}`)}
                   >
                      Final
-                  </Tag>
+                  </Tag> */}
                   <Tag color="magenta" style={{ cursor: 'pointer' }}>
                      Hapus
                   </Tag>

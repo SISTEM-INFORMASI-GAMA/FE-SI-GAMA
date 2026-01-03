@@ -52,12 +52,15 @@ function LayoutDasboard(props) {
     { key: 'mnuKehadiran', icon: <CalendarOutlined />, label: 'Absensi' },
     { key: 'mnuSubject', icon: <BookOutlined />, label: 'Mata Pelajaran' },
     { key: 'mnuTerm', icon: <FlagOutlined />, label: 'Semester' },
+    { key: 'mnuProfile', icon: <UserOutlined />, label: 'Profil' },
     // { key: 'mnuGuru', icon: <BookOutlined />, label: 'Guru' },
   ];
 
   const teacherItems = [
     // Kalau guru perlu akses admin, boleh tambahkan item lain di sini.
     { key: 'mnuGuru', icon: <BookOutlined />, label: 'Mata Pelajaran' },
+    { key: 'mnuProfile', icon: <UserOutlined />, label: 'Profil' },
+
   ];
 
   const studentItems = [
@@ -65,6 +68,7 @@ function LayoutDasboard(props) {
     { key: "mnuStudentDashboard", icon: <DashboardOutlined />, label: "Beranda Siswa" },
     { key: "mnuStudentGrades", icon: <ReadOutlined />, label: "Nilai Saya" },
     { key: "mnuStudentReport", icon: <FlagOutlined />, label: "Cetak Rapor" },
+    { key: 'mnuProfile', icon: <UserOutlined />, label: 'Profil' },
 
   ];
   // ====== ROLE-BASED MENU PICKER ======

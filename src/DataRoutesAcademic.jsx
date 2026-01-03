@@ -10,6 +10,7 @@ import AddKehadiran from "./page/academic/kehadiran/add/AddKehadiran";
 import { Kehadiran } from "./page/academic/kehadiran/master/Kehadiran";
 import DetailKelas from "./page/academic/kelas/detail/master/DetailKelas";
 import { Kelas } from "./page/academic/kelas/master/Kelas";
+import Profile from "./page/academic/profile/Profile";
 import Scores from "./page/academic/score/Scores";
 import AssessmentsSiswa from "./page/academic/siswa/AssessmentsSiswa";
 import DashboardSiswa from "./page/academic/siswa/DashboardSiswa";
@@ -171,6 +172,14 @@ export const DataRoutesAcademic = [
     element: (
       <RequireLogin>
         <LayoutDasboard content={<ReportSiswa />} />
+      </RequireLogin>
+    ),
+  },
+   {
+    path: "dashboard/academic/profile",
+    element: (
+      <RequireLogin>
+        <LayoutDasboard content={<Profile />} />
       </RequireLogin>
     ),
   },

@@ -45,7 +45,7 @@ export default function DashboardSiswa() {
       <Card>
         <Descriptions column={1} title="Profil">
           <Descriptions.Item label="Nama">{me?.data?.name || '-'}</Descriptions.Item>
-          <Descriptions.Item label="NIS">{me?.data?.nis || '-'}</Descriptions.Item>
+          <Descriptions.Item label="NISN">{me?.data?.nisn || '-'}</Descriptions.Item>
           <Descriptions.Item label="Kelas">{me?.data?.kelas?.name || '-'}</Descriptions.Item>
         </Descriptions>
       </Card>

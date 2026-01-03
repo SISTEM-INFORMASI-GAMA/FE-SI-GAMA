@@ -1,8 +1,8 @@
 import { DatePicker, Form, Input, message, Modal, Radio } from 'antd';
-import axios from 'axios';
 import { useState } from 'react';
 import propTypes from 'prop-types';
 import { jenisKelamin } from '../constant';
+import { postJson } from "../../../../services/akademik/utils";
 const format = 'YYYY-MM-DD';
 
 const AddSiswa = ({ show, onCreate, onCancel }) => {
@@ -14,7 +14,7 @@ const AddSiswa = ({ show, onCreate, onCancel }) => {
     try {
       const values = await form.validateFields();
       setLoading(true);
-      await axios.post(VITE_BASE_URL + `/api/v1/students`, values);
+      await postJson(`${VITE_BASE_URL}/api/v1/students`, values);
       message.success('Data Pegawai Berhasil Dimasukkan');
       form.resetFields();
       onCreate();
